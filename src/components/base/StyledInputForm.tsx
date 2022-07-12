@@ -36,6 +36,7 @@ const StyledInputForm = forwardRef((props: FormInputProps) => {
         defaultValue = '',
         onChangeText,
         form,
+        value,
     } = props;
     const formContext = useFormContext();
     if (!(formContext || form)) {
@@ -49,6 +50,7 @@ const StyledInputForm = forwardRef((props: FormInputProps) => {
     };
     return (
         <Controller
+            value={value}
             control={control}
             name={name}
             label={label}

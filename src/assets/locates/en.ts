@@ -172,4 +172,8 @@ export default {
         delete: 'Confirm',
         deleteConfirm: 'Do you want to delete your account?',
     },
+    updateProfile: {
+        update: 'Update',
+        reset: 'Reset',
+    },
 };

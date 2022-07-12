@@ -7,16 +7,13 @@ import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
 import { useTranslation } from 'react-i18next';
 import { isIos } from 'utilities/helper';
 // Screen
-import HomeDataScreen from 'feature/home/HomeDataScreen';
-import HomeDetailScreen from 'feature/home/HomeDetailScreen';
 import HomeScreen from 'feature/home/HomeScreen';
-import HomeUserListScreen from 'feature/home/HomeUserListScreen';
 import NotificationScreen from 'feature/notification/NotificationScreen';
-import UpdateMessengerScreen from 'feature/home/UpdateMessengerScreen';
 
-import SettingView from 'feature/setting/SettingScreen';
 import StyledTabBar from 'navigation/components/StyledTabBar';
 import navigationConfigs from 'navigation/config/options';
+import SettingScreen from 'feature/setting/SettingScreen';
+import UpdateProfileScreen from 'feature/setting/components/UpdateProfileScreen';
 
 const MainStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -24,11 +21,13 @@ const MainTab = createBottomTabNavigator();
 const HomeStack = () => (
     <MainStack.Navigator headerMode={'none'} screenOptions={navigationConfigs} keyboardHandlingEnabled={isIos}>
         <MainStack.Screen name={TAB_NAVIGATION_ROOT.HOME_ROUTE.HOME} component={HomeScreen} />
-        <MainStack.Screen name={TAB_NAVIGATION_ROOT.HOME_ROUTE.HOME_DETAIL} component={HomeDetailScreen} />
-        <MainStack.Screen name={TAB_NAVIGATION_ROOT.HOME_ROUTE.WEB_VIEW} component={HomeDetailScreen} />
-        <MainStack.Screen name={TAB_NAVIGATION_ROOT.HOME_ROUTE.HOME_DATA} component={HomeDataScreen} />
-        <MainStack.Screen name={TAB_NAVIGATION_ROOT.HOME_ROUTE.HOME_USER_LIST} component={HomeUserListScreen} />
-        <MainStack.Screen name={TAB_NAVIGATION_ROOT.HOME_ROUTE.UPDATE_MESSENGER} component={UpdateMessengerScreen} />
+    </MainStack.Navigator>
+);
+
+const SettingStack = () => (
+    <MainStack.Navigator headerMode={'none'} screenOptions={navigationConfigs} keyboardHandlingEnabled={isIos}>
+        <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT} component={SettingScreen} />
+        <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.UPDATE_PROFILE} component={UpdateProfileScreen} />
     </MainStack.Navigator>
 );
 
@@ -42,21 +41,21 @@ const MainTabContainer = () => {
             icon: Images.icons.tab.home_border,
         },
         {
-            name: TAB_NAVIGATION_ROOT.NOTIFICATION_ROUTE.ROOT,
+            name: TAB_NAVIGATION_ROOT.NEWS_ROUTE.ROOT,
             title: t('tab.news'),
             component: NotificationScreen,
             icon: Images.icons.news,
         },
         {
-            name: TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT,
+            name: TAB_NAVIGATION_ROOT.MARKET_ROUTE.ROOT,
             title: t('tab.market'),
-            component: SettingView,
+            component: NotificationScreen,
             icon: Images.icons.market,
         },
         {
-            name: TAB_NAVIGATION_ROOT.ACCOUNT_ROUTE.ROOT,
+            name: TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT,
             title: t('tab.setting'),
-            component: SettingView,
+            component: SettingStack,
             icon: Images.icons.setting,
         },
     ];

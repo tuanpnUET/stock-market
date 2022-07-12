@@ -66,7 +66,10 @@ const SettingView: FunctionComponent = () => {
                 <StyledText i18nText={'tab.setting'} customStyle={styles.title} />
                 <View style={styles.right} />
             </View>
-            <SettingItem onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT)} title={'settings.profile'} />
+            <SettingItem
+                onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.UPDATE_PROFILE)}
+                title={'settings.profile'}
+            />
             <SettingItem
                 title={'settings.changeLang'}
                 onPress={() => {

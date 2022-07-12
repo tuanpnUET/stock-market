@@ -177,4 +177,8 @@ export default {
         deleteAccount: 'Xoá tài khoản',
         deleteConfirm: 'Bạn muốn xoá tài khoản?',
     },
+    updateProfile: {
+        update: 'Cập nhật',
+        reset: 'Huỷ thay đổi',
+    },
 };
