@@ -12,6 +12,8 @@ target 'StockMarket' do
     :hermes_enabled => false
   )
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'StockMarketTests' do
     inherit! :complete
     # Pods for testing

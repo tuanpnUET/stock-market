@@ -9,6 +9,19 @@ export default {
         haveAnAcc: 'Bạn có tài khoản? ',
         login: 'Đăng Nhập',
         stockMarket: 'Stock Market',
+        open: 'Giá mở phiên',
+        high: 'Giá cao nhất',
+        low: 'Giá thấp nhất',
+        closeStock: 'Giá đóng phiên',
+        volume: 'Số giao dịch',
+        date: 'Ngày',
+        symbol: 'Mã chứng khoán',
+        search: 'Tìm kiếm',
+        notFound: 'Không tìm thấy!',
+    },
+    stock: {
+        highestVolume: 'Top giao dịch nhiều nhất trong ngày',
+        stockToday: 'Thị trường chứng khoán hôm nay',
     },
     firstScreen: {
         brand: 'STOCK MARKET',
@@ -86,84 +99,13 @@ export default {
         success: 'Tôi đã gửi cho bạn một mã mới',
         invalidOTP: 'Mã bạn nhập không chính xác',
     },
-    homeListScreen: {
-        title: 'メッセージ',
-        tab1: '全て',
-        tab2: '未読',
-        tab3: '既読',
-    },
-    testScreen: {
-        loadingTest: '読み込み中...',
-        notification: 'スタートボタンをクリックしてテストを受けてください！',
-        startButton: 'Start',
-        exercise: '問題 ',
-        titleHeader: 'Vocabulary - Kanji - Grammar',
-        completeButton: 'Complete',
-        topic: '言語知識 (文字 - 単語 - 文法)',
-        exercise1: '問題１　＿＿＿のことばの読み方として最もよいものを、１・２・３・４から一つえらびなさい。',
-    },
-    homeScreen: {
-        model: 'モデル',
-        detailScreen: '詳細画面',
-        dataScreen: 'データ画面',
-        userListScreen: 'メッセージ管理画面',
-        triggerLoading: '読み込み中',
-        testScreen: '試験を受ける',
-        batteryScreen: '電池画面',
-        quickTest: '速いテストを受ける',
-    },
-    accountView: {
-        name: 'name',
-        phone: 'phone',
-        email: 'email',
-        password: 'password',
-        confirmPassword: 'confirmPassword',
-    },
-    sendOTP: {
-        title: 'Mã xác nhận',
-        titleForgotPassword: 'Quên mật khẩu',
-        sendForgotPassword: 'Xác nhận',
-        backButton: 'Trở về',
-        descriptionNext:
-            '入力したメールアドレスに通知メールを送信しました。\n 認証コードを入力し、「次へ」ボタンを押してください。有効期限は24時間です。',
-        descriptionConfirm:
-            '入力したメールアドレスに通知メールを送信しました。\n 認証コードを入力し、「確認」ボタンを押してください。有効期限は24時間です。',
-        description:
-            '入力したメールアドレスに通知メールを送信しました。認証コードを入力し、「登録」ボタンを押してください。有効期限は24時間です。',
-        resend: '再送信',
-        buttonSend: '登録',
-        buttonNext: '次へ',
-    },
-    errorMessage: {
-        emailExisted: 'Địa chỉ email đã tồn tại',
-    },
-    sendEmail: {
-        title: 'Quên mật khẩu',
-        sendButtonTitle: 'Tiếp theo',
-    },
-    picker: {
-        pickItem: 'Vui lòng chọn thư mục',
+    confirmModal: {
+        addToWatchlist: 'Thêm vào danh sách theo dõi',
+        contentTextAdd: 'Dễ dàng theo dõi các mã bạn quan tâm',
+        removeFromWatchList: 'Xoá khỏi danh sách theo dõi',
     },
     input: {
         errorComponent: 'You need wrap input by Form Provider or passing "form = useForm( ... )" into input component',
-    },
-    addMessengerScreen: {
-        buttonAdd: 'Add messenger',
-        labelTitle: 'Title',
-        labelContent: 'Content',
-        placeholderTitle: 'your title',
-        placeholderContent: 'your content',
-    },
-    updateMessengerScreen: {
-        buttonUpdate: 'Update',
-        labelTitle: 'Title',
-        labelContent: 'Content',
-        labelStatus: 'Status',
-    },
-    quickTest: {
-        complete: '終わる',
-        next: '次へ',
-        prev: '前へ',
     },
     settings: {
         logout: 'Đăng xuất',

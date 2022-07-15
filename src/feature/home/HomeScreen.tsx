@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-alert */
-import React, { FunctionComponent, useState } from 'react';
-import { Text, View, Button, StyleSheet } from 'react-native';
+import React, { Fragment, FunctionComponent, useEffect, useState } from 'react';
+import { Text, View, Button, StyleSheet, ViewBase } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import useModal from 'components/base/modal/useModal';
 import StyledHeader from 'components/common/StyledHeader';
@@ -18,6 +18,9 @@ import { StyledIcon, StyledText, StyledTouchable } from 'components/base';
 import { navigate } from 'navigation/NavigationService';
 import Images from 'assets/images';
 import { ScaledSheet } from 'react-native-size-matters';
+import axios from 'axios';
+import TopVolumeItem from './components/TopVolumeItem';
+import StockList from './components/StockList';
 
 const HomeScreen: FunctionComponent = () => {
     const { t } = useTranslation();
@@ -25,6 +28,30 @@ const HomeScreen: FunctionComponent = () => {
     // const { userInfo } = useSelector((state: RootState) => state);
     const navigation = useNavigation();
     const modal = useModal();
+    // const getData = async () => {
+    //     const data = await axios.get('https://fiin-core.ssi.com.vn/Master/GetListOrganization');
+    //     const fakeData = require('assets/data/stock_data_18_22.json');
+
+    //     const result = fakeData.filter(
+    //         (dat: any) =>
+    //             // eslint-disable-next-line no-unused-expressions
+    //             dat?.Date === '2022-03-28T00:00:00Z',
+    //     );
+
+    //     const stockToday = require('assets/data/stock_today.json');
+    //     const symbolList: Array<any> = [];
+    //     stockToday.forEach((stock: any) => symbolList.push(stock.Symbol));
+    //     const newR = [{}];
+    //     const stockSymbols = require('assets/data/stock_symbols.json');
+    //     stockSymbols.forEach((stock: any) => {
+    //         if (symbolList.includes(stock?.ticker)) newR.push(stock);
+    //     });
+    //     const sortByUpdatedAt = (stocks: any) => [...stocks].sort((a: any, b: any) => b?.Volume - a?.Volume);
+    //     const output = sortByUpdatedAt(stockToday);
+    // };
+    // useEffect(() => {
+    //     getData();
+    // }, []);
 
     return (
         <SafeAreaView style={styles.contScreen}>
@@ -43,6 +70,18 @@ const HomeScreen: FunctionComponent = () => {
                 >
                     <StyledIcon source={Images.icons.menu} size={20} />
                 </StyledTouchable>
+            </View>
+            <View>
+                <StyledText i18nText={'stock.highestVolume'} customStyle={styles.highestVolume} />
+            </View>
+            <View style={{ paddingTop: 30, height: 60 }}>
+                <TopVolumeItem />
+            </View>
+            <View>
+                <StyledText i18nText={'stock.stockToday'} customStyle={styles.stockToday} />
+            </View>
+            <View style={{ paddingTop: 10 }}>
+                <StockList />
             </View>
         </SafeAreaView>
     );
@@ -68,6 +107,17 @@ const styles = ScaledSheet.create({
         fontSize: '22@ms0.3',
         alignSelf: 'center',
         fontWeight: 'bold',
+    },
+    highestVolume: {
+        fontSize: '20@ms0.3',
+        // fontWeight: 'bold',
+        left: 10,
+    },
+    stockToday: {
+        fontSize: '20@ms0.3',
+        // fontWeight: 'bold',
+        left: 10,
+        paddingTop: 10,
     },
 });
 

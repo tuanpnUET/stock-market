@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import languageReducer from './language/reducer';
 import resource from './resource/reducer';
+import symbolReducer from './symbol/reducer';
 import userInfo from './userInfo/reducer';
 
 const rootReducer = combineReducers({
     resource,
     userInfo,
     languageReducer,
+    symbolReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -14,6 +14,7 @@ import StyledTabBar from 'navigation/components/StyledTabBar';
 import navigationConfigs from 'navigation/config/options';
 import SettingScreen from 'feature/setting/SettingScreen';
 import UpdateProfileScreen from 'feature/setting/components/UpdateProfileScreen';
+import DetailStock from 'feature/home/components/DetailStock';
 
 const MainStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -21,6 +22,7 @@ const MainTab = createBottomTabNavigator();
 const HomeStack = () => (
     <MainStack.Navigator headerMode={'none'} screenOptions={navigationConfigs} keyboardHandlingEnabled={isIos}>
         <MainStack.Screen name={TAB_NAVIGATION_ROOT.HOME_ROUTE.HOME} component={HomeScreen} />
+        <MainStack.Screen name={TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK} component={DetailStock} />
     </MainStack.Navigator>
 );
 
@@ -41,16 +43,16 @@ const MainTabContainer = () => {
             icon: Images.icons.tab.home_border,
         },
         {
+            name: TAB_NAVIGATION_ROOT.WATCHLIST_ROUTE.ROOT,
+            title: t('tab.market'),
+            component: NotificationScreen,
+            icon: Images.icons.market,
+        },
+        {
             name: TAB_NAVIGATION_ROOT.NEWS_ROUTE.ROOT,
             title: t('tab.news'),
             component: NotificationScreen,
             icon: Images.icons.news,
-        },
-        {
-            name: TAB_NAVIGATION_ROOT.MARKET_ROUTE.ROOT,
-            title: t('tab.market'),
-            component: NotificationScreen,
-            icon: Images.icons.market,
         },
         {
             name: TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT,

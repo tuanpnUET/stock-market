@@ -9,6 +9,19 @@ export default {
         haveAnAcc: 'Do you have an account? ',
         login: 'Login',
         stockMarket: 'Stock Market',
+        open: 'Open',
+        high: 'High',
+        low: 'Low',
+        closeStock: 'Close',
+        volume: 'Traded Volume',
+        date: 'Date',
+        symbol: 'Symbol',
+        search: 'Search',
+        notFound: 'Not found',
+    },
+    stock: {
+        highestVolume: 'Highest trading volume today',
+        stockToday: 'Stock Market Data',
     },
     firstScreen: {
         brand: 'STOCK MARKET',
@@ -19,6 +32,11 @@ export default {
         title: 'Hello',
         close: 'Close',
         button: 'displayModal1',
+    },
+    confirmModal: {
+        addToWatchlist: 'Add stock to watch list',
+        contentTextAdd: 'Easy to follow your watch list',
+        removeFromWatchList: 'Remove stock from watch list',
     },
     tab: {
         home: 'Home',
@@ -34,13 +52,6 @@ export default {
         addSuccess: 'Add success!',
         updateSuccess: 'Update success',
         warning: 'Warning',
-        complete: 'テストを完了してもよろしいですか？',
-        score: '点数',
-    },
-    noData: {
-        noDataList: 'Không có dữ liệu',
-        noDataRateList: '評価がまだありません',
-        noDataHoliday: 'なし',
     },
     loginScreen: {
         buttonLogin: 'Login',
@@ -86,79 +97,8 @@ export default {
         success: 'A new verification code has been sent.',
         invalidOTP: 'The authorization code is incorrect.',
     },
-    homeListScreen: {
-        title: 'メッセージ',
-        tab1: '全て',
-        tab2: '未読',
-        tab3: '既読',
-    },
-    testScreen: {
-        loadingTest: '読み込み中...',
-        notification: 'スタートボタンをクリックしてテストを受けてください！',
-        startButton: 'Start',
-        exercise: '問題 ',
-        titleHeader: 'Vocabulary - Kanji - Grammar',
-        completeButton: 'Complete',
-        topic: '言語知識 (文字 - 単語 - 文法)',
-        exercise1: '問題１　＿＿＿のことばの読み方として最もよいものを、１・２・３・４から一つえらびなさい。',
-    },
-    homeScreen: {
-        model: 'モデル',
-        detailScreen: '詳細画面',
-        dataScreen: 'データ画面',
-        userListScreen: 'メッセージ管理画面',
-        triggerLoading: '読み込み中',
-        testScreen: '試験を受ける',
-        batteryScreen: '電池画面',
-        quickTest: '速いテストを受ける',
-    },
-    accountView: {
-        name: 'name',
-        phone: 'phone',
-        email: 'email',
-        password: 'password',
-        confirmPassword: 'confirmPassword',
-    },
-    sendOTP: {
-        title: 'Mã xác nhận',
-        titleForgotPassword: 'Quên mật khẩu',
-        sendForgotPassword: 'Xác nhận',
-        backButton: 'Trở về',
-        descriptionNext:
-            '入力したメールアドレスに通知メールを送信しました。\n 認証コードを入力し、「次へ」ボタンを押してください。有効期限は24時間です。',
-        descriptionConfirm:
-            '入力したメールアドレスに通知メールを送信しました。\n 認証コードを入力し、「確認」ボタンを押してください。有効期限は24時間です。',
-        description:
-            '入力したメールアドレスに通知メールを送信しました。認証コードを入力し、「登録」ボタンを押してください。有効期限は24時間です。',
-        resend: '再送信',
-        buttonSend: '登録',
-        buttonNext: '次へ',
-    },
-    errorMessage: {
-        emailExisted: 'Địa chỉ email đã tồn tại',
-    },
-    sendEmail: {
-        title: 'Quên mật khẩu',
-        sendButtonTitle: 'Tiếp theo',
-    },
-    picker: {
-        pickItem: 'Vui lòng chọn thư mục',
-    },
     input: {
         errorComponent: 'You need wrap input by Form Provider or passing "form = useForm( ... )" into input component',
-    },
-    addMessengerScreen: {
-        buttonAdd: 'Add messenger',
-        labelTitle: 'Title',
-        labelContent: 'Content',
-        placeholderTitle: 'your title',
-        placeholderContent: 'your content',
-    },
-    updateMessengerScreen: {
-        buttonUpdate: 'Update',
-        labelTitle: 'Title',
-        labelContent: 'Content',
-        labelStatus: 'Status',
     },
     settings: {
         logout: 'Logout',

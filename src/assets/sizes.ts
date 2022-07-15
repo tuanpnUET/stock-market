@@ -1,6 +1,7 @@
 const Size = {
     FONTSIZE: {
         small: 12,
+        mini: 13,
         normal: 14,
         moreLarge: 17,
         large: 16,
