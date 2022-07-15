@@ -8,6 +8,7 @@ export interface UserProfile {
     email?: string;
     phone?: string;
     _id?: string;
+    avatar?: string;
 }
 
 // Action name

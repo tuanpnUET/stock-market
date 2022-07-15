@@ -49,7 +49,7 @@ const StyledInput = (props: StyledInputProps, ref: any) => {
                 placeholderTextColor={props.placeholderTextColor || Themes.COLORS.placeHolderGray}
                 placeholder={props.customPlaceHolder ? t(props.customPlaceHolder) : ''}
                 underlineColorAndroid={props.customUnderlineColor || 'transparent'}
-                autoCompleteType="email"
+                // autoCompleteType="email"
                 textContentType="emailAddress"
                 importantForAutofill="yes"
                 autoCorrect={false}

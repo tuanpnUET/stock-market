@@ -1,11 +1,33 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import StockList from 'feature/home/components/StockList';
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { getAllWatchlist } from 'app-redux/symbol/actions';
 
 const WatchList = (props: any) => {
-    console.log('props', props);
+    const [watchList, setWatchList] = React.useState(getAllWatchlist()) as any;
+    const [stockWatchList, setStockWatchList] = React.useState([{}]) as any;
+
+    function getData() {
+        const stockToday = require('assets/data/stock_today.json');
+        const symbolList: Array<any> = [];
+        stockToday.forEach((stock: any) => symbolList.push(stock.Symbol));
+        const newR = [{}];
+        stockToday.forEach((stock: any) => {
+            if (watchList.includes(stock?.Symbol)) newR.push(stock);
+        });
+        return newR;
+    }
+    React.useEffect(() => {
+        setStockWatchList(getData());
+    }, []);
+
     return (
         <View style={styles.contModalContent}>
             <Text>Watch List Screen</Text>
+            <View style={{ paddingTop: 10 }}>
+                <StockList {...stockWatchList} />
+            </View>
         </View>
     );
 };

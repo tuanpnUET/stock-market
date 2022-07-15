@@ -10,7 +10,7 @@ module.exports = {
                     '@navigation': ['/service/navigation/'],
                 },
             },
-            'react-native-reanimated/plugin',
         ],
+        'react-native-reanimated/plugin',
     ],
 };

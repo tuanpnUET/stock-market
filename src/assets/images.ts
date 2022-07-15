@@ -33,6 +33,9 @@ const Images = {
         setting: require('./icon/ic_setting.png'),
         news: require('./icon/ic_news.png'),
         market: require('./icon/ic_market.png'),
+        liked: require('./icon/ic_liked.png'),
+        unlike: require('./icon/ic_unlike.png'),
+        noAvatar: require('./icon/ic_no_avt.png'),
     },
     photo: {
         first_screen: {

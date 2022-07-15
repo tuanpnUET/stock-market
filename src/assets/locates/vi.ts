@@ -23,6 +23,10 @@ export default {
         highestVolume: 'Top giao dịch nhiều nhất trong ngày',
         stockToday: 'Thị trường chứng khoán hôm nay',
     },
+    news: {
+        comment: 'Bình luận',
+        addNews: 'Viết điều gì đó...',
+    },
     firstScreen: {
         brand: 'STOCK MARKET',
         description: 'Trải nghiệm mới mẻ \n cùng với sản phẩm của chúng tôi',

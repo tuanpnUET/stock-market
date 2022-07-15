@@ -9,10 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import StockItem from './StockItem';
 
-const StockToday = require('assets/data/stock_today.json');
-
-const pagingStockToday = StockToday.slice(0, 20);
-
 const ListHeader = () => {
     return (
         <View style={styles.listHeader}>
@@ -39,7 +35,7 @@ const ListHeader = () => {
 };
 
 const StockList: React.FunctionComponent = (props: any) => {
-    const [symbolList, setSymbolList] = React.useState(pagingStockToday) as any;
+    const [symbolList, setSymbolList] = React.useState(props?.data) as any;
     const [loading, setLoading] = React.useState(true);
     const [txtSearch, setTxtSearch] = React.useState('');
     const { t } = useTranslation();
@@ -57,7 +53,7 @@ const StockList: React.FunctionComponent = (props: any) => {
 
     const searchSymbol = (text: string) => {
         if (text === '') {
-            setSymbolList(pagingStockToday);
+            setSymbolList(props?.data);
         } else {
             setSymbolList(symbolList?.filter((i: any) => i?.Symbol.toLowerCase().includes(text.toLowerCase())));
         }
@@ -88,7 +84,7 @@ const StockList: React.FunctionComponent = (props: any) => {
                         renderItem={({ item, index }: any) => (
                             <StockItem {...item} navigation={props.navigation} index={index} />
                         )}
-                        keyExtractor={(item: any) => item.id}
+                        keyExtractor={(item: any) => `${item?.Date}-${item?.Symbol}`}
                     />
                 </View>
             ) : (

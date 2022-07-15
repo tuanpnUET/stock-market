@@ -23,6 +23,10 @@ export default {
         highestVolume: 'Highest trading volume today',
         stockToday: 'Stock Market Data',
     },
+    news: {
+        comment: 'Comment',
+        addNews: 'Post something...',
+    },
     firstScreen: {
         brand: 'STOCK MARKET',
         description: 'Feel the new \n experience of our product',

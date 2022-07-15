@@ -22,6 +22,10 @@ import axios from 'axios';
 import TopVolumeItem from './components/TopVolumeItem';
 import StockList from './components/StockList';
 
+const StockToday = require('assets/data/stock_today.json');
+
+const pagingStockToday = StockToday.slice(0, 20);
+
 const HomeScreen: FunctionComponent = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -81,7 +85,7 @@ const HomeScreen: FunctionComponent = () => {
                 <StyledText i18nText={'stock.stockToday'} customStyle={styles.stockToday} />
             </View>
             <View style={{ paddingTop: 10 }}>
-                <StockList />
+                <StockList {...pagingStockToday} />
             </View>
         </SafeAreaView>
     );
