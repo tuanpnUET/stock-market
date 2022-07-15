@@ -3,6 +3,7 @@ import StockList from 'feature/home/components/StockList';
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { getAllWatchlist } from 'app-redux/symbol/actions';
+import { StyledText } from 'components/base';
 
 const WatchList = (props: any) => {
     const [watchList, setWatchList] = React.useState(getAllWatchlist()) as any;
@@ -26,7 +27,7 @@ const WatchList = (props: any) => {
         <View style={styles.contModalContent}>
             <Text>Watch List Screen</Text>
             <View style={{ paddingTop: 10 }}>
-                <StockList {...stockWatchList} />
+                {stockWatchList ? <StockList {...stockWatchList} /> : <StyledText i18nText={'watchlist.noData'} />}
             </View>
         </View>
     );

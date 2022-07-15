@@ -27,6 +27,9 @@ export default {
         comment: 'Bình luận',
         addNews: 'Viết điều gì đó...',
     },
+    watchlist: {
+        noData: 'Bạn chưa thêm mã nào trong danh sách theo dõi',
+    },
     firstScreen: {
         brand: 'STOCK MARKET',
         description: 'Trải nghiệm mới mẻ \n cùng với sản phẩm của chúng tôi',

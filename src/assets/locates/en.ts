@@ -27,6 +27,9 @@ export default {
         comment: 'Comment',
         addNews: 'Post something...',
     },
+    watchlist: {
+        noData: 'You do not have any symbol in watch list',
+    },
     firstScreen: {
         brand: 'STOCK MARKET',
         description: 'Feel the new \n experience of our product',
