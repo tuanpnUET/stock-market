@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { ActivityIndicator, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { Themes } from 'assets/themes';
+import { useTranslation } from 'react-i18next';
 import StyledText from './StyledText';
 import StyledTouchable from './StyledTouchable';
 
@@ -13,10 +14,10 @@ interface StyledListNoDataProps {
     customStyleText?: StyleProp<TextStyle>;
 }
 
-const NO_DATA_TEXT = 'No data';
 const RELOAD = 'Reload';
 
 const StyledNoData: FunctionComponent<StyledListNoDataProps> = (props: StyledListNoDataProps) => {
+    const { t } = useTranslation();
     return (
         <View style={[styles.container, props.customStyle]}>
             {props.loading ? (
@@ -24,7 +25,10 @@ const StyledNoData: FunctionComponent<StyledListNoDataProps> = (props: StyledLis
                     <ActivityIndicator />
                 </View>
             ) : (
-                <StyledText i18nText={props.text || NO_DATA_TEXT} customStyle={props.customStyleText} />
+                <StyledText
+                    i18nText={props.text || t('common.noData')}
+                    customStyle={props.customStyleText || styles.noData}
+                />
             )}
             {!!props.canRefresh && !props.loading ? (
                 <StyledTouchable onPress={props.onRefresh}>
@@ -42,6 +46,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 8,
+        flex: 1,
     },
     text: {
         fontWeight: '600',
@@ -55,6 +60,10 @@ const styles = StyleSheet.create({
     },
     loadingContainer: {
         alignItems: 'center',
+    },
+    noData: {
+        justifyContent: 'center',
+        alignSelf: 'center',
     },
 });
 

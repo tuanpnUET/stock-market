@@ -6,7 +6,7 @@ import { Themes } from 'assets/themes';
 import React, { forwardRef, useState } from 'react';
 import { Controller, RegisterOptions, useFormContext, UseFormMethods } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text } from 'react-native';
+import { Keyboard, StyleSheet, Text } from 'react-native';
 import { FloatingLabelInput } from 'react-native-floating-label-input';
 import { logger } from 'utilities/logger';
 import StyledInput, { StyledInputProps } from './StyledInput';
@@ -77,6 +77,7 @@ const StyledInputForm = forwardRef((props: FormInputProps) => {
                             customHidePasswordImage={customHidePasswordImage}
                             darkTheme={false}
                             onChangeText={(text: string) => onChangeInput(text, onChange)}
+                            // onSubmitEditing={Keyboard.dismiss}
                         />
                         <Text style={styles.error}>{errorMessage}</Text>
                     </>

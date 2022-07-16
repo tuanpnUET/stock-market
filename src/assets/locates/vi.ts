@@ -18,6 +18,7 @@ export default {
         symbol: 'Mã chứng khoán',
         search: 'Tìm kiếm',
         notFound: 'Không tìm thấy!',
+        ok: 'Đồng ý',
     },
     stock: {
         highestVolume: 'Top giao dịch nhiều nhất trong ngày',
@@ -29,6 +30,12 @@ export default {
     },
     watchlist: {
         noData: 'Bạn chưa thêm mã nào trong danh sách theo dõi',
+        title: 'Danh sách theo dõi',
+    },
+    confirmModal: {
+        addToWatchlist: 'Thêm vào danh sách theo dõi',
+        contentTextAdd: 'Dễ dàng theo dõi mã chứng khoán mà bạn quan tâm',
+        remove: 'Xoá khỏi danh sách theo dõi',
     },
     firstScreen: {
         brand: 'STOCK MARKET',
@@ -54,13 +61,9 @@ export default {
         addSuccess: 'Thêm thành công!',
         updateSuccess: 'Cập nhật thành công',
         warning: 'Cảnh báo!',
-        complete: 'テストを完了してもよろしいですか？',
-        score: '点数',
     },
     noData: {
         noDataList: 'Không có dữ liệu',
-        noDataRateList: '評価がまだありません',
-        noDataHoliday: 'なし',
     },
     loginScreen: {
         buttonLogin: 'Đăng nhập',
@@ -105,11 +108,6 @@ export default {
     sendOTPMessage: {
         success: 'Tôi đã gửi cho bạn một mã mới',
         invalidOTP: 'Mã bạn nhập không chính xác',
-    },
-    confirmModal: {
-        addToWatchlist: 'Thêm vào danh sách theo dõi',
-        contentTextAdd: 'Dễ dàng theo dõi các mã bạn quan tâm',
-        removeFromWatchList: 'Xoá khỏi danh sách theo dõi',
     },
     input: {
         errorComponent: 'You need wrap input by Form Provider or passing "form = useForm( ... )" into input component',

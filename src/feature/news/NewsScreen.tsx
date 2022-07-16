@@ -75,13 +75,20 @@ const NewsScreen = (props: any) => {
                 </StyledTouchable>
             </View>
             <View style={styles.bar}>
-                <StyledImage
-                    source={userInfo?.user?.avatar ? userInfo?.user?.avatar : Images.icons.noAvatar}
-                    customStyle={styles.avatar}
-                />
+                <StyledTouchable
+                    customStyle={styles.center}
+                    onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT)}
+                >
+                    <StyledImage
+                        source={userInfo?.user?.avatar ? userInfo?.user?.avatar : Images.icons.noAvatar}
+                        customStyle={styles.avatar}
+                    />
+                </StyledTouchable>
                 <StyledTouchable onPress={() => addNews()}>
-                    <StyledText i18nText={'news.addNews'} customStyle={styles.content} />
-                    <StyledIcon size={35} source={Images.icons.edit} />
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                        <StyledText i18nText={'news.addNews'} customStyle={styles.content} />
+                        <StyledIcon size={40} source={Images.icons.edit} />
+                    </View>
                 </StyledTouchable>
             </View>
             <StyledList
@@ -118,11 +125,13 @@ const styles = ScaledSheet.create({
         fontWeight: 'bold',
     },
     bar: {
-        width: metrics.screenWidth,
+        width: metrics.screenWidth - 10,
         margin: 5,
         borderRadius: 5,
         backgroundColor: '#eeeeee',
         flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 10,
     },
     news: {
         width: metrics.screenWidth,
@@ -156,6 +165,7 @@ const styles = ScaledSheet.create({
     },
     content: {
         fontSize: sizes.FONTSIZE.normal,
+        top: 10,
     },
     image: {
         width: metrics.screenWidth,

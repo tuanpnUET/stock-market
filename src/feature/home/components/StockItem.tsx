@@ -10,15 +10,17 @@ import ConfirmModal from 'components/base/modal/ConfirmModal';
 import { addToWatchlist, getAllWatchlist, removeFromWatchlist } from 'app-redux/symbol/actions';
 import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('window');
 
 const StockItem = (props: any) => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const modal = useModal();
     const [symbolWatchlist] = useState(getAllWatchlist());
-    console.log('symbolwatchlist', symbolWatchlist);
+    // console.log('symbolwatchlist', symbolWatchlist);
 
     const checkWatchListHas = (symbol: string) => {
         // if (symbolWatchlist?.includes(symbol)) {
@@ -37,7 +39,7 @@ const StockItem = (props: any) => {
                         modal.show({
                             children: (
                                 <ConfirmModal
-                                    text={'confirmModal.addToWatchlist'}
+                                    text={t('confirmModal.addToWatchlist')}
                                     confirmText={'common.ok'}
                                     modal={modal}
                                     onConfirm={dispatch(addToWatchlist(stock?.Symbol))}
@@ -51,7 +53,7 @@ const StockItem = (props: any) => {
                         modal.show({
                             children: (
                                 <ConfirmModal
-                                    text={'confirmModal.removeFromWatchlist'}
+                                    text={t('confirmModal.remove')}
                                     confirmText={'common.ok'}
                                     modal={modal}
                                     onConfirm={dispatch(removeFromWatchlist(stock?.Symbol))}

@@ -36,6 +36,7 @@ const Images = {
         liked: require('./icon/ic_liked.png'),
         unlike: require('./icon/ic_unlike.png'),
         noAvatar: require('./icon/ic_no_avt.png'),
+        search: require('./icon/ic_search.png'),
     },
     photo: {
         first_screen: {

@@ -8,13 +8,13 @@ import { useTranslation } from 'react-i18next';
 import { isIos } from 'utilities/helper';
 // Screen
 import HomeScreen from 'feature/home/HomeScreen';
-import NotificationScreen from 'feature/notification/NotificationScreen';
-
 import StyledTabBar from 'navigation/components/StyledTabBar';
 import navigationConfigs from 'navigation/config/options';
 import SettingScreen from 'feature/setting/SettingScreen';
 import UpdateProfileScreen from 'feature/setting/components/UpdateProfileScreen';
 import DetailStock from 'feature/home/components/DetailStock';
+import WatchList from 'feature/watchlist/WatchList';
+import NewsScreen from 'feature/news/NewsScreen';
 
 const MainStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -45,13 +45,13 @@ const MainTabContainer = () => {
         {
             name: TAB_NAVIGATION_ROOT.WATCHLIST_ROUTE.ROOT,
             title: t('tab.market'),
-            component: NotificationScreen,
+            component: WatchList,
             icon: Images.icons.market,
         },
         {
             name: TAB_NAVIGATION_ROOT.NEWS_ROUTE.ROOT,
             title: t('tab.news'),
-            component: NotificationScreen,
+            component: NewsScreen,
             icon: Images.icons.news,
         },
         {

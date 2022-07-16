@@ -18,6 +18,7 @@ export default {
         symbol: 'Symbol',
         search: 'Search',
         notFound: 'Not found',
+        ok: 'OK',
     },
     stock: {
         highestVolume: 'Highest trading volume today',
@@ -29,6 +30,7 @@ export default {
     },
     watchlist: {
         noData: 'You do not have any symbol in watch list',
+        title: 'Watch List',
     },
     firstScreen: {
         brand: 'STOCK MARKET',
@@ -43,7 +45,7 @@ export default {
     confirmModal: {
         addToWatchlist: 'Add stock to watch list',
         contentTextAdd: 'Easy to follow your watch list',
-        removeFromWatchList: 'Remove stock from watch list',
+        remove: 'Remove stock from watch list',
     },
     tab: {
         home: 'Home',

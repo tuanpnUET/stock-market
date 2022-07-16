@@ -24,7 +24,17 @@ import StockList from './components/StockList';
 
 const StockToday = require('assets/data/stock_today.json');
 
-const pagingStockToday = StockToday.slice(0, 20);
+interface StockProps {
+    Symbol?: string;
+    Open?: string;
+    Close: string;
+    Low: string;
+    High: string;
+    Volume: number;
+    Date: string;
+}
+
+const pagingStockToday = StockToday.slice(0, 20) as StockProps[];
 
 const HomeScreen: FunctionComponent = () => {
     const { t } = useTranslation();
@@ -85,7 +95,7 @@ const HomeScreen: FunctionComponent = () => {
                 <StyledText i18nText={'stock.stockToday'} customStyle={styles.stockToday} />
             </View>
             <View style={{ paddingTop: 10 }}>
-                <StockList {...pagingStockToday} />
+                <StockList data={pagingStockToday} />
             </View>
         </SafeAreaView>
     );
@@ -121,7 +131,6 @@ const styles = ScaledSheet.create({
         fontSize: '20@ms0.3',
         // fontWeight: 'bold',
         left: 10,
-        paddingTop: 10,
     },
 });
 

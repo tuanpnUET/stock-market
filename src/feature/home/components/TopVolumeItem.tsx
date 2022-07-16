@@ -15,10 +15,9 @@ const topVolumeData = require('assets/data/top_volume.json');
 const horizontalMargin = 15;
 const sliderWidth = Metrics.screenWidth;
 
-const slideWidth = Metrics.screenWidth - horizontalMargin * 15;
-
-const itemWidth = 250;
-const scaleItemWidth = Math.round(moderateScale(itemWidth));
+const slideWidth = Metrics.screenWidth / 2;
+const itemWidth = 200;
+const scaleItemWidth = Math.round(moderateScale(itemWidth)) - 15;
 
 const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
     const navigation = useNavigation();
@@ -28,9 +27,14 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
                 // go to detail
                 navigation.navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK, item?.Symbol);
             }}
-            customStyle={{ borderRightWidth: 1, borderColor: Themes.COLORS.black, left: -90 }}
+            customStyle={{
+                borderRightWidth: 1,
+                borderColor: Themes.COLORS.black,
+                left: -80,
+                width: scaleItemWidth,
+            }}
         >
-            <View style={{ paddingLeft: 10 }}>
+            <View style={{ paddingLeft: 5 }}>
                 <View style={{ flexDirection: 'row' }}>
                     <StyledText
                         customStyle={[styles.symbol, { color: Themes.COLORS.black }]}

@@ -110,8 +110,8 @@ const SettingView: FunctionComponent = () => {
 const styles = ScaledSheet.create({
     container: {
         flex: 1,
-        paddingLeft: '16@vs',
-        paddingRight: '16@vs',
+        paddingLeft: '5@vs',
+        paddingRight: '5@vs',
         backgroundColor: Themes.COLORS.white,
     },
     header: {

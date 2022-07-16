@@ -3,9 +3,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StyledButton, StyledText, StyledTouchable } from 'components/base';
 import { AUTHENTICATE_ROUTE } from 'navigation/config/routes';
 import { navigate } from 'navigation/NavigationService';
-import React, { FunctionComponent, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { View, StyleSheet, ImageBackground, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useLogin } from 'utilities/authenticate/AuthenticateService';
 import sizes from 'assets/sizes';
@@ -19,6 +19,7 @@ import useLoading from 'components/base/modal/useLoading';
 import StyledInputForm from 'components/base/StyledInputForm';
 import images from 'assets/images';
 import { regexEmail } from 'utilities/validate';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LoginScreen: FunctionComponent = () => {
     const passwordRef = useRef<any>(null);
@@ -67,7 +68,7 @@ const LoginScreen: FunctionComponent = () => {
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={styles.container}
-            enableOnAndroid={false}
+            enableOnAndroid={true}
             showsVerticalScrollIndicator={false}
         >
             <ImageBackground source={images.photo.first_screen.background} style={styles.body}>
