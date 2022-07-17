@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import StockList from 'feature/home/components/StockList';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { getAllWatchlist } from 'app-redux/symbol/actions';
 import { StyledIcon, StyledText, StyledTouchable } from 'components/base';
@@ -11,24 +11,37 @@ import Images from 'assets/images';
 import { ScaledSheet } from 'react-native-size-matters';
 import { navigate } from 'navigation/NavigationService';
 import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
+import { useSelector } from 'react-redux';
+import { RootState } from 'app-redux/rootReducer';
+import { useIsFocused } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 const WatchList = (props: any) => {
-    const [watchList, setWatchList] = React.useState(getAllWatchlist()) as any;
-    const [stockWatchList, setStockWatchList] = React.useState([{}]) as any;
+    const isFocused = useIsFocused();
+    const { symbolReducer } = useSelector((state: RootState) => state);
+    const [watchList, setWatchList] = useState(symbolReducer?.watchList) as any[];
+    const [stockWatchList, setStockWatchList] = React.useState([{}]) as any[];
 
     function getData() {
         const stockToday = require('assets/data/stock_today.json');
         const symbolList: Array<any> = [];
         stockToday.forEach((stock: any) => symbolList.push(stock.Symbol));
-        const newR = [{}];
+        const newR: any[] = [];
+        const newWatchList = watchList.filter(
+            (symbol: any) => symbol !== '' && symbol !== undefined && symbol !== null,
+        );
         stockToday.forEach((stock: any) => {
-            // if (watchList.includes(stock?.Symbol)) newR.push(stock);
+            if (newWatchList.includes(stock?.Symbol)) newR.push(stock);
         });
-        return newR;
+        setStockWatchList(newR);
     }
-    React.useEffect(() => {
-        setStockWatchList(getData());
-    }, []);
+    useEffect(() => {
+        if (isFocused && symbolReducer?.watchList) setWatchList(symbolReducer?.watchList);
+    }, [isFocused, symbolReducer?.watchList]);
+
+    useEffect(() => {
+        if (isFocused) getData();
+    }, [watchList]);
 
     return (
         <SafeAreaView style={styles.watchList}>
@@ -49,7 +62,9 @@ const WatchList = (props: any) => {
                         <StyledIcon source={Images.icons.menu} size={20} />
                     </StyledTouchable>
                 </View>
-                {!!stockWatchList && <StyledText i18nText={'watchlist.noData'} customStyle={styles.noData} />}
+                {stockWatchList.length === 0 && (
+                    <StyledText i18nText={'watchlist.noData'} customStyle={styles.noData} />
+                )}
                 {stockWatchList && <StockList data={stockWatchList} />}
             </View>
         </SafeAreaView>

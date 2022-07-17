@@ -1,8 +1,13 @@
+/* eslint-disable object-shorthand */
 import { combineReducers } from 'redux';
 import languageReducer from './language/reducer';
 import resource from './resource/reducer';
-import symbolReducer from './symbol/reducer';
+import watchList from './symbol/reducer';
 import userInfo from './userInfo/reducer';
+
+const symbolReducer = combineReducers({
+    watchList: watchList,
+});
 
 const rootReducer = combineReducers({
     resource,

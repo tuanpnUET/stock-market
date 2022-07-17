@@ -125,4 +125,8 @@ export default {
         update: 'Update',
         reset: 'Reset',
     },
+    toastMessage: {
+        addSuccess: 'Add symbol to watch list successfully',
+        removeSuccess: 'Remove symbol from watch list successfully',
+    },
 };

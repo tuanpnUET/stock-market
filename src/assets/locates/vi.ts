@@ -128,4 +128,8 @@ export default {
         update: 'Cập nhật',
         reset: 'Huỷ thay đổi',
     },
+    toastMessage: {
+        addSuccess: 'Thêm thành công vào danh sách theo dõi!',
+        removeSuccess: 'Xoá thành công khỏi danh sách theo dõi!',
+    },
 };

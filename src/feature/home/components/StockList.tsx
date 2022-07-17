@@ -15,7 +15,7 @@ const ListHeader = () => {
     return (
         <View style={styles.listHeader}>
             <View style={styles.headerItem}>
-                <StyledText customStyle={{ fontWeight: '600' }} i18nText={'common.symbol'} />
+                <StyledText customStyle={{ fontWeight: 'bold' }} i18nText={'common.symbol'} />
             </View>
             <View style={styles.headerItem}>
                 <StyledText customStyle={{ fontWeight: '600' }} i18nText={'common.open'} />
@@ -27,10 +27,10 @@ const ListHeader = () => {
                 <StyledText customStyle={{ fontWeight: '600' }} i18nText={'common.low'} />
             </View>
             <View style={styles.headerItem}>
-                <StyledText customStyle={{ fontWeight: '600' }} i18nText={'common.close'} />
+                <StyledText customStyle={{ fontWeight: '600' }} i18nText={'common.closeStock'} />
             </View>
             <View style={styles.headerItem}>
-                <StyledText customStyle={{ fontWeight: '600' }} i18nText={'common.volume'} />
+                <StyledText customStyle={{ fontWeight: 'bold' }} i18nText={'common.volume'} />
             </View>
         </View>
     );
@@ -53,6 +53,9 @@ const StockList: React.FC<StockListProps> = (props: StockListProps) => {
     const [loading, setLoading] = React.useState(true);
     const [txtSearch, setTxtSearch] = React.useState('');
     const { t } = useTranslation();
+    useEffect(() => {
+        setSymbolList(props?.data);
+    }, [props?.data]);
     useEffect(() => {
         if (symbolList) setLoading(false);
         else setLoading(true);

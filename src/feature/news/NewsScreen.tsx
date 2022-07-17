@@ -8,14 +8,15 @@ import { Themes } from 'assets/themes';
 import { StyledIcon, StyledImage, StyledList, StyledText, StyledTouchable } from 'components/base';
 import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
 import { navigate } from 'navigation/NavigationService';
-import React from 'react';
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { Image, View, Text, SafeAreaView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector } from 'react-redux';
 
 const News = (props: any) => {
     const { userInfo } = useSelector((state: RootState) => state);
+    const [like, setLike] = useState<boolean>(false);
     const handleLike = () => {
         //
     };
@@ -28,7 +29,7 @@ const News = (props: any) => {
     return (
         <View style={styles.news}>
             <View style={styles.headerNews}>
-                <StyledImage source={props?.avatarOwner} customStyle={styles.avatar} />
+                <Image source={{ uri: props?.avatarOwner }} style={styles.avatar} />
                 <Text style={styles.nameOwner}>{props?.nameOwner}</Text>
                 {props?.idOwner === userInfo?.user?._id && (
                     <StyledTouchable onPress={() => editNews(props?.idNews)}>
@@ -42,11 +43,11 @@ const News = (props: any) => {
             <View style={styles.bodyNews}>
                 <Text style={styles.title}>{props?.title}</Text>
                 <Text style={styles.content}>{props?.content}</Text>
-                {props?.image && <StyledImage source={props?.image} customStyle={styles.image} />}
+                {props?.image && <Image source={{ uri: props?.image }} style={styles.image} />}
             </View>
             <View style={styles.footer}>
-                <StyledTouchable onPress={() => handleLike()}>
-                    <StyledIcon size={30} source={Images.icons.liked} />
+                <StyledTouchable onPress={() => setLike(!like)}>
+                    <StyledIcon size={30} source={like ? Images.icons.liked : Images.icons.unlike} />
                 </StyledTouchable>
                 <StyledTouchable onPress={() => detailNews(props?.id)}>
                     <StyledText i18nText={'news.comment'} customStyle={styles.comment} />
@@ -55,10 +56,11 @@ const News = (props: any) => {
         </View>
     );
 };
+const news = require('assets/data/news_list.json');
 
 const NewsScreen = (props: any) => {
     const { userInfo } = useSelector((state: RootState) => state);
-    const [newsList, setNewsList] = React.useState([]);
+    const [newsList, setNewsList] = React.useState(news);
     const addNews = () => {
         //
     };
@@ -94,7 +96,7 @@ const NewsScreen = (props: any) => {
             <StyledList
                 data={newsList}
                 renderItem={({ item, index }: any) => <News {...item} index={index} />}
-                keyExtractor={(item: any) => item?.id}
+                keyExtractor={(item: any) => `key_${item?.idNews}`}
             />
         </SafeAreaView>
     );
@@ -134,46 +136,55 @@ const styles = ScaledSheet.create({
         padding: 10,
     },
     news: {
-        width: metrics.screenWidth,
+        width: metrics.screenWidth - 10,
         margin: 5,
         borderRadius: 5,
         backgroundColor: '#eeeeee',
+        padding: 5,
     },
     headerNews: {
         flexDirection: 'row',
+        // alignItems: 'center',
     },
     avatar: {
-        width: '40@s',
-        height: '40@s',
+        width: 40,
+        height: 40,
         borderRadius: 20,
     },
     nameOwner: {
         fontSize: sizes.FONTSIZE.large,
         fontWeight: 'bold',
+        left: 5,
     },
     date: {
         fontSize: sizes.FONTSIZE.small,
         opacity: 0.5,
+        left: 45,
+        top: -20,
     },
     bodyNews: {
-        paddingTop: '10@vs',
         flexDirection: 'column',
     },
     title: {
         fontSize: sizes.FONTSIZE.normal,
         fontWeight: 'bold',
+        margin: 5,
     },
     content: {
         fontSize: sizes.FONTSIZE.normal,
-        top: 10,
+        margin: 5,
     },
     image: {
-        width: metrics.screenWidth,
+        width: metrics.screenWidth - 20,
         height: '200@vs',
+        borderRadius: 10,
     },
     footer: {
+        margin: 5,
+        width: metrics.screenWidth - 80,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignSelf: 'center',
     },
     edit: {
         right: 10,

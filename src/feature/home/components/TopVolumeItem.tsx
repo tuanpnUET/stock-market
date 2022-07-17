@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Metrics from 'assets/metrics';
 import { StyledText, StyledTouchable } from 'components/base';
-import React, { Fragment, FunctionComponent } from 'react';
+import React, { Fragment, FunctionComponent, useState } from 'react';
 import { View } from 'react-native';
 import { moderateScale, ScaledSheet } from 'react-native-size-matters';
 import Carousel from 'react-native-snap-carousel';
@@ -9,6 +9,13 @@ import Size from 'assets/sizes';
 import { Themes, ThemesDark } from 'assets/themes';
 import { useNavigation } from '@react-navigation/native';
 import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
+import useModal from 'components/base/modal/useModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'app-redux/rootReducer';
+import ConfirmModal from 'components/base/modal/ConfirmModal';
+import { addToWatchlist, removeFromWatchlist } from 'app-redux/symbol/actions';
+import { useTranslation } from 'react-i18next';
+import Toast from 'react-native-toast-message';
 
 const topVolumeData = require('assets/data/top_volume.json');
 
@@ -20,12 +27,71 @@ const itemWidth = 200;
 const scaleItemWidth = Math.round(moderateScale(itemWidth)) - 15;
 
 const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
+    const { t } = useTranslation();
+    const dispatch = useDispatch();
     const navigation = useNavigation();
+    const modal = useModal();
+    const { symbolReducer } = useSelector((state: RootState) => state);
+    const [watchList, setWatchList] = useState(symbolReducer?.watchList) as any[];
+
+    const checkWatchListHas = (symbol: string) => {
+        if (watchList.includes(symbol)) {
+            return true;
+        }
+        return false;
+    };
+
     const renderItem = ({ item, index }: any) => (
         <StyledTouchable
             onPress={() => {
                 // go to detail
                 navigation.navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK, item?.Symbol);
+            }}
+            onLongPress={() => {
+                // check watchlist to add or remove
+                if (checkWatchListHas(item?.Symbol)) {
+                    modal.show({
+                        children: (
+                            <ConfirmModal
+                                text={t('confirmModal.remove')}
+                                confirmText={'common.ok'}
+                                modal={modal}
+                                onConfirm={() => {
+                                    dispatch(removeFromWatchlist(item?.Symbol));
+                                    Toast.show({
+                                        type: 'success',
+                                        text1: t('toastMessage.removeSuccess'),
+                                        text2: '',
+                                    });
+                                }}
+                            />
+                        ),
+                        onBackdropPress: () => {
+                            modal.dismiss();
+                        },
+                    });
+                } else {
+                    modal.show({
+                        children: (
+                            <ConfirmModal
+                                text={t('confirmModal.addToWatchlist')}
+                                confirmText={'common.ok'}
+                                modal={modal}
+                                onConfirm={() => {
+                                    dispatch(addToWatchlist(item?.Symbol));
+                                    Toast.show({
+                                        type: 'success',
+                                        text1: t('toastMessage.addSuccess'),
+                                        text2: '',
+                                    });
+                                }}
+                            />
+                        ),
+                        onBackdropPress: () => {
+                            modal.dismiss();
+                        },
+                    });
+                }
             }}
             customStyle={{
                 borderRightWidth: 1,

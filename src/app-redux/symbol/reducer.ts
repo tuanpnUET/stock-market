@@ -1,6 +1,6 @@
 import { ADD_TO_WATCHLIST, GET_ALL_WATCHLIST, REMOVE_FROM_WATCHLIST } from './types';
 
-const symbolReducer = (state = [], action: any) => {
+const watchList = (state = [], action: any) => {
     switch (action.type) {
         case ADD_TO_WATCHLIST:
             return [...state, action.payload];
@@ -13,4 +13,4 @@ const symbolReducer = (state = [], action: any) => {
     }
 };
 
-export default symbolReducer;
+export default watchList;

@@ -4,7 +4,6 @@ import { ScaledSheet } from 'react-native-size-matters';
 import { StyledText } from 'components/base';
 import Metrics from 'assets/metrics';
 import { Themes } from 'assets/themes';
-import { goBack } from 'navigation/NavigationService';
 
 const ConfirmModal = ({
     modal,
@@ -15,7 +14,6 @@ const ConfirmModal = ({
     confirmText,
     cancelText,
     i18nParams,
-    isEvent,
     onCancel,
     showCancel = true,
 }: any) => {
@@ -43,9 +41,6 @@ const ConfirmModal = ({
                         onPress={() => {
                             modal.dismissAll();
                             onCancel?.();
-                            if (isEvent) {
-                                goBack();
-                            }
                         }}
                         style={[styles.buttonConfirm]}
                     >

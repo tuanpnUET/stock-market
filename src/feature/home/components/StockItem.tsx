@@ -4,13 +4,15 @@ import { Themes } from 'assets/themes';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useModal from 'components/base/modal/useModal';
 import ConfirmModal from 'components/base/modal/ConfirmModal';
 import { addToWatchlist, getAllWatchlist, removeFromWatchlist } from 'app-redux/symbol/actions';
 import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { RootState } from 'app-redux/rootReducer';
+import Toast from 'react-native-toast-message';
 
 const { width } = Dimensions.get('window');
 
@@ -19,13 +21,13 @@ const StockItem = (props: any) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const modal = useModal();
-    const [symbolWatchlist] = useState(getAllWatchlist());
-    // console.log('symbolwatchlist', symbolWatchlist);
+    const { symbolReducer } = useSelector((state: RootState) => state);
+    const [watchList, setWatchList] = useState(symbolReducer?.watchList) as any[];
 
     const checkWatchListHas = (symbol: string) => {
-        // if (symbolWatchlist?.includes(symbol)) {
-        //     return true;
-        // }
+        if (watchList.includes(symbol)) {
+            return true;
+        }
         return false;
     };
 
@@ -33,16 +35,22 @@ const StockItem = (props: any) => {
         <View>
             <TouchableOpacity
                 onPress={() => navigation.navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK, props?.Symbol)}
-                onLongPress={(stock: any) => {
+                onLongPress={() => {
                     // check watchlist to add or remove
-                    if (checkWatchListHas(stock?.Symbol)) {
+                    if (checkWatchListHas(props?.Symbol)) {
                         modal.show({
                             children: (
                                 <ConfirmModal
-                                    text={t('confirmModal.addToWatchlist')}
+                                    text={t('confirmModal.remove')}
                                     confirmText={'common.ok'}
                                     modal={modal}
-                                    onConfirm={dispatch(addToWatchlist(stock?.Symbol))}
+                                    onConfirm={() => {
+                                        Toast.show({
+                                            type: 'success',
+                                            text1: t('toastMessage.removeSuccess'),
+                                        });
+                                        dispatch(removeFromWatchlist(props?.Symbol));
+                                    }}
                                 />
                             ),
                             onBackdropPress: () => {
@@ -53,10 +61,16 @@ const StockItem = (props: any) => {
                         modal.show({
                             children: (
                                 <ConfirmModal
-                                    text={t('confirmModal.remove')}
+                                    text={t('confirmModal.addToWatchlist')}
                                     confirmText={'common.ok'}
                                     modal={modal}
-                                    onConfirm={dispatch(removeFromWatchlist(stock?.Symbol))}
+                                    onConfirm={() => {
+                                        dispatch(addToWatchlist(props?.Symbol));
+                                        Toast.show({
+                                            type: 'success',
+                                            text1: t('toastMessage.addSuccess'),
+                                        });
+                                    }}
                                 />
                             ),
                             onBackdropPress: () => {
@@ -108,7 +122,7 @@ const StockItem = (props: any) => {
                     >
                         {props.Close}
                     </Text>
-                    <Text style={styles.item} numberOfLines={1} ellipsizeMode="tail">
+                    <Text style={[styles.item, { fontWeight: 'bold' }]} numberOfLines={1} ellipsizeMode="tail">
                         {props.Volume}
                     </Text>
                 </View>

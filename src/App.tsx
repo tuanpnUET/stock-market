@@ -10,6 +10,7 @@ import Navigation from 'navigation/scene/RootScenes';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import APIProvider from 'utilities/context/APIProvider';
 import SplashScreen from 'react-native-splash-screen';
+import Toast from 'react-native-toast-message';
 
 LogBox.ignoreLogs(['Require cycle:']);
 
@@ -26,6 +27,7 @@ const App: React.FunctionComponent = () => {
                         <NavigationContainer ref={navigationRef}>
                             <Navigation />
                         </NavigationContainer>
+                        <Toast />
                     </RootSiblingParent>
                 </APIProvider>
             </PersistGate>
