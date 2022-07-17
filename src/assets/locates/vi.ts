@@ -20,6 +20,7 @@ export default {
         notFound: 'Không tìm thấy!',
         ok: 'Đồng ý',
         setting: 'Cài đặt',
+        update: 'Cập nhật',
     },
     permissions: {
         camera: 'Stock Market cần quyền truy cập Camera.',
@@ -39,6 +40,7 @@ export default {
         takePictureHeader: 'Chụp ảnh hoặc chọn từ thư viện.',
         takePicture: 'Máy ảnh',
         chooseFromAlbum: 'Thư viện',
+        upload: 'Đăng bài',
     },
     watchlist: {
         noData: 'Bạn chưa thêm mã nào trong danh sách theo dõi',

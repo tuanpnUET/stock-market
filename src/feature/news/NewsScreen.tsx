@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { RootState } from 'app-redux/rootReducer';
@@ -11,47 +12,66 @@ import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
 import { navigate } from 'navigation/NavigationService';
 import React, { useState } from 'react';
 import { Image, View, Text, SafeAreaView } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector } from 'react-redux';
 import AddNewsModal from './components/AddNewsModal';
+import DetailNewsModal from './components/DetailNewsModal';
+import EditNewsModal from './components/EditNewsModal';
 
 export const News = (props: any) => {
+    const { item, index, newsList, setNewsList } = props;
     const { userInfo } = useSelector((state: RootState) => state);
     const [like, setLike] = useState<boolean>(false);
+    const editModal = useModal();
+    const detailModal = useModal();
     const handleLike = () => {
         //
     };
-    const editNews = (id: string) => {
+    const editNews = (item: any) => {
+        editModal.show({
+            children: <EditNewsModal {...item} modal={editModal} newsList={newsList} setNewsList={setNewsList} />,
+            onBackdropPress: () => {
+                editModal.dismiss?.();
+            },
+        });
         //
     };
-    const detailNews = (id: string) => {
+    const detailNews = (item: any) => {
+        detailModal.show({
+            children: <DetailNewsModal modal={detailModal} newsList={newsList} setNewsList={setNewsList} />,
+            onBackdropPress: () => {
+                detailModal.dismiss?.();
+            },
+        });
         //
     };
     return (
         <View style={styles.news}>
             <View style={styles.headerNews}>
-                <Image source={{ uri: props?.avatarOwner }} style={styles.avatar} />
-                <Text style={styles.nameOwner}>{props?.nameOwner}</Text>
-                {props?.idOwner === userInfo?.user?._id && (
-                    <StyledTouchable onPress={() => editNews(props?.idNews)}>
+                {item?.avatarOwner !== null && item?.avatarOwner !== undefined && (
+                    <Image source={{ uri: item?.avatarOwner }} style={styles.avatar} />
+                )}
+                {!item?.avatarOwner && <Image source={Images.icons.noAvatar} style={styles.avatar} />}
+                <Text style={styles.nameOwner}>{item?.nameOwner}</Text>
+                {item?.idOwner === userInfo?.user?._id && (
+                    <StyledTouchable onPress={() => editNews(item)}>
                         <View style={styles.edit}>
                             <StyledIcon size={35} source={Images.icons.edit} />
                         </View>
                     </StyledTouchable>
                 )}
             </View>
-            <Text style={styles.date}>{props?.date}</Text>
+            <Text style={styles.date}>{item?.date}</Text>
             <View style={styles.bodyNews}>
-                <Text style={styles.title}>{props?.title}</Text>
-                <Text style={styles.content}>{props?.content}</Text>
-                {props?.image && <Image source={{ uri: props?.image }} style={styles.image} />}
+                <Text style={styles.title}>{item?.title}</Text>
+                <Text style={styles.content}>{item?.content}</Text>
+                {item?.image && <Image source={{ uri: item?.image }} style={styles.image} />}
             </View>
             <View style={styles.footer}>
                 <StyledTouchable onPress={() => setLike(!like)}>
                     <StyledIcon size={30} source={like ? Images.icons.liked : Images.icons.unlike} />
                 </StyledTouchable>
-                <StyledTouchable onPress={() => detailNews(props?.id)}>
+                <StyledTouchable onPress={() => detailNews(item)}>
                     <StyledText i18nText={'news.comment'} customStyle={styles.comment} />
                 </StyledTouchable>
             </View>
@@ -66,7 +86,7 @@ const NewsScreen = (props: any) => {
     const addModal = useModal();
     const addNews = () => {
         addModal.show({
-            children: <AddNewsModal addModal={addModal} />,
+            children: <AddNewsModal modal={addModal} newsList={newsList} setNewsList={setNewsList} />,
             onBackdropPress: () => {
                 addModal.dismiss?.();
             },
@@ -102,8 +122,10 @@ const NewsScreen = (props: any) => {
                 </StyledTouchable>
             </View>
             <StyledList
-                data={newsList}
-                renderItem={({ item, index }: any) => <News {...item} index={index} />}
+                data={newsList.reverse()}
+                renderItem={({ item, index }: any) => (
+                    <News item={item} index={index} newsList={newsList} setNewsList={setNewsList} />
+                )}
                 keyExtractor={(item: any) => `key_${item?.idNews}`}
             />
         </SafeAreaView>
@@ -141,7 +163,7 @@ const styles = ScaledSheet.create({
         backgroundColor: '#eeeeee',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 10,
+        padding: 5,
     },
     news: {
         width: metrics.screenWidth - 10,
@@ -152,6 +174,8 @@ const styles = ScaledSheet.create({
     },
     headerNews: {
         flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
         // alignItems: 'center',
     },
     avatar: {
@@ -162,7 +186,8 @@ const styles = ScaledSheet.create({
     nameOwner: {
         fontSize: sizes.FONTSIZE.large,
         fontWeight: 'bold',
-        left: 5,
+        position: 'absolute',
+        left: 45,
     },
     date: {
         fontSize: sizes.FONTSIZE.small,
@@ -195,7 +220,9 @@ const styles = ScaledSheet.create({
         alignSelf: 'center',
     },
     edit: {
-        right: 10,
+        marginRight: 0,
+        // position: 'absolute',
+        backgroundColor: 'green',
     },
     comment: {
         fontSize: sizes.FONTSIZE.large,

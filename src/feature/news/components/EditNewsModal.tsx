@@ -1,22 +1,307 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-underscore-dangle */
+import { uploadImage } from 'api/modules/api-app/general';
+import { RootState } from 'app-redux/rootReducer';
+import Images from 'assets/images';
+import metrics from 'assets/metrics';
+import sizes from 'assets/sizes';
+import { Themes } from 'assets/themes';
+import { StyledButton, StyledIcon, StyledImage, StyledInput, StyledText, StyledTouchable } from 'components/base';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text } from 'react-native';
+import { ScaledSheet } from 'react-native-size-matters';
+import { useSelector } from 'react-redux';
+import { checkCamera, checkPhoto, showRequestPermission } from 'utilities/permissions';
+import ImageUploader from 'utilities/upload/ImageUploader';
 
-const EditNews = (props: any) => {
-    console.log('props', props);
+const EditNewsModal = (props: any) => {
+    const { userInfo } = useSelector((state: RootState) => state);
+    const [isValid, setIsValid] = useState<boolean>(false);
+    const [content, setContent] = useState<string>(props?.content);
+    const [title, setTitle] = useState<string>(props?.title);
+    const [urlImage, setUrlImage] = useState(props?.image);
+    const [date, setDate] = useState(props?.date);
+    const { t } = useTranslation();
+
+    useEffect(() => {
+        if (urlImage) {
+            setUrlImage(urlImage);
+        }
+    }, [urlImage]);
+    useEffect(() => {
+        if (content && title) setIsValid(true);
+    }, [content, title]);
+
+    const submit = () => {
+        const newNews = {
+            nameOwner: props?.nameOwner,
+            idOwner: props?.idOwner,
+            avatarOwner: userInfo?.user?.avatar,
+            idNews: props?.idNews,
+            date: new Date().toUTCString(),
+            title,
+            content,
+            image: urlImage,
+        };
+        props.setNewsList(props?.newsList.map((news: any) => (news.idNews !== newNews.idNews ? news : newNews)));
+        props?.modal?.dismiss();
+    };
+    const upload = async (path: string) => {
+        const timeStamp = new Date().getTime();
+        const formatImage: any = {
+            url: path,
+            name: `${timeStamp}.${'image/jpeg'}`,
+            type: 'image/jpeg',
+        };
+        const formData = new FormData();
+        formData.append('files', formatImage);
+        const temp1 = uploadImage(formData);
+        const newUrlImage = await temp1;
+        setUrlImage(newUrlImage?.data[0]);
+    };
+
+    const onPickImage = async () => {
+        const permission = await checkPhoto();
+        if (permission) {
+            let image: any = '';
+            image = await ImageUploader.pickImageFromGallery();
+            if (image.path) upload(image.path);
+        } else {
+            props?.modal?.dismiss();
+            showRequestPermission('photo');
+        }
+    };
+    const takePicture = async () => {
+        const permission = await checkCamera();
+        if (permission) {
+            let image: any = '';
+            image = await ImageUploader.chooseImageFromCamera();
+            if (image.path) upload(image.path);
+        } else {
+            props?.modal?.dismiss();
+            showRequestPermission('camera');
+        }
+    };
+
     return (
-        <View style={styles.contModalContent}>
-            <Text>Edit News Stock</Text>
+        <View style={styles.news}>
+            <View style={styles.headerNews}>
+                <StyledImage
+                    source={userInfo?.user?.avatar ? userInfo?.user?.avatar : Images.icons.noAvatar}
+                    customStyle={styles.avatar}
+                />
+                <Text style={styles.nameOwner}>{userInfo?.user?.name}</Text>
+                <StyledTouchable
+                    onPress={() => props?.modal?.dismiss()}
+                    customStyle={{ position: 'absolute', right: 0 }}
+                >
+                    <StyledIcon size={50} source={Images.icons.close} />
+                </StyledTouchable>
+            </View>
+            <Text style={styles.date}>{date}</Text>
+            <View style={styles.bodyNews}>
+                <View style={[styles.labelInput, { flexDirection: 'row' }]}>
+                    <StyledText i18nText={'addNews.title'} customStyle={styles.fontSize} />
+                    <StyledText originValue={'*'} customStyle={{ color: Themes.COLORS.red }} />
+                </View>
+                <View style={styles.inputView}>
+                    <StyledInput
+                        value={content}
+                        multiline={true}
+                        numberOfLines={2}
+                        maxLength={100}
+                        customStyle={styles.inputContent}
+                        onChangeText={(text: string) => {
+                            setTitle(text);
+                        }}
+                    />
+                </View>
+                <View style={[styles.labelInput, { flexDirection: 'row' }]}>
+                    <StyledText i18nText={'addNews.content'} customStyle={styles.fontSize} />
+                    <StyledText originValue={'*'} customStyle={{ color: Themes.COLORS.red }} />
+                </View>
+                <View style={styles.inputView}>
+                    <StyledInput
+                        value={title}
+                        multiline={true}
+                        numberOfLines={8}
+                        maxLength={1000}
+                        customStyle={styles.inputContent}
+                        onChangeText={(text: string) => {
+                            setContent(text);
+                        }}
+                        blurOnSubmit={false}
+                    />
+                </View>
+            </View>
+            <View>
+                <StyledImage source={{ uri: urlImage }} customStyle={styles.image} resizeMode={'contain'} />
+            </View>
+            <View style={styles.content}>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        width: '80%',
+                        alignSelf: 'center',
+                        marginBottom: 10,
+                    }}
+                >
+                    <View style={styles.imageView}>
+                        <StyledTouchable onPress={takePicture}>
+                            <StyledIcon source={Images.icons.icSmallCamera} size={25} customStyle={styles.camera} />
+                            <StyledText customStyle={styles.feature} i18nText={'addNews.takePicture'} />
+                        </StyledTouchable>
+                    </View>
+                    <View style={styles.imageView}>
+                        <StyledTouchable onPress={onPickImage}>
+                            <StyledIcon source={Images.icons.icSmallLibrary} size={25} customStyle={styles.camera} />
+                            <StyledText customStyle={styles.feature} i18nText={'addNews.chooseFromAlbum'} />
+                        </StyledTouchable>
+                    </View>
+                </View>
+            </View>
+            <View>
+                <StyledButton
+                    disabled={!isValid}
+                    onPress={submit}
+                    title={t('common.update')}
+                    customStyle={[styles.button, !isValid && { backgroundColor: Themes.COLORS.gray }]}
+                    customTextColor={styles.textBtn}
+                />
+            </View>
         </View>
     );
 };
-
-export default EditNews;
-
-const styles = StyleSheet.create({
-    contModalContent: {
-        flex: 1, // Must have flex: 1 in here
+const styles = ScaledSheet.create({
+    news: {
+        width: metrics.screenWidth - 20,
+        borderRadius: 5,
         backgroundColor: 'white',
-        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    headerNews: {
+        flexDirection: 'row',
+        margin: 5,
+    },
+    avatar: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+    },
+    nameOwner: {
+        fontSize: sizes.FONTSIZE.large,
+        fontWeight: 'bold',
+        left: 5,
+    },
+    date: {
+        fontSize: sizes.FONTSIZE.small,
+        opacity: 0.5,
+        left: 45,
+        top: -20,
+    },
+    bodyNews: {
+        flexDirection: 'column',
+        margin: 5,
+    },
+    title: {
+        fontSize: sizes.FONTSIZE.normal,
+        fontWeight: 'bold',
+        margin: 5,
+    },
+    content: {
+        fontSize: sizes.FONTSIZE.normal,
+        margin: 5,
+    },
+    feature: {
+        textAlign: 'center',
+        fontSize: '16@ms0.3',
+    },
+    button: {
+        width: '100@s',
+        alignSelf: 'center',
+        marginTop: '20@s',
+        marginBottom: '20@s',
+        fontSize: '20@ms0.3',
+        backgroundColor: Themes.COLORS.baseOrange,
+    },
+    camera: {
+        alignSelf: 'center',
+    },
+    imageView: {
+        marginTop: '5@vs',
+        height: '60@vs',
+        width: '30%',
+        borderWidth: 1,
+        borderColor: Themes.COLORS.black,
+        borderRadius: '10@vs',
         justifyContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    header: {
+        textAlign: 'center',
+        paddingVertical: '10@vs',
+        fontSize: '20@ms0.3',
+    },
+    inputTitle: {
+        margin: 0,
+        borderWidth: 0,
+        paddingVertical: 0,
+        borderColor: Themes.COLORS.black,
+        borderRadius: 5,
+        fontSize: '18@ms0.3',
+    },
+    inputContent: {
+        textAlign: 'justify',
+        textAlignVertical: 'top',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: metrics.screenWidth - 30,
+        margin: 3,
+        borderWidth: 0,
+        paddingVertical: 0,
+        maxHeight: 200,
+        fontSize: '18@ms0.3',
+    },
+    labelInput: {
+        width: metrics.screenWidth - 20,
+        fontSize: '18@ms0.3',
+        left: 5,
+    },
+    inputView: {
+        width: metrics.screenWidth - 40,
+        flexDirection: 'column',
+        alignItems: 'center',
+        margin: '5@vs',
+        backgroundColor: '#eeeeee',
+        borderRadius: 5,
+    },
+    fontSize: {
+        fontSize: '18@ms0.3',
+        marginRight: 2,
+    },
+    input: {
+        // width: Metrics.screenWidth * 0.7,
+        margin: 0,
+        borderWidth: 0,
+        paddingVertical: 0,
+        borderColor: Themes.COLORS.black,
+        borderRadius: 5,
+        fontSize: '18@ms0.3',
+    },
+    image: {
+        width: metrics.screenWidth - 40,
+        height: '200@vs',
+        borderRadius: 10,
+        alignSelf: 'center',
+    },
+    textBtn: {
+        color: Themes.COLORS.white,
+        fontWeight: '800',
     },
 });
+
+export default EditNewsModal;

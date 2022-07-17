@@ -20,6 +20,7 @@ export default {
         notFound: 'Not found',
         ok: 'OK',
         setting: 'Setting',
+        update: 'Update',
     },
     permissions: {
         camera: 'Stock Market need the camera permission',
@@ -39,6 +40,7 @@ export default {
         takePictureHeader: 'Take a picture or choose from your library.',
         takePicture: 'Take a picture',
         chooseFromAlbum: 'Choose from your library',
+        upload: 'Post',
     },
     watchlist: {
         noData: 'You do not have any symbol in watch list',

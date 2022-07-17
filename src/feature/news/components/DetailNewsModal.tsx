@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-const AddNews = (props: any) => {
+const DetailNewsModal = (props: any) => {
     console.log('props', props);
     return (
         <View style={styles.contModalContent}>
@@ -10,7 +10,7 @@ const AddNews = (props: any) => {
     );
 };
 
-export default AddNews;
+export default DetailNewsModal;
 
 const styles = StyleSheet.create({
     contModalContent: {
