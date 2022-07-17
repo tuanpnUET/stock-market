@@ -6,6 +6,7 @@ import metrics from 'assets/metrics';
 import sizes from 'assets/sizes';
 import { Themes } from 'assets/themes';
 import { StyledIcon, StyledImage, StyledList, StyledText, StyledTouchable } from 'components/base';
+import useModal from 'components/base/modal/useModal';
 import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
 import { navigate } from 'navigation/NavigationService';
 import React, { useState } from 'react';
@@ -13,8 +14,9 @@ import { Image, View, Text, SafeAreaView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector } from 'react-redux';
+import AddNewsModal from './components/AddNewsModal';
 
-const News = (props: any) => {
+export const News = (props: any) => {
     const { userInfo } = useSelector((state: RootState) => state);
     const [like, setLike] = useState<boolean>(false);
     const handleLike = () => {
@@ -61,8 +63,14 @@ const news = require('assets/data/news_list.json');
 const NewsScreen = (props: any) => {
     const { userInfo } = useSelector((state: RootState) => state);
     const [newsList, setNewsList] = React.useState(news);
+    const addModal = useModal();
     const addNews = () => {
-        //
+        addModal.show({
+            children: <AddNewsModal addModal={addModal} />,
+            onBackdropPress: () => {
+                addModal.dismiss?.();
+            },
+        });
     };
     return (
         <SafeAreaView style={styles.contScreen}>

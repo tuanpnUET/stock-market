@@ -49,6 +49,17 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Stock Market need the library permission</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Stock Market need the camera permission</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Stock Market need the micro permission</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Stock Market need the library permission</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Stock Market need the library permission </string>
+	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>UIAppFonts</key>

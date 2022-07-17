@@ -1,10 +1,10 @@
 /* eslint-disable no-nested-ternary */
+import React, { useState } from 'react';
+import { StyleProp, View, ViewStyle, StyleSheet, ActivityIndicator } from 'react-native';
+
 import { StyledImage, StyledTouchable } from 'components/base';
-import React, { memo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import ActionSheet from 'react-native-actionsheet';
-import { logger } from 'utilities/logger';
+import useModal from 'components/base/modal/useModal';
+import PopupModal from 'components/base/PopupModal';
 import ImageUploader from './ImageUploader';
 
 interface ImagePickerProp {
@@ -13,51 +13,58 @@ interface ImagePickerProp {
     children: any;
     customStyleImage?: StyleProp<ViewStyle>;
     customStyle?: StyleProp<ViewStyle>;
+    isShowImage?: boolean;
 }
 
 const ImagePicker = (props: ImagePickerProp) => {
     const { image, setImage, children } = props;
-    const { t } = useTranslation();
-    const actionSheet = useRef<any>(null);
     const [loading, setLoading] = useState(false);
-    const options = [t('register.cancel'), t('register.photo'), t('register.camera')];
-    const showActionSheet = () => {
-        actionSheet?.current?.show();
+    const modal = useModal();
+    const showPopupModal = () => {
+        modal.show({
+            children: (
+                <PopupModal
+                    modal={modal}
+                    onPressLeftButton={() => pickMainImage(2)}
+                    onPressRightButton={() => pickMainImage(1)}
+                />
+            ),
+            onBackdropPress: () => {
+                modal.dismissAll();
+            },
+        });
     };
     const pickMainImage = async (index: number) => {
-        try {
-            setLoading(true);
-            const uri = await ImageUploader.pickImage(index);
+        modal.dismiss();
+        setTimeout(async () => {
+            const uri = await ImageUploader.pickImage(index, setLoading);
             setImage(uri || image);
-        } catch (err) {
-            logger('err', err);
-        } finally {
-            setLoading(false);
-        }
+        }, 1000);
     };
+
+    if (props.isShowImage) {
+        return (
+            <View>
+                <StyledTouchable customStyle={props.customStyle} onPress={showPopupModal}>
+                    <View>{children}</View>
+                </StyledTouchable>
+            </View>
+        );
+    }
+
     return (
         <View>
-            <StyledTouchable customStyle={props.customStyle} onPress={showActionSheet}>
+            <StyledTouchable customStyle={props.customStyle} onPress={showPopupModal}>
                 {image && !loading ? (
                     <StyledImage customStyle={props.customStyleImage} source={{ uri: image }} />
                 ) : loading ? (
                     <View style={[props.customStyleImage, styles.loading]}>
-                        <ActivityIndicator />
+                        <ActivityIndicator size="small" color="#000000" />
                     </View>
                 ) : (
                     <View>{children}</View>
                 )}
             </StyledTouchable>
-            <ActionSheet
-                ref={actionSheet}
-                options={options}
-                cancelButtonIndex={0}
-                onPress={(index: any) => {
-                    if (index !== 0) {
-                        pickMainImage(index);
-                    }
-                }}
-            />
         </View>
     );
 };
@@ -67,4 +74,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 });
-export default memo(ImagePicker);
+export default React.memo(ImagePicker);

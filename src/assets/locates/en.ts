@@ -19,6 +19,11 @@ export default {
         search: 'Search',
         notFound: 'Not found',
         ok: 'OK',
+        setting: 'Setting',
+    },
+    permissions: {
+        camera: 'Stock Market need the camera permission',
+        photo: 'Stock Market need access library permission',
     },
     stock: {
         highestVolume: 'Highest trading volume today',
@@ -27,6 +32,13 @@ export default {
     news: {
         comment: 'Comment',
         addNews: 'Post something...',
+    },
+    addNews: {
+        title: 'Title',
+        content: 'Content',
+        takePictureHeader: 'Take a picture or choose from your library.',
+        takePicture: 'Take a picture',
+        chooseFromAlbum: 'Choose from your library',
     },
     watchlist: {
         noData: 'You do not have any symbol in watch list',

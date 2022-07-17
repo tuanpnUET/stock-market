@@ -19,6 +19,11 @@ export default {
         search: 'Tìm kiếm',
         notFound: 'Không tìm thấy!',
         ok: 'Đồng ý',
+        setting: 'Cài đặt',
+    },
+    permissions: {
+        camera: 'Stock Market cần quyền truy cập Camera.',
+        photo: 'Stock Market cần quyền truy cập thư viện.',
     },
     stock: {
         highestVolume: 'Top giao dịch nhiều nhất trong ngày',
@@ -27,6 +32,13 @@ export default {
     news: {
         comment: 'Bình luận',
         addNews: 'Viết điều gì đó...',
+    },
+    addNews: {
+        title: 'Tiêu đề ',
+        content: 'Nội dung',
+        takePictureHeader: 'Chụp ảnh hoặc chọn từ thư viện.',
+        takePicture: 'Máy ảnh',
+        chooseFromAlbum: 'Thư viện',
     },
     watchlist: {
         noData: 'Bạn chưa thêm mã nào trong danh sách theo dõi',
