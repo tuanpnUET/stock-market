@@ -83,8 +83,8 @@ const StockList: React.FC<StockListProps> = (props: StockListProps) => {
                     icon={Images.icons.search}
                     clearIcon={Images.icons.close}
                     placeholder={t('common.search')}
-                    onChangeText={updateSearch}
                     onIconPress={() => updateSearch}
+                    onChangeText={updateSearch}
                     value={txtSearch}
                     inputStyle={{ backgroundColor: '#EEEEEE', marginLeft: 12, borderRadius: 25, paddingLeft: 20 }}
                 />

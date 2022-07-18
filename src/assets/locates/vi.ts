@@ -49,6 +49,12 @@ export default {
         noData: 'Bạn chưa thêm mã nào trong danh sách theo dõi',
         title: 'Danh sách theo dõi',
     },
+    courseScreen: {
+        all: 'Tất cả',
+        noCourse: 'Không có khoá học nào',
+        author: 'Tác giả {{ value }}',
+        createdAt: 'Ngày {{ value }}',
+    },
     firstScreen: {
         brand: 'STOCK MARKET',
         description: 'Trải nghiệm mới mẻ \n cùng với sản phẩm của chúng tôi',
@@ -64,6 +70,7 @@ export default {
         news: 'Bảng tin',
         market: 'Thị trường',
         setting: 'Cài đặt',
+        course: 'Khoá học',
     },
     alert: {
         button: {

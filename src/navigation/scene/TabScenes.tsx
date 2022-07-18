@@ -15,6 +15,7 @@ import UpdateProfileScreen from 'feature/setting/components/UpdateProfileScreen'
 import DetailStock from 'feature/home/components/DetailStock';
 import WatchList from 'feature/watchlist/WatchList';
 import NewsScreen from 'feature/news/NewsScreen';
+import CourseScreen from 'feature/course/CourseScreen';
 
 const MainStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -47,6 +48,12 @@ const MainTabContainer = () => {
             title: t('tab.market'),
             component: WatchList,
             icon: Images.icons.market,
+        },
+        {
+            name: TAB_NAVIGATION_ROOT.COURSE_ROUTE.ROOT,
+            title: t('tab.course'),
+            component: CourseScreen,
+            icon: Images.icons.course,
         },
         {
             name: TAB_NAVIGATION_ROOT.NEWS_ROUTE.ROOT,

@@ -49,6 +49,12 @@ export default {
         noData: 'You do not have any symbol in watch list',
         title: 'Watch List',
     },
+    courseScreen: {
+        all: 'All',
+        noCourse: 'No courses yet',
+        author: 'Author {{ value }}',
+        createdAt: 'Created at {{ value }}',
+    },
     firstScreen: {
         brand: 'STOCK MARKET',
         description: 'Feel the new \n experience of our product',
@@ -64,6 +70,7 @@ export default {
         news: 'News',
         market: 'Watchlist',
         setting: 'Settings',
+        course: 'Course',
     },
     alert: {
         button: {

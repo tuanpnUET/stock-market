@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FunctionComponent } from 'react';
 import { ImageBackground, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
@@ -59,9 +60,7 @@ const UpdateProfileScreen: FunctionComponent = () => {
         handleSubmit,
     } = form;
     const onSubmit = (formData: any) => {
-        console.log('formData', formData);
         const res = updateProfile(userInfo?.token, formData);
-        console.log('res', res);
         // call api update profile and dispatch store
     };
     const onChangeName = (text: string) => {

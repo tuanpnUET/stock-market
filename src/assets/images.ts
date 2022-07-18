@@ -41,6 +41,7 @@ const Images = {
         ic_small_library: require('./icon/ic_small_library.png'),
         edit_post: require('./icon/ic_edit_post.png'),
         delete: require('./icon/ic_delete.png'),
+        course: require('./icon/ic_course.png'),
     },
     photo: {
         first_screen: {

@@ -44,7 +44,6 @@ export const News = (props: any) => {
         //
     };
     const detailNews = (item: any) => {
-        // console.log('run here');
         detailModal.show({
             children: <DetailNewsModal item={item} modal={detailModal} />,
             onBackdropPress: () => {

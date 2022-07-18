@@ -3,30 +3,33 @@
         "id": 1,
         "title": "Khóa học chứng khoán Online cho người mới bắt đầu",
         "category": 1,
-        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        "description": "Thị trường chứng khoán là một kênh đầu tư sinh lời nhanh. Tuy nhiên, lợi nhuận cao thì sẽ luôn đi kèm với những rủi ro. Nhà đầu tư cần trang bị kiến thức căn bản trong chứng khoán, tuân thủ theo các nguyên tắc trong giao dịch, chiến lược mà mình đã đặt ra, hạn chế giao dịch theo cảm tính. Từ đó, nhà đầu tư có thể nhận được hiệu quả từ việc đầu tư cũng như hạn chế rủi ro nhất có thể.",
         "authorName": "John Doe",
-        "authorAvatar": "https: //zpsocial-f46-org.zadn.vn/a0e3ed1cd2163d486407.jpg",
+        "authorAvatar": "https://anhuycons.com/wp-content/uploads/2016/06/team-1.jpg",
         "createdAt": "June 03,2021",
-        "cover": "https: //static.unica.vn/upload/images/2019/06/phan-tich-ky-thuat-co-ban-den-nang-cao-trong-chung-khoan_m_1561535923.jpg"
+        "urlBanner": "https://static.unica.vn/upload/images/2019/04/kien-thuc-co-ban-thi-truong-chung-khoan_1556178795.jpg",
+        "urlCourse": "https://www.youtube.com/embed/XAo6uqbDp24"
     },
     {
         "id": 2,
         "title": "Khóa học chứng khoán cho người mới bắt đầu hay nhất",
         "category": 1,
-        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        "description": "Thị trường chứng khoán là một kênh đầu tư sinh lời nhanh. Tuy nhiên, lợi nhuận cao thì sẽ luôn đi kèm với những rủi ro. Nhà đầu tư cần trang bị kiến thức căn bản trong chứng khoán, tuân thủ theo các nguyên tắc trong giao dịch, chiến lược mà mình đã đặt ra, hạn chế giao dịch theo cảm tính. Từ đó, nhà đầu tư có thể nhận được hiệu quả từ việc đầu tư cũng như hạn chế rủi ro nhất có thể.",
         "authorName": "John Doe",
-        "authorAvatar": "https: //zpsocial-f46-org.zadn.vn/a0e3ed1cd2163d486407.jpg",
+        "authorAvatar": "https://anhuycons.com/wp-content/uploads/2016/06/team-1.jpg",
         "createdAt": "June 03,2021",
-        "cover": "https: //static.unica.vn/upload/images/2019/04/kien-thuc-co-ban-thi-truong-chung-khoan_1556178795.jpg"
+        "urlBanner": "https://www.ssi.com.vn/upload/images/News/bi-quyet-dau-tu-chung-khoan-hieu-qua.jpg",
+        "urlCourse": "https://www.youtube.com/embed/2I3_HYSueFA"
     },
     {
         "id": 3,
         "title": "Cách Chơi Chứng Khoán Đầu tư Chứng khoán và Mua Cổ phiếu theo Sóng Ngành",
         "category": 2,
-        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        "description": "Thị trường chứng khoán là một kênh đầu tư sinh lời nhanh. Tuy nhiên, lợi nhuận cao thì sẽ luôn đi kèm với những rủi ro. Nhà đầu tư cần trang bị kiến thức căn bản trong chứng khoán, tuân thủ theo các nguyên tắc trong giao dịch, chiến lược mà mình đã đặt ra, hạn chế giao dịch theo cảm tính. Từ đó, nhà đầu tư có thể nhận được hiệu quả từ việc đầu tư cũng như hạn chế rủi ro nhất có thể.",
         "authorName": "John Doe",
-        "authorAvatar": "https: //zpsocial-f46-org.zadn.vn/a0e3ed1cd2163d486407.jpg",
+        "authorAvatar": "https://anhuycons.com/wp-content/uploads/2016/06/team-1.jpg",
         "createdAt": "June 03, 2021",
-        "cover": "https: //toptenvietnam.com/wp-content/uploads/2020/09/review-khoa-hoc-5-dang-co-phieu-vang-giup-ban-kiem-tien-tren-thi-truong-chung-khoan-tren-unica.jpg"
+        "urlBanner": "https://toptenvietnam.com/wp-content/uploads/2020/09/review-khoa-hoc-5-dang-co-phieu-vang-giup-ban-kiem-tien-tren-thi-truong-chung-khoan-tren-unica.jpg",
+        "urlCourse": "https://www.youtube.com/embed/MDWHjdGObKw"
     }
 ]

@@ -4,7 +4,11 @@
         "category": "Basic"
     },
     {
-        "id": 1,
+        "id": 2,
         "category": "Pro"
+    },
+    {
+        "id": 3,
+        "category": "Master"
     }
 ]
