@@ -33,6 +33,9 @@ export default {
     news: {
         comment: 'Bình luận',
         addNews: 'Viết điều gì đó...',
+        hide: 'Bài viết này đã bị ẩn',
+        noComment: 'Chưa có bình luận nào',
+        hideComment: 'Bình luận bị ẩn',
     },
     addNews: {
         title: 'Tiêu đề ',
@@ -45,11 +48,6 @@ export default {
     watchlist: {
         noData: 'Bạn chưa thêm mã nào trong danh sách theo dõi',
         title: 'Danh sách theo dõi',
-    },
-    confirmModal: {
-        addToWatchlist: 'Thêm vào danh sách theo dõi',
-        contentTextAdd: 'Dễ dàng theo dõi mã chứng khoán mà bạn quan tâm',
-        remove: 'Xoá khỏi danh sách theo dõi',
     },
     firstScreen: {
         brand: 'STOCK MARKET',
@@ -97,6 +95,10 @@ export default {
         placeholder_username: 'Tuan Pham Ngoc',
         haveAnAccount: 'Bạn đã có tài khoản? ',
         login: 'Đăng nhập',
+        photo: 'Thư viện',
+        camera: 'Camera',
+        selectPhoto: 'Chọn ảnh',
+        chooseImage: 'Chọn một bức ảnh',
     },
     validateMessage: {
         nameRequired: 'Tên đăng nhập là bắt buộc!',
@@ -142,8 +144,19 @@ export default {
         update: 'Cập nhật',
         reset: 'Huỷ thay đổi',
     },
+    confirmModal: {
+        addToWatchlist: 'Thêm vào danh sách theo dõi',
+        contentTextAdd: 'Dễ dàng theo dõi mã chứng khoán mà bạn quan tâm',
+        remove: 'Xoá khỏi danh sách theo dõi',
+        delete: 'Bạn muốn xoá bài đăng này?',
+    },
     toastMessage: {
         addSuccess: 'Thêm thành công vào danh sách theo dõi!',
         removeSuccess: 'Xoá thành công khỏi danh sách theo dõi!',
+        deleteSuccess: 'Xoá bài đăng thành công!',
+        addPostSuccess: 'Đăng bài thành công!',
+        updatePostSuccess: 'Cập nhật bài thành công!',
+        nothingToComment: 'Bạn chưa viết bình luận trước khi gửi',
+        commentSuccess: 'Đã đăng bình luận của bạn',
     },
 };

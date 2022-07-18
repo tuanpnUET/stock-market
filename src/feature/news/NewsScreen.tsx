@@ -8,11 +8,14 @@ import sizes from 'assets/sizes';
 import { Themes } from 'assets/themes';
 import { StyledIcon, StyledImage, StyledList, StyledText, StyledTouchable } from 'components/base';
 import useModal from 'components/base/modal/useModal';
+import ConfirmModal from 'components/base/modal/ConfirmModal';
 import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
 import { navigate } from 'navigation/NavigationService';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, View, Text, SafeAreaView } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
+import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
 import AddNewsModal from './components/AddNewsModal';
 import DetailNewsModal from './components/DetailNewsModal';
@@ -22,8 +25,12 @@ export const News = (props: any) => {
     const { item, index, newsList, setNewsList } = props;
     const { userInfo } = useSelector((state: RootState) => state);
     const [like, setLike] = useState<boolean>(false);
+    const [hideItem, setHideItem] = useState<boolean>(false);
     const editModal = useModal();
     const detailModal = useModal();
+    const confirmModal = useModal();
+    const { t } = useTranslation();
+
     const handleLike = () => {
         //
     };
@@ -37,14 +44,36 @@ export const News = (props: any) => {
         //
     };
     const detailNews = (item: any) => {
+        // console.log('run here');
         detailModal.show({
-            children: <DetailNewsModal modal={detailModal} newsList={newsList} setNewsList={setNewsList} />,
+            children: <DetailNewsModal item={item} modal={detailModal} />,
             onBackdropPress: () => {
                 detailModal.dismiss?.();
             },
         });
-        //
     };
+    const deleteNews = (id: string) => {
+        confirmModal.show({
+            children: (
+                <ConfirmModal
+                    modal={confirmModal}
+                    text={t('confirmModal.delete')}
+                    confirmText={'common.ok'}
+                    onConfirm={() => {
+                        setNewsList(newsList.filter((news: any) => news.idNews !== id));
+                        Toast.show({
+                            type: 'success',
+                            text1: t('toastMessage.deleteSuccess'),
+                        });
+                    }}
+                />
+            ),
+            onBackdropPress: () => {
+                confirmModal.dismiss?.();
+            },
+        });
+    };
+
     return (
         <View style={styles.news}>
             <View style={styles.headerNews}>
@@ -54,27 +83,47 @@ export const News = (props: any) => {
                 {!item?.avatarOwner && <Image source={Images.icons.noAvatar} style={styles.avatar} />}
                 <Text style={styles.nameOwner}>{item?.nameOwner}</Text>
                 {item?.idOwner === userInfo?.user?._id && (
-                    <StyledTouchable onPress={() => editNews(item)}>
-                        <View style={styles.edit}>
-                            <StyledIcon size={35} source={Images.icons.edit} />
+                    <View style={{ flexDirection: 'row' }}>
+                        <StyledTouchable onPress={() => editNews(item)}>
+                            <View style={styles.right}>
+                                <StyledIcon size={35} source={Images.icons.edit_post} />
+                            </View>
+                        </StyledTouchable>
+                        <View style={{ width: 20 }} />
+                        <StyledTouchable onPress={() => deleteNews(item?.idNews)}>
+                            <View style={styles.right}>
+                                <StyledIcon size={35} source={Images.icons.delete} />
+                            </View>
+                        </StyledTouchable>
+                    </View>
+                )}
+                {item?.idOwner !== userInfo?.user?._id && (
+                    <StyledTouchable onPress={() => setHideItem(!hideItem)}>
+                        <View style={styles.right}>
+                            <StyledIcon size={35} source={hideItem ? Images.icons.hide_pass : Images.icons.show_pass} />
                         </View>
                     </StyledTouchable>
                 )}
             </View>
             <Text style={styles.date}>{item?.date}</Text>
-            <View style={styles.bodyNews}>
-                <Text style={styles.title}>{item?.title}</Text>
-                <Text style={styles.content}>{item?.content}</Text>
-                {item?.image && <Image source={{ uri: item?.image }} style={styles.image} />}
-            </View>
-            <View style={styles.footer}>
-                <StyledTouchable onPress={() => setLike(!like)}>
-                    <StyledIcon size={30} source={like ? Images.icons.liked : Images.icons.unlike} />
-                </StyledTouchable>
-                <StyledTouchable onPress={() => detailNews(item)}>
-                    <StyledText i18nText={'news.comment'} customStyle={styles.comment} />
-                </StyledTouchable>
-            </View>
+            {hideItem && <StyledText i18nText={'news.hide'} customStyle={styles.hide} />}
+            {!hideItem && (
+                <>
+                    <View style={styles.bodyNews}>
+                        <Text style={styles.title}>{item?.title}</Text>
+                        <Text style={styles.content}>{item?.content}</Text>
+                        {item?.image && <Image source={{ uri: item?.image }} style={styles.image} />}
+                    </View>
+                    <View style={styles.footer}>
+                        <StyledTouchable onPress={() => setLike(!like)}>
+                            <StyledIcon size={30} source={like ? Images.icons.liked : Images.icons.unlike} />
+                        </StyledTouchable>
+                        <StyledTouchable onPress={() => detailNews(item)}>
+                            <StyledText i18nText={'news.comment'} customStyle={styles.comment} />
+                        </StyledTouchable>
+                    </View>
+                </>
+            )}
         </View>
     );
 };
@@ -83,7 +132,14 @@ const news = require('assets/data/news_list.json');
 const NewsScreen = (props: any) => {
     const { userInfo } = useSelector((state: RootState) => state);
     const [newsList, setNewsList] = React.useState(news);
+    const [newsListOrderByDate, setNewsListOrderByDate] = React.useState(newsList);
     const addModal = useModal();
+    useEffect(() => {
+        const sortByDate = (news: any) =>
+            [...news].sort((a: any, b: any) => new Date(b?.date).getTime() - new Date(a?.date).getTime());
+        const output = sortByDate(newsList);
+        return setNewsListOrderByDate(output);
+    }, [newsList]);
     const addNews = () => {
         addModal.show({
             children: <AddNewsModal modal={addModal} newsList={newsList} setNewsList={setNewsList} />,
@@ -92,6 +148,7 @@ const NewsScreen = (props: any) => {
             },
         });
     };
+
     return (
         <SafeAreaView style={styles.contScreen}>
             <View style={styles.header}>
@@ -122,7 +179,7 @@ const NewsScreen = (props: any) => {
                 </StyledTouchable>
             </View>
             <StyledList
-                data={newsList.reverse()}
+                data={newsListOrderByDate}
                 renderItem={({ item, index }: any) => (
                     <News item={item} index={index} newsList={newsList} setNewsList={setNewsList} />
                 )}
@@ -219,13 +276,17 @@ const styles = ScaledSheet.create({
         justifyContent: 'space-between',
         alignSelf: 'center',
     },
-    edit: {
+    right: {
         marginRight: 0,
-        // position: 'absolute',
-        backgroundColor: 'green',
+        padding: 5,
     },
     comment: {
         fontSize: sizes.FONTSIZE.large,
         fontWeight: 'bold',
+    },
+    hide: {
+        fontSize: sizes.FONTSIZE.large,
+        alignSelf: 'center',
+        opacity: 0.5,
     },
 });

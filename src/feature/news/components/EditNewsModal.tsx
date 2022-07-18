@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
+import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
 import { checkCamera, checkPhoto, showRequestPermission } from 'utilities/permissions';
 import ImageUploader from 'utilities/upload/ImageUploader';
@@ -45,28 +46,30 @@ const EditNewsModal = (props: any) => {
             image: urlImage,
         };
         props.setNewsList(props?.newsList.map((news: any) => (news.idNews !== newNews.idNews ? news : newNews)));
+        Toast.show({
+            type: 'success',
+            text1: t('toastMessage.updatePostSuccess'),
+        });
         props?.modal?.dismiss();
     };
-    const upload = async (path: string) => {
-        const timeStamp = new Date().getTime();
-        const formatImage: any = {
-            url: path,
-            name: `${timeStamp}.${'image/jpeg'}`,
-            type: 'image/jpeg',
-        };
-        const formData = new FormData();
-        formData.append('files', formatImage);
-        const temp1 = uploadImage(formData);
-        const newUrlImage = await temp1;
-        setUrlImage(newUrlImage?.data[0]);
-    };
-
     const onPickImage = async () => {
         const permission = await checkPhoto();
         if (permission) {
             let image: any = '';
             image = await ImageUploader.pickImageFromGallery();
-            if (image.path) upload(image.path);
+            if (image?.path) {
+                const timeStamp = new Date().getTime();
+                const formatImage: any = {
+                    uri: image?.path,
+                    name: `${timeStamp}.${'image/jpeg'}`,
+                    type: 'image/jpeg',
+                };
+                const formData = new FormData();
+                formData.append('files', formatImage);
+                const temp1 = uploadImage(formData);
+                const newUrlImage = await temp1;
+                setUrlImage(newUrlImage?.data[0]);
+            }
         } else {
             props?.modal?.dismiss();
             showRequestPermission('photo');
@@ -77,7 +80,19 @@ const EditNewsModal = (props: any) => {
         if (permission) {
             let image: any = '';
             image = await ImageUploader.chooseImageFromCamera();
-            if (image.path) upload(image.path);
+            if (image?.path) {
+                const timeStamp = new Date().getTime();
+                const formatImage: any = {
+                    uri: image?.path,
+                    name: `${timeStamp}.${'image/jpeg'}`,
+                    type: 'image/jpeg',
+                };
+                const formData = new FormData();
+                formData.append('files', formatImage);
+                const temp1 = uploadImage(formData);
+                const newUrlImage = await temp1;
+                setUrlImage(newUrlImage?.data[0]);
+            }
         } else {
             props?.modal?.dismiss();
             showRequestPermission('camera');
@@ -125,7 +140,7 @@ const EditNewsModal = (props: any) => {
                     <StyledInput
                         value={title}
                         multiline={true}
-                        numberOfLines={8}
+                        numberOfLines={6}
                         maxLength={1000}
                         customStyle={styles.inputContent}
                         onChangeText={(text: string) => {
@@ -135,9 +150,12 @@ const EditNewsModal = (props: any) => {
                     />
                 </View>
             </View>
-            <View>
-                <StyledImage source={{ uri: urlImage }} customStyle={styles.image} resizeMode={'contain'} />
-            </View>
+            {urlImage && (
+                <View>
+                    <StyledImage source={{ uri: urlImage }} customStyle={styles.image} resizeMode={'contain'} />
+                </View>
+            )}
+
             <View style={styles.content}>
                 <View
                     style={{
@@ -150,13 +168,13 @@ const EditNewsModal = (props: any) => {
                 >
                     <View style={styles.imageView}>
                         <StyledTouchable onPress={takePicture}>
-                            <StyledIcon source={Images.icons.icSmallCamera} size={25} customStyle={styles.camera} />
+                            <StyledIcon source={Images.icons.ic_small_camera} size={25} customStyle={styles.camera} />
                             <StyledText customStyle={styles.feature} i18nText={'addNews.takePicture'} />
                         </StyledTouchable>
                     </View>
                     <View style={styles.imageView}>
                         <StyledTouchable onPress={onPickImage}>
-                            <StyledIcon source={Images.icons.icSmallLibrary} size={25} customStyle={styles.camera} />
+                            <StyledIcon source={Images.icons.ic_small_library} size={25} customStyle={styles.camera} />
                             <StyledText customStyle={styles.feature} i18nText={'addNews.chooseFromAlbum'} />
                         </StyledTouchable>
                     </View>

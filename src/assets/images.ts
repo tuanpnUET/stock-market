@@ -37,8 +37,10 @@ const Images = {
         unlike: require('./icon/ic_unlike.png'),
         noAvatar: require('./icon/ic_no_avt.png'),
         search: require('./icon/ic_search.png'),
-        icSmallCamera: require('./icon/ic_small_camera.png'),
-        icSmallLibrary: require('./icon/ic_small_library.png'),
+        ic_small_camera: require('./icon/ic_small_camera.png'),
+        ic_small_library: require('./icon/ic_small_library.png'),
+        edit_post: require('./icon/ic_edit_post.png'),
+        delete: require('./icon/ic_delete.png'),
     },
     photo: {
         first_screen: {

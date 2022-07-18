@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
+import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
 import { checkCamera, checkPhoto, showRequestPermission } from 'utilities/permissions';
 import ImageUploader from 'utilities/upload/ImageUploader';
@@ -45,6 +46,10 @@ const AddNewsModal = (props: any) => {
             image: urlImage,
         };
         props.setNewsList([...props?.newsList, newNews]);
+        Toast.show({
+            type: 'success',
+            text1: t('toastMessage.addPostSuccess'),
+        });
         props?.modal?.dismiss();
     };
 
@@ -134,7 +139,7 @@ const AddNewsModal = (props: any) => {
                 <View style={styles.inputView}>
                     <StyledInput
                         multiline={true}
-                        numberOfLines={8}
+                        numberOfLines={6}
                         maxLength={1000}
                         customStyle={styles.inputContent}
                         onChangeText={(text: string) => {
@@ -158,14 +163,18 @@ const AddNewsModal = (props: any) => {
                     >
                         <View style={styles.imageView}>
                             <StyledTouchable onPress={takePicture}>
-                                <StyledIcon source={Images.icons.icSmallCamera} size={25} customStyle={styles.camera} />
+                                <StyledIcon
+                                    source={Images.icons.ic_small_camera}
+                                    size={25}
+                                    customStyle={styles.camera}
+                                />
                                 <StyledText customStyle={styles.feature} i18nText={'addNews.takePicture'} />
                             </StyledTouchable>
                         </View>
                         <View style={styles.imageView}>
                             <StyledTouchable onPress={onPickImage}>
                                 <StyledIcon
-                                    source={Images.icons.icSmallLibrary}
+                                    source={Images.icons.ic_small_library}
                                     size={25}
                                     customStyle={styles.camera}
                                 />
@@ -252,7 +261,7 @@ const styles = ScaledSheet.create({
     imageView: {
         marginTop: '5@vs',
         height: '60@vs',
-        width: '30%',
+        width: '40%',
         borderWidth: 1,
         borderColor: Themes.COLORS.black,
         borderRadius: '10@vs',

@@ -33,14 +33,17 @@ export default {
     news: {
         comment: 'Comment',
         addNews: 'Post something...',
+        hide: 'This post has been hidden',
+        hideComment: 'Comment was hidden',
     },
     addNews: {
         title: 'Title',
         content: 'Content',
-        takePictureHeader: 'Take a picture or choose from your library.',
-        takePicture: 'Take a picture',
-        chooseFromAlbum: 'Choose from your library',
+        takePictureHeader: 'Take a photo',
+        takePicture: 'Camera',
+        chooseFromAlbum: 'Library',
         upload: 'Post',
+        noComment: 'No comments yet',
     },
     watchlist: {
         noData: 'You do not have any symbol in watch list',
@@ -55,11 +58,6 @@ export default {
         title: 'Hello',
         close: 'Close',
         button: 'displayModal1',
-    },
-    confirmModal: {
-        addToWatchlist: 'Add stock to watch list',
-        contentTextAdd: 'Easy to follow your watch list',
-        remove: 'Remove stock from watch list',
     },
     tab: {
         home: 'Home',
@@ -94,6 +92,10 @@ export default {
         placeholder_username: 'Tuan Pham Ngoc',
         haveAnAccount: 'Do you have an account? ',
         login: 'Login',
+        photo: 'Album',
+        camera: 'Take a photo',
+        selectPhoto: 'Camera',
+        chooseImage: 'Library',
     },
     validateMessage: {
         nameRequired: 'Username is required!',
@@ -139,8 +141,19 @@ export default {
         update: 'Update',
         reset: 'Reset',
     },
+    confirmModal: {
+        addToWatchlist: 'Add stock to watch list',
+        contentTextAdd: 'Easy to follow your watch list',
+        remove: 'Remove stock from watch list',
+        delete: 'Are you sure to delete your post',
+    },
     toastMessage: {
         addSuccess: 'Add symbol to watch list successfully',
         removeSuccess: 'Remove symbol from watch list successfully',
+        deleteSuccess: 'Delete successfully',
+        addPostSuccess: 'Post successfully',
+        updatePostSuccess: 'Update post successfully',
+        nothingToComment: 'Please write your comment',
+        commentSuccess: 'Comment successfully!',
     },
 };

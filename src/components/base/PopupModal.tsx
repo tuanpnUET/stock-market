@@ -5,17 +5,17 @@ import { StyledText } from 'components/base';
 import Metrics from 'assets/metrics';
 import { Themes } from 'assets/themes';
 
-const ConfirmModal = ({ onPressLeftButton, onPressRightButton }: any) => {
+const PopupModal = ({ onPressLeftButton, onPressRightButton }: any) => {
     return (
         <View style={styles.contModalContent}>
-            <StyledText i18nText={'register.selectPhoto'} customStyle={styles.selectPhoto} />
-            <StyledText i18nText={'register.chooseImage'} customStyle={styles.chooseImage} />
+            <StyledText i18nText={'registerScreen.selectPhoto'} customStyle={styles.selectPhoto} />
+            <StyledText i18nText={'registerScreen.chooseImage'} customStyle={styles.chooseImage} />
             <View style={styles.buttonView}>
                 <TouchableOpacity onPress={onPressLeftButton} style={[styles.buttonConfirm]}>
-                    <StyledText i18nText={'register.camera'} customStyle={[styles.buttonText]} />
+                    <StyledText i18nText={'registerScreen.camera'} customStyle={[styles.buttonText]} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onPressRightButton} style={[styles.buttonConfirm, styles.buttonAlbum]}>
-                    <StyledText i18nText={'register.photo'} customStyle={[styles.buttonText]} />
+                    <StyledText i18nText={'registerScreen.photo'} customStyle={[styles.buttonText]} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -68,4 +68,4 @@ const styles = ScaledSheet.create({
     },
 });
 
-export default ConfirmModal;
+export default PopupModal;

@@ -69,7 +69,7 @@ const styles: any = StyleSheet.create({
         padding: 2,
         borderWidth: 1,
         paddingHorizontal: 10,
-        paddingVertical: 15,
+        paddingVertical: 5,
         borderColor: 'black',
         borderRadius: 5,
     },
@@ -79,7 +79,7 @@ const styles: any = StyleSheet.create({
         marginTop: 5,
     },
     container: {
-        marginBottom: 10,
+        marginBottom: 0,
     },
 });
 export default forwardRef(StyledInput);
