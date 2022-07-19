@@ -9,13 +9,15 @@ export default {
         haveAnAcc: 'Do you have an account? ',
         login: 'Login',
         stockMarket: 'Stock Market',
-        open: 'Open',
-        high: 'High',
-        low: 'Low',
-        closeStock: 'Close',
-        volume: 'Traded Volume',
-        date: 'Date',
-        symbol: 'Symbol',
+        open: 'Open: {{value}}',
+        high: 'High: {{value}}',
+        low: 'Low: {{value}}',
+        stock: 'Stock market: {{value}}',
+        change: 'Thay đổi: {{value}}',
+        closeStock: 'Close: {{value}}',
+        volume: 'Traded Volume: {{value}}',
+        date: 'Date: {{value}}',
+        symbol: 'Symbol: {{value}}',
         search: 'Search',
         notFound: 'Not found',
         ok: 'OK',
@@ -27,6 +29,32 @@ export default {
         title: 'Forgot Password',
         subTitle: 'Please enter your email we will resend you a verify code.',
         next: 'Next',
+    },
+    aboutUs: {
+        title: 'About us',
+    },
+    detailStock: {
+        title: 'Stock Detail',
+    },
+    term: {
+        title: 'Term and services',
+        requireAge: 'Age requirements',
+        contentAge:
+            'If you’re under the age required to manage your own account, you must have your parent or legal guardian’s permission to use a account. Please have your parent or legal guardian read these terms with you.',
+        requireRespect: 'Respect others',
+        contentRes:
+            'Don’t abuse, harm, interfere with, or disrupt the services — for example, by accessing or using them in fraudulent or deceptive ways, introducing malware, or spamming, hacking, or bypassing our systems or protective measures',
+        requireRule: 'Permission to use your content',
+        contentRule:
+            'Some of our services are designed to let you upload, submit, store, send, receive, or share your content. You have no obligation to provide any content to our services and you’re free to choose the content that you want to provide. If you choose to upload or share content, please make sure you have the necessary rights to do so and that the content is lawful.',
+    },
+    privacy: {
+        title: 'Privacy Policy',
+        subTitle: 'Stock Market Privacy Policy',
+        content:
+            'When you use our services, you’re trusting us with your information. We understand this is a big responsibility and work hard to protect your information and put you in control.',
+        subContent:
+            'This Privacy Policy is meant to help you understand what information we collect, why we collect it, and how you can update, manage, export, and delete your information.',
     },
     permissions: {
         camera: 'Stock Market need the camera permission',

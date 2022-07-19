@@ -103,6 +103,8 @@ const styles = StyleSheet.create({
         height: metrics.screenHeight * 0.08,
         paddingLeft: 5,
         paddingRight: 5,
+        borderTopWidth: 0.5,
+        borderColor: Themes.COLORS.white,
     },
     tabButton: {
         alignItems: 'center',

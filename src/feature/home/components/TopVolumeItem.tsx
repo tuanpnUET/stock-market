@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Metrics from 'assets/metrics';
-import { StyledText, StyledTouchable } from 'components/base';
+import { StyledIcon, StyledText, StyledTouchable } from 'components/base';
 import React, { Fragment, FunctionComponent, useState } from 'react';
 import { View } from 'react-native';
 import { moderateScale, ScaledSheet } from 'react-native-size-matters';
@@ -16,6 +16,7 @@ import ConfirmModal from 'components/base/modal/ConfirmModal';
 import { addToWatchlist, removeFromWatchlist } from 'app-redux/symbol/actions';
 import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
+import Images from 'assets/images';
 
 const topVolumeData = require('assets/data/top_volume.json');
 
@@ -33,6 +34,7 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
     const modal = useModal();
     const { symbolReducer } = useSelector((state: RootState) => state);
     const [watchList, setWatchList] = useState(symbolReducer?.watchList) as any[];
+    const [carousel, setCarousel] = useState<any>();
 
     const checkWatchListHas = (symbol: string) => {
         if (watchList.includes(symbol)) {
@@ -111,27 +113,37 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
         </StyledTouchable>
     );
     return (
-        <Carousel
-            autoplay={true}
-            sliderHeight={60}
-            itemHeight={60}
-            enableMomentum={false}
-            lockScrollWhileSnapping={true}
-            loop={true}
-            data={topVolumeData}
-            renderItem={renderItem}
-            sliderWidth={sliderWidth}
-            itemWidth={slideWidth}
-            containerCustomStyle={styles.containerCustomStyle}
-            inactiveSlideOpacity={1}
-            inactiveSlideScale={1}
-            inverted
-            horizontal
-            useNativeDriver
-            autoplayDelay={3000}
-            autoplayInterval={3000}
-            {...carouselProps}
-        />
+        <>
+            <StyledTouchable
+                onPress={() => carousel?.snapToItem(0, true, true)}
+                customStyle={{ position: 'absolute', right: 10, top: -25 }}
+            >
+                <StyledIcon size={40} source={Images.icons.back} customStyle={{ tintColor: Themes.COLORS.white }} />
+            </StyledTouchable>
+            <Carousel
+                ref={(c: any) => {
+                    setCarousel(c);
+                }}
+                autoplay={true}
+                sliderHeight={60}
+                itemHeight={60}
+                enableMomentum={false}
+                lockScrollWhileSnapping={true}
+                loop={true}
+                data={topVolumeData}
+                renderItem={renderItem}
+                sliderWidth={sliderWidth}
+                itemWidth={slideWidth}
+                containerCustomStyle={styles.containerCustomStyle}
+                inactiveSlideOpacity={1}
+                inactiveSlideScale={1}
+                horizontal
+                useNativeDriver
+                autoplayDelay={5000}
+                autoplayInterval={5000}
+                {...carouselProps}
+            />
+        </>
     );
 };
 

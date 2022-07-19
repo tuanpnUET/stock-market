@@ -25,7 +25,7 @@ const Images = {
             add_border: require('./icon/ic_add_border.png'),
         },
         trash: require('./icon/ic_trash.png'),
-        edit: require('./icon/ic_edit.jpg'),
+        edit: require('./icon/ic_edit.png'),
         show_pass: require('./icon/ic_hide_pass.png'),
         hide_pass: require('./icon/ic_show_pass.png'),
         menu: require('./icon/ic_menu.png'),
@@ -43,11 +43,13 @@ const Images = {
         delete: require('./icon/ic_delete.png'),
         course: require('./icon/ic_course.png'),
         logo: require('./icon/ic_logo.png'),
+        calender: require('./icon/ic_cal.png'),
     },
     photo: {
         first_screen: {
             background: require('./images/bgFirstScreen.jpg'),
         },
+        privacy: require('./images/privacy.png'),
     },
 };
 

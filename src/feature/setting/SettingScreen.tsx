@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-underscore-dangle */
 import React, { FunctionComponent } from 'react';
 import { Alert, Linking, TouchableOpacity, View } from 'react-native';
@@ -113,9 +114,18 @@ const SettingView: FunctionComponent = () => {
                     );
                 }}
             />
-            <SettingItem title={'settings.aboutUs'} onPress={() => handleLink(ABOUT_US)} />
-            <SettingItem title={'settings.privacyPolicy'} onPress={() => handleLink(PRIVACY_URL)} />
-            <SettingItem title={'settings.termsOfService'} onPress={() => handleLink(TERMS_OF_SERVICE_URL)} />
+            {/* <SettingItem
+                title={'settings.aboutUs'}
+                onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.ABOUT_US)}
+            /> */}
+            <SettingItem
+                title={'settings.privacyPolicy'}
+                onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.PRIVACY)}
+            />
+            <SettingItem
+                title={'settings.termsOfService'}
+                onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.TERM)}
+            />
             <SettingItem title={'settings.logout'} onPress={AuthenticateService.logOut} />
             <SettingItem title={'settings.deleteAccount'} textStyle={styles.deleteAccount} onPress={onDeleteAccount} />
         </SafeAreaView>
@@ -125,7 +135,7 @@ const SettingView: FunctionComponent = () => {
 const styles = ScaledSheet.create({
     container: {
         flex: 1,
-        backgroundColor: ThemesDark.colors.background,
+        backgroundColor: ThemesDark.colors.dark,
     },
     header: {
         height: '50@vs',
@@ -133,6 +143,8 @@ const styles = ScaledSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: ThemesDark.colors.dark,
+        borderBottomWidth: 0.5,
+        borderColor: Themes.COLORS.white,
     },
     right: {
         width: '50@s',

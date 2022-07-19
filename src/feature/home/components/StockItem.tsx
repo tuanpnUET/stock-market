@@ -90,7 +90,7 @@ const StockItem = (props: any) => {
                         {props?.Symbol}
                     </Text>
                     <Text style={styles.item} numberOfLines={1} ellipsizeMode="tail">
-                        {props?.Open}
+                        {props?.Open?.substring(0, 7)}
                     </Text>
                     <Text
                         style={[
@@ -102,7 +102,7 @@ const StockItem = (props: any) => {
                         numberOfLines={1}
                         ellipsizeMode="tail"
                     >
-                        {props?.High}
+                        {props?.High?.substring(0, 7)}
                     </Text>
                     <Text
                         style={[
@@ -110,7 +110,7 @@ const StockItem = (props: any) => {
                             parseInt(props.Low, 10) >= parseInt(props.Open, 10) ? { color: 'green' } : { color: 'red' },
                         ]}
                     >
-                        {props.Low}
+                        {props.Low?.substring(0, 7)}
                     </Text>
                     <Text
                         style={[
@@ -120,7 +120,7 @@ const StockItem = (props: any) => {
                                 : { color: 'red' },
                         ]}
                     >
-                        {props.Close}
+                        {props.Close?.substring(0, 7)}
                     </Text>
                     <Text style={[styles.item, { fontWeight: 'bold' }]} numberOfLines={1} ellipsizeMode="tail">
                         {props.Volume}

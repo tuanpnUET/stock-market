@@ -157,6 +157,8 @@ const styles = ScaledSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: ThemesDark.colors.dark,
+        borderBottomWidth: 0.5,
+        borderColor: Themes.COLORS.white,
     },
     right: {
         width: '50@s',

@@ -9,13 +9,15 @@ export default {
         haveAnAcc: 'Bạn có tài khoản? ',
         login: 'Đăng Nhập',
         stockMarket: 'Stock Market',
-        open: 'Giá mở phiên',
-        high: 'Giá cao nhất',
-        low: 'Giá thấp nhất',
-        closeStock: 'Giá đóng phiên',
-        volume: 'Số giao dịch',
-        date: 'Ngày',
-        symbol: 'Mã chứng khoán',
+        open: 'Giá mở phiên: {{value}}',
+        high: 'Giá cao nhất: {{value}}',
+        low: 'Giá thấp nhất: {{value}}',
+        closeStock: 'Giá đóng phiên: {{value}}',
+        volume: 'Số giao dịch: {{value}}',
+        stock: 'Thị trường chứng khoán: {{value}}',
+        date: 'Ngày: {{value}}',
+        symbol: 'Mã chứng khoán: {{value}}',
+        change: 'Thay đổi: {{value}}',
         search: 'Tìm kiếm',
         notFound: 'Không tìm thấy!',
         ok: 'Đồng ý',
@@ -28,12 +30,38 @@ export default {
         subTitle: 'Vui lòng nhập email bạn đã đăng ký, chúng tôi sẽ gửi bạn một mã xác thực.',
         next: 'Tiếp theo',
     },
+    aboutUs: {
+        title: 'Về chúng tôi',
+    },
+    detailStock: {
+        title: 'Chi tiết',
+    },
+    term: {
+        title: 'Điều khoản dịch vụ',
+        requireAge: 'Yêu cầu về độ tuổi',
+        contentAge:
+            'Nếu bạn chưa đủ tuổi để quản lý Tài khoản của riêng mình , bạn phải được cha mẹ hoặc người giám hộ hợp pháp cho phép sử dụng Tài khoản. Vui lòng yêu cầu cha mẹ hoặc người giám hộ hợp pháp của bạn đọc các điều khoản này với bạn. Nếu bạn là cha mẹ hoặc người giám hộ hợp pháp và bạn cho phép con mình sử dụng các dịch vụ , thì các điều khoản này sẽ áp dụng cho bạn và bạn chịu trách nhiệm về hoạt động của con mình trên các dịch vụ.',
+        requireRespect: 'Tôn trọng người khác',
+        contentRes:
+            'Không lạm dụng, gây hại, can thiệp hoặc làm gián đoạn các dịch vụ - ví dụ: bằng cách truy cập hoặc sử dụng chúng theo những cách gian lận hoặc lừa đảo, đưa phần mềm độc hại vào hoặc gửi thư rác, tấn công hoặc bỏ qua hệ thống hoặc các biện pháp bảo vệ của chúng tôi.',
+        requireRule: 'Quyền sử dụng nội dung của bạn',
+        contentRule:
+            'Một số dịch vụ của chúng tôi được thiết kế để cho phép bạn tải lên, gửi, lưu trữ, gửi, nhận hoặc chia sẻ nội dung của mình . Bạn không có nghĩa vụ phải cung cấp bất kỳ nội dung nào cho các dịch vụ của chúng tôi và bạn có thể tự do lựa chọn nội dung mà mình muốn cung cấp. Nếu bạn chọn tải lên hoặc chia sẻ nội dung, hãy đảm bảo rằng bạn có các quyền cần thiết để làm như vậy và nội dung đó là hợp pháp.',
+    },
+    privacy: {
+        title: 'Chính sách bảo mật',
+        subTitle: 'Chính sách bảo mật của Stock Market',
+        content:
+            'Khi bạn sử dụng dịch vụ của chúng tôi, bạn đang tin tưởng chúng tôi cung cấp thông tin của bạn. Chúng tôi hiểu đây là một trách nhiệm lớn và làm việc chăm chỉ để bảo vệ thông tin của bạn và giúp bạn kiểm soát.',
+        subContent:
+            'Chính sách Bảo mật này nhằm giúp bạn hiểu thông tin nào chúng tôi thu thập, lý do chúng tôi thu thập thông tin đó và cách bạn có thể cập nhật, quản lý, xuất và xóa thông tin của mình.',
+    },
     permissions: {
         camera: 'Stock Market cần quyền truy cập Camera.',
         photo: 'Stock Market cần quyền truy cập thư viện.',
     },
     stock: {
-        highestVolume: 'Top giao dịch nhiều nhất trong ngày',
+        highestVolume: 'Top giao dịch trong ngày',
         stockToday: 'Thị trường chứng khoán hôm nay',
     },
     news: {
