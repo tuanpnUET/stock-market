@@ -32,6 +32,8 @@ const styles = ScaledSheet.create({
         alignItems: 'center',
         paddingHorizontal: '5@s',
         backgroundColor: ThemesDark.colors.dark,
+        borderWidth: 0.3,
+        borderBottomColor: 'gray',
     },
     center: {
         justifyContent: 'center',

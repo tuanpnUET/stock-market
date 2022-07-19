@@ -125,7 +125,7 @@ const SettingView: FunctionComponent = () => {
 const styles = ScaledSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: ThemesDark.colors.primary,
+        backgroundColor: ThemesDark.colors.background,
     },
     header: {
         height: '50@vs',
@@ -147,12 +147,13 @@ const styles = ScaledSheet.create({
         justifyContent: 'flex-start',
         padding: '12@vs',
         borderBottomWidth: 0.5,
-        borderColor: Themes.COLORS.black,
+        borderColor: Themes.COLORS.white,
         marginLeft: 5,
         marginRight: 5,
     },
     settingText: {
         fontSize: '20@s',
+        color: 'white',
     },
     deleteAccount: {
         color: Themes.COLORS.red,

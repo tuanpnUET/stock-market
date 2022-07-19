@@ -17,6 +17,9 @@ import WatchList from 'feature/watchlist/WatchList';
 import NewsScreen from 'feature/news/NewsScreen';
 import CourseScreen from 'feature/course/CourseScreen';
 import ChangePass from 'feature/setting/components/ChangePass';
+import AboutUs from 'feature/setting/components/AboutUs';
+import Privacy from 'feature/setting/components/Privacy';
+import Term from 'feature/setting/components/Term';
 
 const MainStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -33,6 +36,9 @@ const SettingStack = () => (
         <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT} component={SettingScreen} />
         <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.UPDATE_PROFILE} component={UpdateProfileScreen} />
         <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.CHANGE_PASS} component={ChangePass} />
+        <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.ABOUT_US} component={AboutUs} />
+        <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.PRIVACY} component={Privacy} />
+        <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.TERM} component={Term} />
     </MainStack.Navigator>
 );
 
@@ -75,7 +81,7 @@ const MainTabContainer = () => {
             tabBar={(props: BottomTabBarProps) => <StyledTabBar {...props} />}
             tabBarOptions={{
                 labelStyle: { fontSize: 10 },
-                style: { backgroundColor: Themes.COLORS.dark },
+                style: { backgroundColor: Themes.COLORS.dark, borderTopColor: Themes.COLORS.gray, borderWidth: 0.3 },
                 activeTintColor: Themes.COLORS.yellow,
                 inactiveTintColor: Themes.COLORS.white,
             }}

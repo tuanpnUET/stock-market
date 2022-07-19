@@ -6,7 +6,7 @@ import { getAllWatchlist } from 'app-redux/symbol/actions';
 import { StyledIcon, StyledText, StyledTouchable } from 'components/base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import sizes from 'assets/sizes';
-import { Themes } from 'assets/themes';
+import { Themes, ThemesDark } from 'assets/themes';
 import Images from 'assets/images';
 import { ScaledSheet } from 'react-native-size-matters';
 import { navigate } from 'navigation/NavigationService';
@@ -62,7 +62,7 @@ export default WatchList;
 const styles = ScaledSheet.create({
     watchList: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: '#F0F0F0',
     },
     noData: {
         fontSize: sizes.FONTSIZE.normal,

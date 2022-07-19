@@ -5,7 +5,7 @@ import { RootState } from 'app-redux/rootReducer';
 import Images from 'assets/images';
 import metrics from 'assets/metrics';
 import sizes from 'assets/sizes';
-import { Themes } from 'assets/themes';
+import { Themes, ThemesDark } from 'assets/themes';
 import { StyledIcon, StyledImage, StyledList, StyledText, StyledTouchable } from 'components/base';
 import useModal from 'components/base/modal/useModal';
 import ConfirmModal from 'components/base/modal/ConfirmModal';
@@ -185,7 +185,7 @@ export default NewsScreen;
 const styles = ScaledSheet.create({
     contScreen: {
         flex: 1,
-        backgroundColor: Themes.COLORS.white,
+        backgroundColor: ThemesDark.colors.background,
     },
     center: {
         justifyContent: 'center',
@@ -197,7 +197,7 @@ const styles = ScaledSheet.create({
         width: metrics.screenWidth - 10,
         margin: 5,
         borderRadius: 5,
-        backgroundColor: '#eeeeee',
+        backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 5,
@@ -206,7 +206,7 @@ const styles = ScaledSheet.create({
         width: metrics.screenWidth - 10,
         margin: 5,
         borderRadius: 5,
-        backgroundColor: '#eeeeee',
+        backgroundColor: 'white',
         padding: 5,
     },
     headerNews: {

@@ -11,7 +11,7 @@ import Images from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import { navigate } from 'navigation/NavigationService';
 import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
-import { Themes } from 'assets/themes';
+import { Themes, ThemesDark } from 'assets/themes';
 import sizes from 'assets/sizes';
 import { removeVietnameseTones } from 'utilities/validate';
 import useModal from 'components/base/modal/useModal';
@@ -103,7 +103,7 @@ const CourseScreen: FunctionComponent = () => {
                 setActive={setActive}
             />
             {courses.length > 0 ? (
-                <View style={{ flex: 1, position: 'relative' }}>
+                <View style={{ flex: 1, position: 'relative', backgroundColor: ThemesDark.colors.base }}>
                     <StyledList
                         data={courses}
                         renderItem={({ item, index }: any) => <Course item={item} index={index} />}
@@ -111,7 +111,7 @@ const CourseScreen: FunctionComponent = () => {
                     />
                 </View>
             ) : (
-                <View>
+                <View style={{ flex: 1, backgroundColor: ThemesDark.colors.base }}>
                     <StyledText i18nText={t('courseScreen.noCourse')} customStyle={styles.noCourse} />
                 </View>
             )}
@@ -121,7 +121,7 @@ const CourseScreen: FunctionComponent = () => {
 
 const styles = ScaledSheet.create({
     container: {
-        backgroundColor: Themes.COLORS.white,
+        backgroundColor: ThemesDark.colors.base,
     },
     listContainer: {
         width: '100%',
@@ -145,7 +145,7 @@ const styles = ScaledSheet.create({
     },
     containerCourse: {
         height: '220@vs',
-        backgroundColor: 'gainsboro',
+        backgroundColor: 'white',
         width: metrics.screenWidth - 10,
         borderRadius: 10,
         margin: 5,

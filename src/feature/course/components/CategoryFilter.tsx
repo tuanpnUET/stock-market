@@ -3,12 +3,13 @@ import { StyleSheet, ScrollView, View } from 'react-native';
 import { ListItem, Badge, Text } from 'native-base';
 import { StyledText, StyledTouchable } from 'components/base';
 import { useTranslation } from 'react-i18next';
+import { Themes, ThemesDark } from 'assets/themes';
 
 const CategoryFilter = (props: any) => {
     const { t } = useTranslation();
     const { active, categories, categoryFilter, setActive } = props;
     return (
-        <View style={{ height: 60 }}>
+        <View style={{ height: 60, backgroundColor: ThemesDark.colors.base }}>
             <ScrollView horizontal={true}>
                 <ListItem style={{ margin: 0, padding: 0, borderRadius: 0, marginLeft: 0 }}>
                     <StyledTouchable
@@ -26,7 +27,7 @@ const CategoryFilter = (props: any) => {
                             ]}
                         >
                             <StyledText
-                                customStyle={{ color: 'white', fontWeight: 'bold' }}
+                                customStyle={{ color: 'black', fontWeight: 'bold' }}
                                 i18nText={t('courseScreen.all')}
                             />
                         </Badge>
@@ -46,7 +47,7 @@ const CategoryFilter = (props: any) => {
                                     active === categories.indexOf(item) ? styles.active : styles.inactive,
                                 ]}
                             >
-                                <Text style={{ color: 'white', fontWeight: 'bold' }}>{item.category}</Text>
+                                <Text style={{ color: 'black', fontWeight: 'bold' }}>{item.category}</Text>
                             </Badge>
                         </StyledTouchable>
                     ))}
@@ -62,10 +63,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     active: {
-        backgroundColor: '#03bafc',
+        backgroundColor: Themes.COLORS.darkOrange,
     },
     inactive: {
-        backgroundColor: '#a0e1eb',
+        backgroundColor: Themes.COLORS.cornSilk,
     },
 });
 

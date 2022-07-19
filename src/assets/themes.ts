@@ -11,6 +11,7 @@ const common = {
     tomato: '#FF6347',
     darkOrange: '#FFB900',
     baseOrange: '#EAB838',
+    cornSilk: '#F5DEB3',
     moreDark: '#1C1E30',
     yellow: '#FBFF26',
     strongGray: '#353A50',
@@ -28,6 +29,7 @@ const Light = {
         primary: '#4287f5',
         secondary: '#E9ECEF',
         textPrimary: '#000000',
+        text: '#F0F0F0',
     },
     FONTS: {
         defaultFont: 'Montserrat-Regular',
@@ -40,6 +42,9 @@ const Dark = {
     colors: {
         ...common,
         primary: '#607d8b',
+        card: '#1c1e21',
+        background: '#696969',
+        base: '#C0C0C0',
     },
     fonts: {
         defaultFont: 'Montserrat-Regular',

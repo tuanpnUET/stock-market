@@ -20,6 +20,7 @@ import Images from 'assets/images';
 import { ScaledSheet } from 'react-native-size-matters';
 import axios from 'axios';
 import Header from 'components/base/Header';
+import { Themes, ThemesDark } from 'assets/themes';
 import TopVolumeItem from './components/TopVolumeItem';
 import StockList from './components/StockList';
 
@@ -90,15 +91,19 @@ const HomeScreen: FunctionComponent = () => {
 const styles = ScaledSheet.create({
     contScreen: {
         flex: 1,
+        backgroundColor: ThemesDark.colors.background,
     },
     highestVolume: {
+        top: 5,
         fontSize: '20@ms0.3',
         // fontWeight: 'bold',
+        color: Themes.COLORS.white,
         left: 10,
     },
     stockToday: {
         fontSize: '20@ms0.3',
         // fontWeight: 'bold',
+        color: Themes.COLORS.white,
         left: 10,
     },
 });

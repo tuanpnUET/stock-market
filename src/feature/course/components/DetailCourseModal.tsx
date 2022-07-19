@@ -42,8 +42,8 @@ const DetailCourseModal = (props: any) => {
 const styles = ScaledSheet.create({
     container: {
         flex: 1,
-        width: metrics.screenWidth - 30,
-        backgroundColor: '#eeeeee',
+        width: metrics.screenWidth - 20,
+        backgroundColor: 'white',
         borderRadius: 10,
         alignSelf: 'center',
     },
@@ -65,11 +65,11 @@ const styles = ScaledSheet.create({
         top: 5,
     },
     img: {
-        width: metrics.screenWidth - 30,
+        width: metrics.screenWidth - 20,
         height: '220@vs',
     },
     content: {
-        fontSize: sizes.FONTSIZE.normal,
+        fontSize: sizes.FONTSIZE.miniLarge,
         left: 5,
         margin: 5,
     },
