@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { register } from 'api/modules/api-app/authenticate';
-import { StyledButton, StyledText, StyledTouchable } from 'components/base';
+import { StyledButton, StyledImage, StyledText, StyledTouchable } from 'components/base';
 import { AUTHENTICATE_ROUTE } from 'navigation/config/routes';
 import { navigate } from 'navigation/NavigationService';
 import React, { FunctionComponent, useRef, useState } from 'react';
@@ -19,10 +19,13 @@ import StyledInputForm from 'components/base/StyledInputForm';
 import { requireField } from 'utilities/format';
 import { regexEmail, regexPhone } from 'utilities/validate';
 import images from 'assets/images';
+import ImagePicker from 'utilities/upload/ImagePicker';
+import { ScaledSheet } from 'react-native-size-matters';
 
 const RegisterScreen: FunctionComponent = () => {
     const { t } = useTranslation();
     const loading = useLoading();
+    const [avatar, setAvatar] = useState<string>();
     const phoneRef = useRef<any>(null);
     const emailRef = useRef<any>(null);
     const passwordRef = useRef<any>(null);
@@ -92,6 +95,22 @@ const RegisterScreen: FunctionComponent = () => {
             <ImageBackground source={images.photo.first_screen.background} style={styles.body}>
                 <StyledText customStyle={styles.title} i18nText="registerScreen.title" />
                 <View style={styles.formRegister}>
+                    <View>
+                        <ImagePicker
+                            customStyleImage={[styles.avatar]}
+                            setImage={(path: string) => setAvatar(path)}
+                            image={avatar}
+                        >
+                            <StyledImage
+                                source={{
+                                    uri:
+                                        avatar ||
+                                        'https://i.pinimg.com/originals/e0/7a/22/e07a22eafdb803f1f26bf60de2143f7b.png',
+                                }}
+                                customStyle={[styles.avatar, styles.borderNonAvatar]}
+                            />
+                        </ImagePicker>
+                    </View>
                     <FormProvider {...form}>
                         <StyledInputForm
                             name="username"
@@ -151,7 +170,7 @@ const RegisterScreen: FunctionComponent = () => {
     );
 };
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     container: {
         flex: 1,
         backgroundColor: ThemesDark.colors.dark,
@@ -163,11 +182,23 @@ const styles = StyleSheet.create({
         paddingRight: 24,
         height: metrics.screenHeight,
     },
+    avatar: {
+        width: '120@s',
+        height: '120@s',
+        borderRadius: '60@s',
+        borderWidth: 5,
+        borderColor: Themes.COLORS.baseOrange,
+        alignSelf: 'center',
+        marginBottom: 20,
+    },
+    borderNonAvatar: {
+        borderColor: Themes.COLORS.gray,
+    },
     formRegister: {
-        top: 150,
+        top: 40,
     },
     title: {
-        top: 100,
+        top: 30,
         alignSelf: 'center',
         color: Themes.COLORS.white,
         fontSize: sizes.FONTSIZE.mediumLarge,
@@ -175,7 +206,7 @@ const styles = StyleSheet.create({
     },
     bottomContent: {
         position: 'absolute',
-        bottom: 50,
+        bottom: 40,
         alignItems: 'center',
         left: 24,
     },

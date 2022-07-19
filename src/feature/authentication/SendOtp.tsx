@@ -1,4 +1,6 @@
-import { checkVerifyCode, forgotPassword, getVerifyCode, register } from 'api/modules/api-app/authenticate';
+import images from 'assets/images';
+import metrics from 'assets/metrics';
+import sizes from 'assets/sizes';
 import { Themes } from 'assets/themes';
 import { StyledButton, StyledText, StyledTouchable } from 'components/base';
 import AlertMessage from 'components/base/AlertMessage';
@@ -6,40 +8,35 @@ import { AUTHENTICATE_ROUTE } from 'navigation/config/routes';
 import { navigate } from 'navigation/NavigationService';
 import React, { FunctionComponent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { ImageBackground } from 'react-native';
 import CodeInput from 'react-native-confirmation-code-input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import AuthenticateService from 'utilities/authenticate/AuthenticateService';
+import { ScaledSheet } from 'react-native-size-matters';
 import { logger } from 'utilities/helper';
 
 const SendOTP: FunctionComponent = ({ route }: any) => {
     const [code, setCode] = useState('');
     const { t } = useTranslation();
-    const { email, password } = route?.params;
+    const { email } = route?.params;
+    const [isValid, setIsValid] = useState<boolean>(false);
     const onCodeFilled = (codeVer: string) => {
         setCode(codeVer);
+        setIsValid(true);
     };
     const confirm = async () => {
         try {
             if (code?.length < 5) {
-                AlertMessage(t('sendOTPMessage.invalidOTP'));
+                AlertMessage(t('sendOTP.invalidOTP'));
                 return;
             }
-            if (route?.params?.register) {
-                const response = await register({ email, password, verifiedCode: code });
-                const data = {
-                    ...response,
-                    user: { email, isSave: true },
-                };
-                AuthenticateService.handlerLogin(data);
-            } else {
-                const verifyCode = await checkVerifyCode(email, code);
-                if (verifyCode?.data?.isValid) {
-                    navigate(AUTHENTICATE_ROUTE.CHANGE_PASS, { email, code });
-                } else {
-                    AlertMessage(t('sendOTPMessage.invalidOTP'));
-                }
-            }
+            // const verifyCode = await checkVerifyCode(email, code);
+            // if (verifyCode?.data?.isValid) {
+            navigate(AUTHENTICATE_ROUTE.CHANGE_PASS, { email, code });
+            // } else {
+            //     AlertMessage(t('sendOTP.invalidOTP'));
+            // }
+            console.log('code', code);
+            console.log('email', email);
         } catch (error: any) {
             logger(error);
             AlertMessage(error);
@@ -48,76 +45,99 @@ const SendOTP: FunctionComponent = ({ route }: any) => {
     const resendOTP = async () => {
         try {
             if (route?.params?.register) {
-                await getVerifyCode(email);
-                AlertMessage(t('sendOTPMessage.success'));
+                // await getVerifyCode(email);
+                AlertMessage(t('sendOTP.success'));
                 return;
             }
-            await forgotPassword(email);
-            AlertMessage(t('sendOTPMessage.success'));
+            // await forgotPassword(email);
+            AlertMessage(t('sendOTP.success'));
         } catch (error: any) {
             AlertMessage(error);
         }
     };
     return (
-        <SafeAreaView style={styles.flex1}>
-            <KeyboardAwareScrollView enableOnAndroid={true} showsVerticalScrollIndicator={false}>
-                <View style={styles.container}>
-                    <CodeInput
-                        keyboardType="numeric"
-                        space={10}
-                        size={30}
-                        activeColor={Themes.COLORS.black}
-                        containerStyle={styles.otpInput}
-                        codeInputStyle={styles.underlineStyleBase}
-                        onFulfill={onCodeFilled}
-                    />
-                    <StyledTouchable onPress={resendOTP} customStyle={styles.containerResend}>
-                        <StyledText customStyle={styles.resend} i18nText="sendOTP.resend" />
-                    </StyledTouchable>
-                    <StyledButton
-                        customStyle={styles.flex1}
-                        title={route?.params.register ? 'sendOTP.sendForgotPassword' : 'sendOTP.buttonNext'}
-                        onPress={confirm}
-                    />
-                </View>
-            </KeyboardAwareScrollView>
-        </SafeAreaView>
+        <KeyboardAwareScrollView
+            contentContainerStyle={styles.container}
+            enableOnAndroid={true}
+            showsVerticalScrollIndicator={false}
+        >
+            <ImageBackground source={images.photo.first_screen.background} style={styles.body}>
+                <StyledText customStyle={styles.title} i18nText={t('sendOTP.title')} />
+                <StyledText customStyle={styles.subTitle} i18nText={t('sendOTP.subTitle')} />
+                <StyledTouchable onPress={resendOTP}>
+                    <StyledText customStyle={styles.resend} i18nText="sendOTP.resend" />
+                </StyledTouchable>
+                <StyledButton
+                    title={'sendOTP.buttonNext'}
+                    onPress={confirm}
+                    customStyle={[styles.buttonSave, !isValid && { backgroundColor: 'lightgray' }]}
+                    disabled={!isValid}
+                />
+                <CodeInput
+                    keyboardType="numeric"
+                    space={10}
+                    size={30}
+                    activeColor={Themes.COLORS.baseOrange}
+                    containerStyle={styles.otpInput}
+                    codeInputStyle={styles.underlineStyleBase}
+                    onFulfill={onCodeFilled}
+                />
+            </ImageBackground>
+        </KeyboardAwareScrollView>
     );
 };
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 20,
-        justifyContent: 'center',
-        alignContent: 'center',
+    },
+    body: {
+        width: metrics.screenWidth,
+        height: metrics.screenHeight,
+        paddingLeft: 24,
+        paddingRight: 24,
+        alignSelf: 'center',
     },
     otpInput: {
-        width: '100%',
-        flex: 1,
-        marginVertical: 10,
+        height: '80@vs',
+        top: '80@vs',
     },
     underlineStyleBase: {
         width: 45,
         height: 55,
-        borderColor: Themes.COLORS.black,
+        borderColor: Themes.COLORS.white,
         borderRadius: 15,
-        color: Themes.COLORS.black,
+        color: Themes.COLORS.yellow,
         marginHorizontal: 20,
-    },
-    containerResend: {
-        width: '100%',
-        flex: 1,
-        marginTop: 30,
+        fontSize: sizes.FONTSIZE.larger,
     },
     resend: {
         textDecorationLine: 'underline',
-        textDecorationColor: Themes.COLORS.black,
-        color: Themes.COLORS.black,
-        textAlign: 'right',
-        width: '100%',
+        color: Themes.COLORS.white,
+        position: 'absolute',
+        right: 20,
+        top: '200@vs',
     },
-    flex1: {
-        flex: 1,
+    title: {
+        top: 50,
+        alignSelf: 'center',
+        color: Themes.COLORS.white,
+        fontSize: sizes.FONTSIZE.mediumLarge,
+        fontWeight: 'bold',
+    },
+    subTitle: {
+        top: 80,
+        color: Themes.COLORS.white,
+        fontSize: sizes.FONTSIZE.normal,
+    },
+    buttonSave: {
+        marginTop: 20,
+        backgroundColor: Themes.COLORS.baseOrange,
+        borderWidth: 1,
+        borderColor: Themes.COLORS.yellow,
+        position: 'absolute',
+        right: 40,
+        top: '280@vs',
     },
 });
 export default SendOTP;

@@ -20,10 +20,7 @@ const common = {
     orange: '#ff9431',
     gray: '#858688',
     borderGray: '#7A757A',
-    backgroundTestScreen: '#f0f0f0',
-    backgroundQuickTest: '#E0E3FF',
     headerColor: '#A600FE',
-    backgroundAnswerColor: '#E7E7FB',
 };
 const Light = {
     COLORS: {

@@ -21,6 +21,12 @@ export default {
         ok: 'OK',
         setting: 'Setting',
         update: 'Update',
+        newPass: 'Set new password',
+    },
+    forgotPass: {
+        title: 'Forgot Password',
+        subTitle: 'Please enter your email we will resend you a verify code.',
+        next: 'Next',
     },
     permissions: {
         camera: 'Stock Market need the camera permission',
@@ -105,7 +111,7 @@ export default {
         chooseImage: 'Library',
     },
     validateMessage: {
-        nameRequired: 'Username is required!',
+        nameRequired: 'At least 6 character of username',
         signIn: 'Password is incorrect!',
         infoInvalid: 'Info invalid!',
         notCompleted: 'You have not entered the information.',
@@ -125,9 +131,13 @@ export default {
         require: 'Please enter the information',
         notMatchPassword: 'The password and confirmation password do not match.',
     },
-    sendOTPMessage: {
+    sendOTP: {
+        title: 'Email Verification',
+        subTitle: 'Please check your email.',
         success: 'A new verification code has been sent.',
         invalidOTP: 'The authorization code is incorrect.',
+        resend: 'Resend',
+        buttonNext: 'Next',
     },
     input: {
         errorComponent: 'You need wrap input by Form Provider or passing "form = useForm( ... )" into input component',
@@ -143,6 +153,10 @@ export default {
         deleteAccount: 'Delete account',
         delete: 'Confirm',
         deleteConfirm: 'Do you want to delete your account?',
+        changePass: 'Change password',
+        aboutUs: 'About Us',
+        privacyPolicy: 'Privacy policy',
+        termsOfService: 'Terms of service',
     },
     updateProfile: {
         update: 'Update',
@@ -154,6 +168,11 @@ export default {
         remove: 'Remove stock from watch list',
         delete: 'Are you sure to delete your post',
     },
+    changePass: {
+        oldPass: 'Old password',
+        newPass: 'New password',
+        confirmPass: 'Confirm password',
+    },
     toastMessage: {
         addSuccess: 'Add symbol to watch list successfully',
         removeSuccess: 'Remove symbol from watch list successfully',
@@ -162,5 +181,7 @@ export default {
         updatePostSuccess: 'Update post successfully',
         nothingToComment: 'Please write your comment',
         commentSuccess: 'Comment successfully!',
+        updateProfileSuccess: 'Update profile successfully',
+        changeSuccess: 'Change password successfully!',
     },
 };

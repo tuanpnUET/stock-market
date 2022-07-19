@@ -42,6 +42,7 @@ const Images = {
         edit_post: require('./icon/ic_edit_post.png'),
         delete: require('./icon/ic_delete.png'),
         course: require('./icon/ic_course.png'),
+        logo: require('./icon/ic_logo.png'),
     },
     photo: {
         first_screen: {

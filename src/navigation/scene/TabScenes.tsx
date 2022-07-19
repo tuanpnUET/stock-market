@@ -16,6 +16,7 @@ import DetailStock from 'feature/home/components/DetailStock';
 import WatchList from 'feature/watchlist/WatchList';
 import NewsScreen from 'feature/news/NewsScreen';
 import CourseScreen from 'feature/course/CourseScreen';
+import ChangePass from 'feature/setting/components/ChangePass';
 
 const MainStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -31,6 +32,7 @@ const SettingStack = () => (
     <MainStack.Navigator headerMode={'none'} screenOptions={navigationConfigs} keyboardHandlingEnabled={isIos}>
         <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT} component={SettingScreen} />
         <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.UPDATE_PROFILE} component={UpdateProfileScreen} />
+        <MainStack.Screen name={TAB_NAVIGATION_ROOT.SETTING_ROUTE.CHANGE_PASS} component={ChangePass} />
     </MainStack.Navigator>
 );
 

@@ -93,20 +93,15 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
                     });
                 }
             }}
-            customStyle={{
-                borderRightWidth: 1,
-                borderColor: Themes.COLORS.black,
-                left: -80,
-                width: scaleItemWidth,
-            }}
+            customStyle={styles.slide}
         >
             <View style={{ paddingLeft: 5 }}>
                 <View style={{ flexDirection: 'row' }}>
                     <StyledText
-                        customStyle={[styles.symbol, { color: Themes.COLORS.black }]}
+                        customStyle={[styles.symbol, { color: Themes.COLORS.white }]}
                         i18nText={'common.symbol'}
                     />
-                    <StyledText customStyle={styles.symbol} originValue={`: ${item?.Symbol}`} />
+                    <StyledText customStyle={styles.symbol} originValue={` ${item?.Symbol}`} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <StyledText customStyle={styles.volume} i18nText={'common.volume'} />
@@ -117,12 +112,24 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
     );
     return (
         <Carousel
+            autoplay={true}
+            sliderHeight={60}
+            itemHeight={60}
+            enableMomentum={false}
+            lockScrollWhileSnapping={true}
+            loop={true}
             data={topVolumeData}
             renderItem={renderItem}
             sliderWidth={sliderWidth}
             itemWidth={slideWidth}
             containerCustomStyle={styles.containerCustomStyle}
             inactiveSlideOpacity={1}
+            inactiveSlideScale={1}
+            inverted
+            horizontal
+            useNativeDriver
+            autoplayDelay={3000}
+            autoplayInterval={3000}
             {...carouselProps}
         />
     );
@@ -132,26 +139,30 @@ const styles = ScaledSheet.create({
     slide: {
         flexDirection: 'row',
         width: `${scaleItemWidth}@s`,
-        height: '120@vs',
+        height: '60@vs',
+        margin: 5,
+        left: -90,
+        borderWidth: 1,
+        borderRadius: 10,
         alignItems: 'center',
+        backgroundColor: Themes.COLORS.dark,
     },
     containerCustomStyle: {
-        position: 'absolute',
-        top: '10@vs',
+        position: 'relative',
         // backgroundColor: 'red',
     },
     symbol: {
         fontSize: Size.FONTSIZE.large,
         fontWeight: 'bold',
-        color: Themes.COLORS.strongBlue,
+        color: Themes.COLORS.blue,
     },
     prize: {
         fontSize: Size.FONTSIZE.normal,
-        color: Themes.COLORS.black,
+        color: Themes.COLORS.white,
     },
     volume: {
         fontSize: Size.FONTSIZE.normal,
-        color: Themes.COLORS.black,
+        color: Themes.COLORS.white,
     },
 });
 

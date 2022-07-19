@@ -15,6 +15,7 @@ import { Themes } from 'assets/themes';
 import sizes from 'assets/sizes';
 import { removeVietnameseTones } from 'utilities/validate';
 import useModal from 'components/base/modal/useModal';
+import Header from 'components/base/Header';
 import CategoryFilter from './components/CategoryFilter';
 import DetailCourseModal from './components/DetailCourseModal';
 
@@ -83,16 +84,7 @@ const CourseScreen: FunctionComponent = () => {
     };
     return (
         <>
-            <View style={styles.header}>
-                <View style={styles.center} />
-                <StyledText i18nText={'common.stockMarket'} customStyle={styles.titleText} />
-                <StyledTouchable
-                    customStyle={styles.center}
-                    onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT)}
-                >
-                    <StyledIcon source={Images.icons.menu} size={20} />
-                </StyledTouchable>
-            </View>
+            <Header />
             <Searchbar
                 value={txtSearch}
                 inputStyle={{ backgroundColor: '#EEEEEE', marginLeft: 12, borderRadius: 25 }}
@@ -130,23 +122,6 @@ const CourseScreen: FunctionComponent = () => {
 const styles = ScaledSheet.create({
     container: {
         backgroundColor: Themes.COLORS.white,
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: '5@s',
-    },
-    center: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '50@vs',
-        height: '50@vs',
-    },
-    titleText: {
-        fontSize: '22@ms0.3',
-        alignSelf: 'center',
-        fontWeight: 'bold',
     },
     listContainer: {
         width: '100%',

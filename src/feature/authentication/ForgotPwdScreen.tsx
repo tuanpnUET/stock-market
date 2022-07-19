@@ -1,21 +1,21 @@
-import { forgotPassword } from 'api/modules/api-app/authenticate';
+import images from 'assets/images';
+import metrics from 'assets/metrics';
+import sizes from 'assets/sizes';
 import { Themes } from 'assets/themes';
-import { StyledButton } from 'components/base';
+import { StyledButton, StyledText } from 'components/base';
 import AlertMessage from 'components/base/AlertMessage';
 import StyledInputForm from 'components/base/StyledInputForm';
 import { AUTHENTICATE_ROUTE } from 'navigation/config/routes';
 import { navigate } from 'navigation/NavigationService';
 import React, { FunctionComponent } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { ImageBackground, StyleSheet, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { requireField } from 'utilities/format';
-import { isIos } from 'utilities/helper';
 import { regexEmail } from 'utilities/validate';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const SendEmailScreen: FunctionComponent = ({ route }: any) => {
+const SendEmailScreen: FunctionComponent = () => {
     const { t } = useTranslation();
     const form = useForm({
         mode: 'all',
@@ -24,49 +24,58 @@ const SendEmailScreen: FunctionComponent = ({ route }: any) => {
         handleSubmit,
         formState: { isValid },
     } = form;
+    const onChangeEmail = (text: string) => {
+        form.setValue('email', text, {
+            shouldValidate: true,
+        });
+    };
     const confirm = async ({ email }: any) => {
         try {
-            await forgotPassword(email);
+            // console.log('email', email);
             navigate(AUTHENTICATE_ROUTE.SEND_OTP, { email });
         } catch (error: any) {
             AlertMessage(error);
         }
     };
     return (
-        <SafeAreaView style={styles.flex1}>
-            <View style={styles.container}>
-                <KeyboardAwareScrollView
-                    style={styles.content}
-                    contentContainerStyle={styles.contentContainer}
-                    enableOnAndroid={true}
-                    enableAutomaticScroll={isIos}
-                    showsVerticalScrollIndicator={false}
-                >
-                    <StyledInputForm
-                        label={''}
-                        name={'email'}
-                        placeholder={t('register.emailPlaceholder')}
-                        keyboardType="email-address"
-                        returnKeyType={'next'}
-                        onSubmitEditing={handleSubmit(confirm)}
-                        form={form}
-                        rules={{
-                            pattern: {
-                                value: regexEmail,
-                                message: 'validateMessage.emailInvalid',
-                            },
-                            required: requireField('Email'),
-                        }}
-                    />
-                    <StyledButton
-                        title={'sendEmail.sendButtonTitle'}
-                        onPress={handleSubmit(confirm)}
-                        customStyle={[styles.buttonSave, !isValid && { backgroundColor: 'lightgray' }]}
-                        disabled={!isValid}
-                    />
-                </KeyboardAwareScrollView>
-            </View>
-        </SafeAreaView>
+        <KeyboardAwareScrollView
+            contentContainerStyle={styles.container}
+            enableOnAndroid={true}
+            showsVerticalScrollIndicator={false}
+        >
+            <ImageBackground source={images.photo.first_screen.background} style={styles.body}>
+                <StyledText customStyle={styles.title} i18nText={t('forgotPass.title')} />
+                <StyledText customStyle={styles.subTitle} i18nText={t('forgotPass.subTitle')} />
+                <View style={styles.form}>
+                    <FormProvider {...form}>
+                        <StyledInputForm
+                            label={'Email'}
+                            name={'email'}
+                            placeholder={t('register.emailPlaceholder')}
+                            keyboardType="email-address"
+                            returnKeyType={'next'}
+                            onChangeText={onChangeEmail}
+                            form={form}
+                            rules={{
+                                pattern: {
+                                    value: regexEmail,
+                                    message: t('validateMessage.emailInvalid'),
+                                },
+                                required: requireField('email'),
+                            }}
+                        />
+                    </FormProvider>
+                    <View style={styles.bottomContent}>
+                        <StyledButton
+                            title={'forgotPass.next'}
+                            onPress={handleSubmit(confirm)}
+                            customStyle={[styles.buttonSave, !isValid && { backgroundColor: 'lightgray' }]}
+                            disabled={!isValid}
+                        />
+                    </View>
+                </View>
+            </ImageBackground>
+        </KeyboardAwareScrollView>
     );
 };
 
@@ -78,9 +87,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 20,
-    },
-    flex1: {
-        flex: 1,
     },
     contentContainer: {
         alignItems: 'center',
@@ -98,6 +104,36 @@ const styles = StyleSheet.create({
     },
     buttonSave: {
         marginTop: 20,
+        backgroundColor: Themes.COLORS.baseOrange,
+        borderWidth: 1,
+        borderColor: Themes.COLORS.yellow,
+    },
+    body: {
+        width: metrics.screenWidth,
+        height: metrics.screenHeight,
+        paddingLeft: 24,
+        paddingRight: 24,
+        alignSelf: 'center',
+    },
+    title: {
+        top: 50,
+        alignSelf: 'center',
+        color: Themes.COLORS.white,
+        fontSize: sizes.FONTSIZE.mediumLarge,
+        fontWeight: 'bold',
+    },
+    subTitle: {
+        top: 80,
+        color: Themes.COLORS.white,
+        fontSize: sizes.FONTSIZE.normal,
+    },
+    form: {
+        top: 100,
+    },
+    bottomContent: {
+        paddingTop: 50,
+        position: 'absolute',
+        right: 0,
     },
 });
 export default SendEmailScreen;

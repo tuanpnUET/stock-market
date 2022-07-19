@@ -19,6 +19,7 @@ import { navigate } from 'navigation/NavigationService';
 import Images from 'assets/images';
 import { ScaledSheet } from 'react-native-size-matters';
 import axios from 'axios';
+import Header from 'components/base/Header';
 import TopVolumeItem from './components/TopVolumeItem';
 import StockList from './components/StockList';
 
@@ -69,26 +70,11 @@ const HomeScreen: FunctionComponent = () => {
 
     return (
         <SafeAreaView style={styles.contScreen}>
-            <View style={styles.header}>
-                {/* <StyledTouchable
-                    customStyle={styles.center}
-                    onPress={() => navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.HOME)}
-                >
-                    <StyledIcon source={Images.icons.close} size={50} />
-                </StyledTouchable> */}
-                <View style={styles.center} />
-                <StyledText i18nText={'common.stockMarket'} customStyle={styles.titleText} />
-                <StyledTouchable
-                    customStyle={styles.center}
-                    onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT)}
-                >
-                    <StyledIcon source={Images.icons.menu} size={20} />
-                </StyledTouchable>
-            </View>
+            <Header />
             <View>
                 <StyledText i18nText={'stock.highestVolume'} customStyle={styles.highestVolume} />
             </View>
-            <View style={{ paddingTop: 30, height: 60 }}>
+            <View style={{ paddingTop: 10, height: 70 }}>
                 <TopVolumeItem />
             </View>
             <View>
@@ -104,23 +90,6 @@ const HomeScreen: FunctionComponent = () => {
 const styles = ScaledSheet.create({
     contScreen: {
         flex: 1,
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: '5@s',
-    },
-    center: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '50@vs',
-        height: '50@vs',
-    },
-    titleText: {
-        fontSize: '22@ms0.3',
-        alignSelf: 'center',
-        fontWeight: 'bold',
     },
     highestVolume: {
         fontSize: '20@ms0.3',

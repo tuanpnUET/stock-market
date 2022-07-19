@@ -17,6 +17,7 @@ import { Image, View, Text, SafeAreaView } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
+import Header from 'components/base/Header';
 import AddNewsModal from './components/AddNewsModal';
 import DetailNewsModal from './components/DetailNewsModal';
 import EditNewsModal from './components/EditNewsModal';
@@ -150,16 +151,7 @@ const NewsScreen = (props: any) => {
 
     return (
         <SafeAreaView style={styles.contScreen}>
-            <View style={styles.header}>
-                <View style={styles.center} />
-                <StyledText i18nText={'common.stockMarket'} customStyle={styles.titleText} />
-                <StyledTouchable
-                    customStyle={styles.center}
-                    onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.ROOT)}
-                >
-                    <StyledIcon source={Images.icons.menu} size={20} />
-                </StyledTouchable>
-            </View>
+            <Header />
             <View style={styles.bar}>
                 <StyledTouchable
                     customStyle={styles.center}
@@ -195,22 +187,11 @@ const styles = ScaledSheet.create({
         flex: 1,
         backgroundColor: Themes.COLORS.white,
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: '5@s',
-    },
     center: {
         justifyContent: 'center',
         alignItems: 'center',
         width: '50@vs',
         height: '50@vs',
-    },
-    titleText: {
-        fontSize: '22@ms0.3',
-        alignSelf: 'center',
-        fontWeight: 'bold',
     },
     bar: {
         width: metrics.screenWidth - 10,

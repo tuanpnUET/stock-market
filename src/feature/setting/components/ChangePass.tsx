@@ -1,66 +1,53 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { ImageBackground, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Themes, ThemesDark } from 'assets/themes';
-import { StyledButton, StyledIcon, StyledImage, StyledText, StyledTouchable } from 'components/base';
+import { StyledButton, StyledIcon, StyledText, StyledTouchable } from 'components/base';
 import StyledInputForm from 'components/base/StyledInputForm';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { requireField } from 'utilities/format';
-import { regexEmail, regexPhone } from 'utilities/validate';
 import * as yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'app-redux/rootReducer';
-import Images from 'assets/images';
 import { useNavigation } from '@react-navigation/native';
 import sizes from 'assets/sizes';
 import metrics from 'assets/metrics';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { updateProfile } from 'api/modules/api-app/authenticate';
-import ImagePicker from 'utilities/upload/ImagePicker';
 import useLoading from 'components/base/modal/useLoading';
 import AlertMessage from 'components/base/AlertMessage';
-import { setUserInfo } from 'app-redux/userInfo/actions';
 import Toast from 'react-native-toast-message';
+import images from 'assets/images';
+import { store } from 'app-redux/store';
+import { logOutUser } from 'app-redux/userInfo/actions';
 
-const noAvt = 'https://i.pinimg.com/originals/e0/7a/22/e07a22eafdb803f1f26bf60de2143f7b.png';
-
-const UpdateProfileScreen: FunctionComponent = () => {
+const ChangePass: FunctionComponent = () => {
     const { t } = useTranslation();
     const navigation = useNavigation();
-    const { userInfo } = useSelector((state: RootState) => state);
     const loading = useLoading();
-    const dispatch = useDispatch();
-    const [newAvatar, setNewAvatar] = useState<string>(userInfo?.user?.avatar || noAvt);
-    const DEFAULT_FORM = {
-        name: userInfo?.user?.name,
-        phone: userInfo?.user?.phone ? `0${userInfo?.user?.phone.toString()}` : '',
-        email: userInfo?.user?.email,
-        avatar: userInfo?.user?.avatar || noAvt,
-    };
     const schema = yup.object().shape({
-        name: yup
+        oldPass: yup
             .string()
-            .required(() => requireField('name'))
+            .required(() => requireField('oldPass'))
             .test(
                 'len',
-                t('validateMessage.nameRequired', { len: 6 }),
+                t('validateMessage.minLength', { len: 6 }),
                 (val: string | undefined) => !!val && val.length >= 6,
             ),
-        phone: yup
+        newPass: yup
             .string()
-            .required(() => requireField('phone'))
-            .matches(regexPhone, t('validateMessage.phoneInvalid')),
-        email: yup
+            .required(() => requireField('newPass'))
+            .test(
+                'len',
+                t('validateMessage.minLength', { len: 6 }),
+                (val: string | undefined) => !!val && val.length >= 6,
+            ),
+        confirmPass: yup
             .string()
-            .required(() => requireField('email'))
-            .matches(regexEmail, t('validateMessage.emailInvalid')),
+            .required(() => requireField('confirmPass'))
+            .oneOf([yup.ref('newPass'), null], t('validateMessage.notMatchPassword')),
     });
     const form = useForm({
         mode: 'onChange',
-        defaultValues: DEFAULT_FORM,
         resolver: yupResolver(schema),
         reValidateMode: 'onChange',
         criteriaMode: 'firstError', // first error from each field will be gathered.
@@ -70,96 +57,68 @@ const UpdateProfileScreen: FunctionComponent = () => {
         reset,
         handleSubmit,
     } = form;
-    const submit = async (user: any) => {
+    const submit = async (formData: any) => {
         const formRegister = {
-            name: user.name,
-            phone: user.phone,
-            email: user.email,
-            avatar: newAvatar,
+            oldPass: formData.oldPass,
+            newPass: formData.newPass,
+            confirmPass: formData.confirmPass,
         };
         try {
             loading.show();
-            // await updateProfile(formRegister);
+            // change pass api
+            console.log('formRegister', formRegister);
             Toast.show({
                 type: 'success',
-                text1: t('toastMessage.updateProfileSuccess'),
+                text1: t('toastMessage.changeSuccess'),
             });
-            dispatch(setUserInfo({ user: { ...userInfo?.user, ...formRegister } }));
-            navigation.goBack();
+            store.dispatch(logOutUser());
         } catch (err: any) {
             AlertMessage(err);
         } finally {
             loading.dismiss();
         }
     };
-    const onChangeName = (text: string) => {
-        form.setValue('name', text, {
-            shouldValidate: true,
-        });
-    };
-    const onChangePhone = (text: string) => {
-        form.setValue('phone', text, {
-            shouldValidate: true,
-        });
-    };
-    const onChangeEmail = (text: string) => {
-        form.setValue('email', text, {
-            shouldValidate: true,
-        });
-    };
 
     return (
         <SafeAreaView style={styles.container}>
-            <ImageBackground source={Images.photo.first_screen.background} style={styles.body}>
+            <ImageBackground source={images.photo.first_screen.background} style={styles.body}>
                 <View style={styles.header}>
                     <StyledTouchable onPress={() => navigation.goBack()}>
                         <StyledIcon
                             size={50}
-                            source={Images.icons.close}
+                            source={images.icons.close}
                             customStyle={{ tintColor: Themes.COLORS.white }}
                         />
                     </StyledTouchable>
-                    <StyledText i18nText={'settings.profile'} customStyle={styles.title} />
+                    <StyledText i18nText={'settings.changePass'} customStyle={styles.title} />
                     <View style={styles.right} />
                 </View>
                 <View style={styles.formRegister}>
-                    <View>
-                        <ImagePicker
-                            customStyleImage={[styles.avatar]}
-                            setImage={(path: string) => setNewAvatar(path)}
-                            image={newAvatar}
-                        >
-                            <StyledImage
-                                source={{
-                                    uri: newAvatar || userInfo?.user?.avatar,
-                                }}
-                                customStyle={[styles.avatar, styles.borderNonAvatar]}
-                            />
-                        </ImagePicker>
-                    </View>
                     <FormProvider {...form}>
                         <StyledInputForm
-                            name="name"
-                            label={t('registerScreen.username')}
+                            name="oldPass"
+                            label={t('changePass.oldPass')}
                             returnKeyType={'next'}
-                            onChangeText={onChangeName}
-                            // value={userInfo?.user?.name}
+                            isPassword={true}
+                            customHidePasswordImage={images.icons.hide_pass}
+                            customShowPasswordImage={images.icons.show_pass}
                         />
                         <StyledInputForm
-                            name="phone"
-                            label={t('registerScreen.phone')}
-                            keyboardType={'number-pad'}
+                            name="newPass"
+                            label={t('changePass.newPass')}
                             returnKeyType={'next'}
-                            onChangeText={onChangePhone}
-                            // value={userInfo?.user?.phone}
+                            isPassword={true}
+                            customHidePasswordImage={images.icons.hide_pass}
+                            customShowPasswordImage={images.icons.show_pass}
                         />
                         <StyledInputForm
-                            name="email"
-                            label={t('registerScreen.email')}
+                            name="confirmPass"
+                            label={t('changePass.confirmPass')}
                             keyboardType={'email-address'}
                             returnKeyType={'next'}
-                            onChangeText={onChangeEmail}
-                            // value={userInfo?.user?.email}
+                            isPassword={true}
+                            customHidePasswordImage={images.icons.hide_pass}
+                            customShowPasswordImage={images.icons.show_pass}
                         />
                     </FormProvider>
                 </View>
@@ -234,7 +193,7 @@ const styles = ScaledSheet.create({
         height: 50,
     },
     formRegister: {
-        top: '60@vs',
+        top: '120@vs',
         width: metrics.screenWidth,
         alignSelf: 'center',
         paddingLeft: 24,
@@ -272,4 +231,4 @@ const styles = ScaledSheet.create({
         fontWeight: '800',
     },
 });
-export default UpdateProfileScreen;
+export default ChangePass;

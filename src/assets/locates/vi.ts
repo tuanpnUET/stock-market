@@ -21,6 +21,12 @@ export default {
         ok: 'Đồng ý',
         setting: 'Cài đặt',
         update: 'Cập nhật',
+        newPass: 'Đặt lại mật khẩu mới',
+    },
+    forgotPass: {
+        title: 'Quên mật khẩu',
+        subTitle: 'Vui lòng nhập email bạn đã đăng ký, chúng tôi sẽ gửi bạn một mã xác thực.',
+        next: 'Tiếp theo',
     },
     permissions: {
         camera: 'Stock Market cần quyền truy cập Camera.',
@@ -75,7 +81,7 @@ export default {
     alert: {
         button: {
             no: 'Không',
-            yes: 'Có',
+            yes: 'Đồng ý',
         },
         addSuccess: 'Thêm thành công!',
         updateSuccess: 'Cập nhật thành công',
@@ -108,7 +114,7 @@ export default {
         chooseImage: 'Chọn một bức ảnh',
     },
     validateMessage: {
-        nameRequired: 'Tên đăng nhập là bắt buộc!',
+        nameRequired: 'Tên đăng nhập phải trên 6 ký tự',
         signIn: 'Mật khẩu không chính xác!',
         infoInvalid: 'Thông tin sai!',
         notCompleted: 'Xin hãy điền tất cả!',
@@ -128,9 +134,13 @@ export default {
         phoneInvalid: 'Số điện thoại không khả dụng',
         require: 'Xin vui lòng nhập thông tin.',
     },
-    sendOTPMessage: {
+    sendOTP: {
+        title: 'Xác thực Email',
+        subTitle: 'Vui lòng kiểm tra email của bạn.',
         success: 'Tôi đã gửi cho bạn một mã mới',
         invalidOTP: 'Mã bạn nhập không chính xác',
+        resend: 'Gửi lại',
+        buttonNext: 'Tiếp theo',
     },
     input: {
         errorComponent: 'You need wrap input by Form Provider or passing "form = useForm( ... )" into input component',
@@ -146,10 +156,19 @@ export default {
         delete: 'Xác nhận',
         deleteAccount: 'Xoá tài khoản',
         deleteConfirm: 'Bạn muốn xoá tài khoản?',
+        changePass: 'Thay đổi mật khẩu',
+        privacyPolicy: 'Chính sách bảo mật',
+        termsOfService: 'Điều khoản dịch vụ',
+        aboutUs: 'Về chúng tôi',
     },
     updateProfile: {
         update: 'Cập nhật',
         reset: 'Huỷ thay đổi',
+    },
+    changePass: {
+        oldPass: 'Mật khẩu cũ',
+        newPass: 'Mật khẩu mới',
+        confirmPass: 'Xác nhận mật khẩu',
     },
     confirmModal: {
         addToWatchlist: 'Thêm vào danh sách theo dõi',
@@ -165,5 +184,7 @@ export default {
         updatePostSuccess: 'Cập nhật bài thành công!',
         nothingToComment: 'Bạn chưa viết bình luận trước khi gửi',
         commentSuccess: 'Đã đăng bình luận của bạn',
+        updateProfileSuccess: 'Chỉnh sửa thông tin thành công!',
+        changeSuccess: 'Đổi mật khẩu thành công!',
     },
 };

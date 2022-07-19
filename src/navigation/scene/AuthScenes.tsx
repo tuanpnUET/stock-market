@@ -7,8 +7,8 @@ import LoginScreen from 'feature/authentication/LoginScreen';
 import RegisterScreen from 'feature/authentication/RegisterScreen';
 import ForgotPasswordScreen from 'feature/authentication/ForgotPwdScreen';
 import SendOTP from 'feature/authentication/SendOtp';
-import ChangePass from 'feature/authentication/ChangePass';
 import FirstScreen from 'feature/authentication/FirstScreen';
+import NewPass from 'feature/authentication/NewPass';
 
 const MainStack = createStackNavigator();
 
@@ -19,7 +19,7 @@ const AuthStack = () => (
         <MainStack.Screen name={AUTHENTICATE_ROUTE.REGISTER} component={RegisterScreen} />
         <MainStack.Screen name={AUTHENTICATE_ROUTE.FORGOT_PASS} component={ForgotPasswordScreen} />
         <MainStack.Screen name={AUTHENTICATE_ROUTE.SEND_OTP} component={SendOTP} />
-        <MainStack.Screen name={AUTHENTICATE_ROUTE.CHANGE_PASS} component={ChangePass} />
+        <MainStack.Screen name={AUTHENTICATE_ROUTE.CHANGE_PASS} component={NewPass} />
     </MainStack.Navigator>
 );
 

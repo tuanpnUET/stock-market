@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React, { FunctionComponent } from 'react';
-import { Alert, TouchableOpacity, View } from 'react-native';
+import { Alert, Linking, TouchableOpacity, View } from 'react-native';
 import StyledText from 'components/base/StyledText';
 import { StyledIcon, StyledTouchable } from 'components/base';
 import AuthenticateService from 'utilities/authenticate/AuthenticateService';
@@ -10,10 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Images from 'assets/images';
 import { ScaledSheet } from 'react-native-size-matters';
-import { Themes } from 'assets/themes';
+import { Themes, ThemesDark } from 'assets/themes';
 import { navigate } from 'navigation/NavigationService';
 import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
-import { languageCode } from 'utilities/staticData';
+import { ABOUT_US, languageCode, PRIVACY_URL, TERMS_OF_SERVICE_URL } from 'utilities/staticData';
 import { changeLanguage } from 'app-redux/language/actions';
 import ConfirmModal from 'components/base/modal/ConfirmModal';
 import useModal from 'components/base/modal/useModal';
@@ -34,6 +34,10 @@ const SettingView: FunctionComponent = () => {
     const dispatch = useDispatch();
     const { userInfo } = useSelector((state: RootState) => state);
     const modal = useModal();
+
+    const handleLink = async (url: string) => {
+        await Linking.openURL(url);
+    };
 
     const handleDeleteAcc = async () => {
         await deleteAccount(userInfo?.user?._id);
@@ -61,7 +65,11 @@ const SettingView: FunctionComponent = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <StyledTouchable onPress={() => navigation.goBack()}>
-                    <StyledIcon size={50} source={Images.icons.close} />
+                    <StyledIcon
+                        size={50}
+                        source={Images.icons.close}
+                        customStyle={{ tintColor: Themes.COLORS.white }}
+                    />
                 </StyledTouchable>
                 <StyledText i18nText={'tab.setting'} customStyle={styles.title} />
                 <View style={styles.right} />
@@ -69,6 +77,10 @@ const SettingView: FunctionComponent = () => {
             <SettingItem
                 onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.UPDATE_PROFILE)}
                 title={'settings.profile'}
+            />
+            <SettingItem
+                onPress={() => navigate(TAB_NAVIGATION_ROOT.SETTING_ROUTE.CHANGE_PASS)}
+                title={'settings.changePass'}
             />
             <SettingItem
                 title={'settings.changeLang'}
@@ -101,6 +113,9 @@ const SettingView: FunctionComponent = () => {
                     );
                 }}
             />
+            <SettingItem title={'settings.aboutUs'} onPress={() => handleLink(ABOUT_US)} />
+            <SettingItem title={'settings.privacyPolicy'} onPress={() => handleLink(PRIVACY_URL)} />
+            <SettingItem title={'settings.termsOfService'} onPress={() => handleLink(TERMS_OF_SERVICE_URL)} />
             <SettingItem title={'settings.logout'} onPress={AuthenticateService.logOut} />
             <SettingItem title={'settings.deleteAccount'} textStyle={styles.deleteAccount} onPress={onDeleteAccount} />
         </SafeAreaView>
@@ -110,15 +125,14 @@ const SettingView: FunctionComponent = () => {
 const styles = ScaledSheet.create({
     container: {
         flex: 1,
-        paddingLeft: '5@vs',
-        paddingRight: '5@vs',
-        backgroundColor: Themes.COLORS.white,
+        // backgroundColor: ThemesDark.colors.primary,
     },
     header: {
         height: '50@vs',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        backgroundColor: ThemesDark.colors.dark,
     },
     right: {
         width: '50@s',
@@ -127,12 +141,15 @@ const styles = ScaledSheet.create({
         fontSize: '22@ms0.3',
         alignSelf: 'center',
         fontWeight: 'bold',
+        color: 'white',
     },
     settingItem: {
         justifyContent: 'flex-start',
         padding: '12@vs',
         borderBottomWidth: 0.5,
         borderColor: Themes.COLORS.black,
+        marginLeft: 5,
+        marginRight: 5,
     },
     settingText: {
         fontSize: '20@s',

@@ -26,6 +26,7 @@ const LoginScreen: FunctionComponent = () => {
     const { t } = useTranslation();
     const { requestLogin } = useLogin();
     const loading = useLoading();
+
     const loginSchema = yup.object().shape({
         email: yup
             .string()
@@ -154,8 +155,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         left: 24,
-        bottom: 20,
-        top: metrics.screenHeight * 0.85,
+        bottom: 50,
     },
     loginButton: {
         marginBottom: 10,

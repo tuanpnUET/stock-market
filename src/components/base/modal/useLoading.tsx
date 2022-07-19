@@ -1,5 +1,5 @@
-import { Themes } from 'assets/themes';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import RootSiblingsManager from 'react-native-root-siblings';
 import { wait } from 'utilities/helper';
@@ -8,6 +8,7 @@ import DialogComponent from './DialogComponent';
 
 const useLoading = () => {
     let loadingModal: RootSiblingsManager | undefined;
+    const { t } = useTranslation();
 
     const show = (callback?: () => void, closeCallback?: () => void, props?: any) => {
         loadingModal = new RootSiblingsManager(
@@ -20,14 +21,17 @@ const useLoading = () => {
                     {...props}
                 >
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" />
+                        <ActivityIndicator size="large" color={'white'} />
                         <StyledTouchable
                             onPress={() => {
                                 dismiss(closeCallback);
                             }}
                             customStyle={{ marginTop: 10 }}
                         >
-                            <StyledText originValue={'Cancel'} customStyle={{ fontSize: 16 }} />
+                            <StyledText
+                                originValue={t('common.cancel')}
+                                customStyle={{ fontSize: 16, color: 'white' }}
+                            />
                         </StyledTouchable>
                     </View>
                 </DialogComponent>
@@ -46,14 +50,14 @@ const useLoading = () => {
                 {...props}
             >
                 <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" />
+                    <ActivityIndicator size="large" color={'white'} />
                     <StyledTouchable
                         onPress={() => {
                             dismiss();
                         }}
                         customStyle={{ marginTop: 10 }}
                     >
-                        <StyledText originValue={'Cancel'} customStyle={{ fontSize: 16 }} />
+                        <StyledText i18nText={t('common.cancel')} customStyle={{ fontSize: 16, color: 'white' }} />
                     </StyledTouchable>
                 </View>
             </DialogComponent>,
@@ -77,9 +81,6 @@ const useLoading = () => {
 
 const styles = StyleSheet.create({
     loadingContainer: {
-        backgroundColor: Themes.COLORS.white,
-        padding: 20,
-        borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },
