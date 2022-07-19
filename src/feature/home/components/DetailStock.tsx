@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-return-await */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigation } from '@react-navigation/native';
@@ -8,15 +10,16 @@ import { Themes, ThemesDark } from 'assets/themes';
 import { StyledIcon, StyledText, StyledTouchable } from 'components/base';
 import useLoading from 'components/base/modal/useLoading';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { SafeAreaView, View, ScrollView } from 'react-native';
+import { SafeAreaView, View, ScrollView, Text } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import Carousel from 'react-native-snap-carousel';
 import { Calendar } from 'react-native-calendars';
 import AlertMessage from 'components/base/AlertMessage';
+import { LineChart } from 'react-native-gifted-charts';
 import testIDs from './testIDs';
 
 const INITIAL_DATE = '2022-03-28';
-const bigData = require('assets/data/stock_data_18_22.json');
+const bigData = require('assets/data/stock_data_21_22.json');
 const companyData = require('assets/data/company.json');
 
 const sliderWidth = Metrics.screenWidth;
@@ -32,18 +35,21 @@ const DetailStock = ({ route }: any) => {
     const [selected, setSelected] = useState(INITIAL_DATE) as any;
     const [showCalendar, setShowCalendar] = useState<boolean>(false);
     const [carousel, setCarousel] = useState<any>();
+    const [closeList, setCloseList] = useState<any[]>([]);
 
-    const onDayPress = useCallback((day: any) => {
-        setSelected(day.dateString);
-        const index = checkIndexItem(day.dateString);
-        if (index >= 0) {
-            carousel?.snapToItem(index, true, true);
-            // setShowCalendar(false);
-        } else {
-            console.log('day.dateString', day.dateString);
-            AlertMessage('Chưa có dữ liệu.');
-        }
-    }, []);
+    const onDayPress = useCallback(
+        (day: any) => {
+            const index = checkIndexItem(day.dateString);
+            setSelected(day.dateString);
+            if (index >= 0) {
+                carousel?.snapToItem(index, true, true);
+                // setShowCalendar(false);
+            } else {
+                AlertMessage('Chưa có dữ liệu.');
+            }
+        },
+        [selected],
+    );
 
     const marked = useMemo(() => {
         return {
@@ -58,6 +64,7 @@ const DetailStock = ({ route }: any) => {
 
     const loadData = async () => {
         const result = await bigData.filter((stock: any) => stock?.Symbol === route?.params);
+        setCloseList(closeListFunc(result));
         setStockData(result.reverse());
         const detail = await companyData.filter((company: any) => company?.ticker === route?.params);
         setDetailStock(detail[0]);
@@ -68,16 +75,29 @@ const DetailStock = ({ route }: any) => {
     }, []);
 
     useEffect(() => {
-        if (stockData) loading.dismiss();
-    }, [stockData]);
+        if (stockData && closeList) {
+            loading.dismiss();
+        }
+    }, [stockData, closeList]);
 
     function checkIndexItem(date: string) {
-        return stockData.findIndex((stock: any) => stock?.Date?.substring(0, 10) === date);
+        return stockData.findIndex((stock: any) => stock?.Date?.substring(0, 10).includes(date));
     }
     function checkDate(index: number) {
         return stockData[index].Date?.substring(0, 10);
     }
 
+    function closeListFunc(obj: any) {
+        const result = [] as any[];
+        obj.forEach((stock: any) => {
+            const value = {
+                value: stock?.Close?.substring(0, 7),
+                date: new Date(stock?.Date).toDateString(),
+            };
+            result.push(value);
+        });
+        return result;
+    }
     const renderItem = ({ item, index }: any) => {
         const beforeDate = stockData[index === 0 ? index : index - 1];
         const change = (
@@ -105,7 +125,7 @@ const DetailStock = ({ route }: any) => {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <StyledText customStyle={styles.prize} i18nText={'common.open'} />
-                            <StyledText customStyle={styles.prize} originValue={`${item?.Open?.substring(0, 7)}`} />
+                            <StyledText customStyle={styles.prize} originValue={` ${item?.Open?.substring(0, 7)}`} />
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <StyledText customStyle={styles.prize} i18nText={'common.closeStock'} />
@@ -116,7 +136,7 @@ const DetailStock = ({ route }: any) => {
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={`${item?.Close?.substring(0, 7)}`}
+                                originValue={` ${item?.Close?.substring(0, 7)}`}
                             />
                         </View>
                     </View>
@@ -130,7 +150,7 @@ const DetailStock = ({ route }: any) => {
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={`${item?.High?.substring(0, 7)}`}
+                                originValue={` ${item?.High?.substring(0, 7)}`}
                             />
                         </View>
                         <View style={{ flexDirection: 'row' }}>
@@ -142,7 +162,7 @@ const DetailStock = ({ route }: any) => {
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={`${item?.Low?.substring(0, 7)}`}
+                                originValue={` ${item?.Low?.substring(0, 7)}`}
                             />
                         </View>
                     </View>
@@ -151,7 +171,7 @@ const DetailStock = ({ route }: any) => {
                             <StyledText customStyle={styles.volume} i18nText={'common.volume'} />
                             <StyledText
                                 customStyle={[styles.volume, { fontWeight: 'bold' }]}
-                                originValue={`${item?.Volume}`}
+                                originValue={` ${item?.Volume}`}
                             />
                         </View>
                         <View style={{ flexDirection: 'row' }}>
@@ -163,7 +183,7 @@ const DetailStock = ({ route }: any) => {
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={`${change}%`}
+                                originValue={` ${change}%`}
                             />
                         </View>
                     </View>
@@ -171,7 +191,6 @@ const DetailStock = ({ route }: any) => {
             </StyledTouchable>
         );
     };
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -200,7 +219,7 @@ const DetailStock = ({ route }: any) => {
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <StyledText
                         originValue={`Cập nhật: ${selected}`}
-                        customStyle={{ fontSize: 18, color: 'white', margin: 5 }}
+                        customStyle={{ fontSize: 16, color: 'white', margin: 5 }}
                     />
                     <StyledTouchable onPress={() => setShowCalendar(!showCalendar)} customStyle={{ margin: 5 }}>
                         <StyledIcon
@@ -235,6 +254,97 @@ const DetailStock = ({ route }: any) => {
                     inactiveSlideScale={1}
                     onSnapToItem={(index) => setSelected(checkDate(index))}
                 />
+                <StyledText
+                    customStyle={[styles.symbol, { color: Themes.COLORS.white, margin: 5, bottom: -20 }]}
+                    i18nText={'Biểu đồ cập nhật giá đóng phiên 2021 - 2022'}
+                />
+                <View
+                    style={{
+                        paddingVertical: 10,
+                        // paddingLeft: 10,
+                        margin: 5,
+                        paddingBottom: 50,
+                        // backgroundColor: 'white',
+                    }}
+                >
+                    <LineChart
+                        areaChart
+                        data={closeList}
+                        width={Metrics.screenWidth - 60}
+                        spacing={2}
+                        thickness={2}
+                        dataPointsColor={Themes.COLORS.white}
+                        hideDataPoints={false}
+                        startFillColor={Themes.COLORS.white}
+                        endFillColor={Themes.COLORS.blue}
+                        startOpacity={0.9}
+                        endOpacity={0.2}
+                        initialSpacing={0}
+                        noOfSections={8}
+                        stepHeight={50}
+                        height={400}
+                        maxValue={40000}
+                        yAxisColor="black"
+                        yAxisThickness={0}
+                        rulesType="solid"
+                        rulesColor="gray"
+                        yAxisTextStyle={{ color: 'gray', fontSize: 10 }}
+                        yAxisTextNumberOfLines={1}
+                        showXAxisIndices={true}
+                        dataPointsRadius={0.5}
+                        dataPointsShape={'circular'}
+                        isAnimated={true}
+                        showScrollIndicator={true}
+                        pointerConfig={{
+                            pointerStripHeight: 100,
+                            pointerStripColor: 'white',
+                            pointerStripWidth: 2,
+                            pointerColor: Themes.COLORS.red,
+                            radius: 6,
+                            pointerLabelWidth: 100,
+                            pointerLabelHeight: 90,
+                            showPointerStrip: true,
+                            pointerStripUptoDataPoint: true,
+                            activatePointersOnLongPress: true,
+                            autoAdjustPointerLabelPosition: true,
+                            pointerLabelComponent: (items: any) => {
+                                return (
+                                    <View
+                                        style={{
+                                            height: 80,
+                                            width: 100,
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <Text
+                                            style={{
+                                                color: 'white',
+                                                fontSize: 14,
+                                                marginBottom: 6,
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            {items[0].date}
+                                        </Text>
+
+                                        <View
+                                            style={{
+                                                paddingHorizontal: 7,
+                                                paddingVertical: 3,
+                                                borderRadius: 16,
+                                                backgroundColor: 'white',
+                                            }}
+                                        >
+                                            <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
+                                                {`${items[0].value} VND`}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                );
+                            },
+                        }}
+                    />
+                </View>
             </ScrollView>
         </SafeAreaView>
     );
@@ -259,8 +369,10 @@ const styles = ScaledSheet.create({
         margin: 0,
     },
     companyName: {
-        fontSize: Size.FONTSIZE.larger,
+        fontSize: Size.FONTSIZE.normal,
         color: Themes.COLORS.white,
+        margin: 5,
+        fontWeight: 'bold',
     },
     sb: {
         fontSize: Size.FONTSIZE.normal,

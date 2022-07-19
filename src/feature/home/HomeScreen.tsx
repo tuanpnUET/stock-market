@@ -45,25 +45,28 @@ const HomeScreen: FunctionComponent = () => {
     const navigation = useNavigation();
     const modal = useModal();
     // const getData = async () => {
-    //     const data = await axios.get('https://fiin-core.ssi.com.vn/Master/GetListOrganization');
-    //     const fakeData = require('assets/data/stock_data_18_22.json');
+    // const data = await axios.get('https://fiin-core.ssi.com.vn/Master/GetListOrganization');
+    // const fakeData = require('assets/data/stock_data_18_22.json');
 
-    //     const result = fakeData.filter(
-    //         (dat: any) =>
-    //             // eslint-disable-next-line no-unused-expressions
-    //             dat?.Date === '2022-03-28T00:00:00Z',
-    //     );
+    // const result = fakeData.filter(
+    //     (dat: any) =>
+    //         // eslint-disable-next-line no-unused-expressions
+    //         dat?.Date === '2022-03-28T00:00:00Z',
+    // );
 
-    //     const stockToday = require('assets/data/stock_today.json');
-    //     const symbolList: Array<any> = [];
-    //     stockToday.forEach((stock: any) => symbolList.push(stock.Symbol));
-    //     const newR = [{}];
-    //     const stockSymbols = require('assets/data/stock_symbols.json');
-    //     stockSymbols.forEach((stock: any) => {
-    //         if (symbolList.includes(stock?.ticker)) newR.push(stock);
-    //     });
-    //     const sortByUpdatedAt = (stocks: any) => [...stocks].sort((a: any, b: any) => b?.Volume - a?.Volume);
-    //     const output = sortByUpdatedAt(stockToday);
+    // const stockToday = require('assets/data/stock_today.json');
+    // const symbolList: Array<any> = [];
+    // stockToday.forEach((stock: any) => symbolList.push(stock.Symbol));
+    // const newR = [{}];
+    // const stockSymbols = require('assets/data/stock_symbols.json');
+    // stockSymbols.forEach((stock: any) => {
+    //     if (symbolList.includes(stock?.ticker)) newR.push(stock);
+    // });
+    // const sortByUpdatedAt = (stocks: any) => [...stocks].sort((a: any, b: any) => b?.Volume - a?.Volume);
+    // const output = sortByUpdatedAt(stockToday);
+    //     const stockData = require('assets/data/stock_data_18_22.json');
+    //     const result = stockData.filter((dat: any) => +new Date(dat?.Date.substring(0, 10)) > +new Date('2021-04-15'));
+    //     console.log('result', JSON.stringify(result));
     // };
     // useEffect(() => {
     //     getData();
