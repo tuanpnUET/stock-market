@@ -29,7 +29,7 @@ const useLoading = () => {
                             customStyle={{ marginTop: 10 }}
                         >
                             <StyledText
-                                originValue={t('common.cancel')}
+                                originValue={t('common.loading')}
                                 customStyle={{ fontSize: 16, color: 'white' }}
                             />
                         </StyledTouchable>
@@ -57,7 +57,7 @@ const useLoading = () => {
                         }}
                         customStyle={{ marginTop: 10 }}
                     >
-                        <StyledText i18nText={t('common.cancel')} customStyle={{ fontSize: 16, color: 'white' }} />
+                        <StyledText i18nText={t('common.loading')} customStyle={{ fontSize: 16, color: 'white' }} />
                     </StyledTouchable>
                 </View>
             </DialogComponent>,

@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { RootState } from 'app-redux/rootReducer';
 import Toast from 'react-native-toast-message';
+import useLoading from 'components/base/modal/useLoading';
 
 const { width } = Dimensions.get('window');
 
@@ -23,6 +24,7 @@ const StockItem = (props: any) => {
     const modal = useModal();
     const { symbolReducer } = useSelector((state: RootState) => state);
     const [watchList, setWatchList] = useState(symbolReducer?.watchList) as any[];
+    const loading = useLoading();
 
     const checkWatchListHas = (symbol: string) => {
         if (watchList.includes(symbol)) {
@@ -34,7 +36,11 @@ const StockItem = (props: any) => {
     return (
         <View>
             <TouchableOpacity
-                onPress={() => navigation.navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK, props?.Symbol)}
+                onPress={() => {
+                    loading.show();
+                    navigation.navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK, props?.Symbol);
+                    setTimeout(() => loading.dismiss(), 3000);
+                }}
                 onLongPress={() => {
                     // check watchlist to add or remove
                     if (checkWatchListHas(props?.Symbol)) {

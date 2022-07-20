@@ -83,8 +83,8 @@ const StockList: React.FC<StockListProps> = (props: StockListProps) => {
                     icon={Images.icons.search}
                     clearIcon={Images.icons.close}
                     placeholder={t('common.search')}
-                    onIconPress={() => updateSearch}
                     onChangeText={updateSearch}
+                    onIconPress={() => updateSearch}
                     value={txtSearch}
                     inputStyle={{ backgroundColor: '#EEEEEE', marginLeft: 12, borderRadius: 25, paddingLeft: 20 }}
                 />
@@ -95,7 +95,7 @@ const StockList: React.FC<StockListProps> = (props: StockListProps) => {
                     <ActivityIndicator size="large" color="red" />
                 </View>
             ) : symbolList ? (
-                <View style={{ paddingBottom: 210 }}>
+                <View style={{ paddingBottom: 300 }}>
                     <StyledList
                         data={symbolList}
                         ListHeaderComponent={ListHeader}
@@ -115,7 +115,7 @@ const StockList: React.FC<StockListProps> = (props: StockListProps) => {
 
 const styles = StyleSheet.create({
     container: {
-        height: '100%',
+        // height: '200%',
     },
     listHeader: {
         flexDirection: 'row',

@@ -44,6 +44,10 @@ const Images = {
         course: require('./icon/ic_course.png'),
         logo: require('./icon/ic_logo.png'),
         calender: require('./icon/ic_cal.png'),
+        week: require('./icon/ic_week.png'),
+        month: require('./icon/ic_month.png'),
+        year: require('./icon/ic_year.png'),
+        predict: require('./icon/ic_predict.png'),
     },
     photo: {
         first_screen: {

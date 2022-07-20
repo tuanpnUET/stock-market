@@ -17,6 +17,7 @@ import { addToWatchlist, removeFromWatchlist } from 'app-redux/symbol/actions';
 import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 import Images from 'assets/images';
+import useLoading from 'components/base/modal/useLoading';
 
 const topVolumeData = require('assets/data/top_volume.json');
 
@@ -35,6 +36,7 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
     const { symbolReducer } = useSelector((state: RootState) => state);
     const [watchList, setWatchList] = useState(symbolReducer?.watchList) as any[];
     const [carousel, setCarousel] = useState<any>();
+    const loading = useLoading();
 
     const checkWatchListHas = (symbol: string) => {
         if (watchList.includes(symbol)) {
@@ -47,7 +49,9 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
         <StyledTouchable
             onPress={() => {
                 // go to detail
+                loading.show();
                 navigation.navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK, item?.Symbol);
+                setTimeout(() => loading.dismiss(), 3000);
             }}
             onLongPress={() => {
                 // check watchlist to add or remove
@@ -101,13 +105,13 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
                 <View style={{ flexDirection: 'row' }}>
                     <StyledText
                         customStyle={[styles.symbol, { color: Themes.COLORS.white }]}
-                        i18nText={'common.symbol'}
+                        i18nText={'common.symbol1'}
                     />
                     <StyledText customStyle={styles.symbol} originValue={` ${item?.Symbol}`} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <StyledText customStyle={styles.volume} i18nText={'common.volume'} />
-                    <StyledText customStyle={styles.volume} originValue={`: ${item?.Volume}`} />
+                    <StyledText customStyle={styles.volume} i18nText={'common.volume1'} />
+                    <StyledText customStyle={styles.volume} originValue={`${item?.Volume}`} />
                 </View>
             </View>
         </StyledTouchable>
