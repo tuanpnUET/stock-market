@@ -26,7 +26,7 @@ export default {
         date1: 'Ngày: ',
         symbol1: 'Mã chứng khoán: ',
         change: 'Thay đổi',
-        change1: 'Thay đổi',
+        change1: 'Thay đổi: ',
         search: 'Tìm kiếm',
         notFound: 'Không tìm thấy!',
         ok: 'Đồng ý',
@@ -35,6 +35,9 @@ export default {
         newPass: 'Đặt lại mật khẩu mới',
         loading: 'Đang tải',
         graph: 'Biểu đồ cập nhật giá đóng phiên',
+        guide: 'Chú thích',
+        real: ' Thực tế',
+        predict: ' Dự đoán',
     },
     forgotPass: {
         title: 'Quên mật khẩu',

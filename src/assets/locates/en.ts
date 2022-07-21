@@ -34,6 +34,9 @@ export default {
         newPass: 'Set new password',
         loading: 'Loading',
         graph: 'Stock chart closing price',
+        guide: 'Guide',
+        real: ' Reality',
+        predict: ' Prediction',
     },
     forgotPass: {
         title: 'Forgot Password',

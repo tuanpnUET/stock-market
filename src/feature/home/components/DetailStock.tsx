@@ -13,11 +13,14 @@ import AlertMessage from 'components/base/AlertMessage';
 import { LineChart } from 'react-native-gifted-charts';
 import useLoading from 'components/base/modal/useLoading';
 import { useTranslation } from 'react-i18next';
+import { IconButton } from 'react-native-paper';
+import Svg, { Line } from 'react-native-svg';
 import testIDs from './testIDs';
 
 const INITIAL_DATE = '2022-03-28';
 const bigData = require('assets/data/stock_data_21_22.json');
 const companyData = require('assets/data/company.json');
+const predict = require('assets/data/predict.json');
 
 const sliderWidth = Metrics.screenWidth;
 
@@ -41,6 +44,7 @@ const DetailStock = ({ route }: any) => {
     const [monthActive, setMonthActive] = useState<boolean>(false);
     const [yearActive, setYearActive] = useState<boolean>(true);
     const [predictActive, setPredictActive] = useState<boolean>(false);
+    const [predictData, setPredictData] = useState<any[]>([]);
     const loading = useLoading();
     const { t } = useTranslation();
 
@@ -71,6 +75,8 @@ const DetailStock = ({ route }: any) => {
     const loadData = async () => {
         const result = await bigData.filter((stock: any) => stock?.Symbol === route?.params);
         const closeDat = closeListFunc(result);
+        const predictDat = closeListFunc(predict);
+        setPredictData(predictDat);
         setCloseList(closeDat);
         setInitialCloseList(closeDat);
         setMaxClose(findMax(closeDat));
@@ -155,7 +161,7 @@ const DetailStock = ({ route }: any) => {
             setMonthActive(false);
             setYearActive(false);
             setPredictActive(true);
-            setCloseList(initialCloseList);
+            setCloseList([...initialCloseList, ...predictData]);
         }
         setTimeout(() => {
             loading.dismiss();
@@ -183,13 +189,13 @@ const DetailStock = ({ route }: any) => {
                         />
                         <StyledText
                             customStyle={[styles.symbol, { fontWeight: 'bold' }]}
-                            originValue={` ${item?.Symbol}`}
+                            originValue={`${item?.Symbol}`}
                         />
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <StyledText customStyle={styles.prize} i18nText={'common.open1'} />
-                            <StyledText customStyle={styles.prize} originValue={` ${item?.Open?.substring(0, 7)}`} />
+                            <StyledText customStyle={styles.prize} originValue={`${item?.Open?.substring(0, 7)}`} />
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <StyledText customStyle={styles.prize} i18nText={'common.closeStock1'} />
@@ -200,7 +206,7 @@ const DetailStock = ({ route }: any) => {
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={` ${item?.Close?.substring(0, 7)}`}
+                                originValue={`${item?.Close?.substring(0, 7)}`}
                             />
                         </View>
                     </View>
@@ -214,7 +220,7 @@ const DetailStock = ({ route }: any) => {
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={` ${item?.High?.substring(0, 7)}`}
+                                originValue={`${item?.High?.substring(0, 7)}`}
                             />
                         </View>
                         <View style={{ flexDirection: 'row' }}>
@@ -226,7 +232,7 @@ const DetailStock = ({ route }: any) => {
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={` ${item?.Low?.substring(0, 7)}`}
+                                originValue={`${item?.Low?.substring(0, 7)}`}
                             />
                         </View>
                     </View>
@@ -235,7 +241,7 @@ const DetailStock = ({ route }: any) => {
                             <StyledText customStyle={styles.volume} i18nText={'common.volume1'} />
                             <StyledText
                                 customStyle={[styles.volume, { fontWeight: 'bold' }]}
-                                originValue={` ${item?.Volume}`}
+                                originValue={`${item?.Volume}`}
                             />
                         </View>
                         <View style={{ flexDirection: 'row' }}>
@@ -247,7 +253,7 @@ const DetailStock = ({ route }: any) => {
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={` ${change}%`}
+                                originValue={`${change}%`}
                             />
                         </View>
                     </View>
@@ -255,6 +261,8 @@ const DetailStock = ({ route }: any) => {
             </StyledTouchable>
         );
     };
+    // console.log('closeDat', closeList);
+    // console.log('predictActive', predictActive);
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -339,69 +347,59 @@ const DetailStock = ({ route }: any) => {
                     i18nText={t('common.graph')}
                 />
                 <View style={styles.footer}>
-                    <StyledTouchable
+                    <IconButton
+                        icon={Images.icons.month}
+                        color={monthActive ? Themes.COLORS.yellow : Themes.COLORS.white}
+                        size={30}
                         onPress={() => {
                             if (!monthActive) filterData('month');
                         }}
-                        style={styles.icon}
-                    >
-                        <StyledIcon
-                            size={30}
-                            source={Images.icons.month}
-                            customStyle={
-                                monthActive ? { tintColor: Themes.COLORS.yellow } : { tintColor: Themes.COLORS.white }
-                            }
-                        />
-                    </StyledTouchable>
-                    <StyledTouchable
+                    />
+                    <IconButton
+                        icon={Images.icons.year}
+                        color={yearActive ? Themes.COLORS.yellow : Themes.COLORS.white}
+                        size={30}
                         onPress={() => {
                             if (!yearActive) filterData('year');
                         }}
-                        style={styles.icon}
-                    >
-                        <StyledIcon
-                            size={30}
-                            source={Images.icons.year}
-                            customStyle={
-                                yearActive ? { tintColor: Themes.COLORS.yellow } : { tintColor: Themes.COLORS.white }
-                            }
-                        />
-                    </StyledTouchable>
-                    <StyledTouchable
+                    />
+                    <IconButton
+                        icon={Images.icons.predict}
+                        color={predictActive ? Themes.COLORS.yellow : Themes.COLORS.white}
+                        size={30}
                         onPress={() => {
                             if (!predictActive) filterData('predict');
                         }}
-                        style={[styles.icon, { width: 70 }]}
-                    >
-                        <StyledIcon
-                            size={30}
-                            source={Images.icons.predict}
-                            customStyle={
-                                predictActive ? { tintColor: Themes.COLORS.yellow } : { tintColor: Themes.COLORS.white }
-                            }
-                        />
-                    </StyledTouchable>
+                    />
                 </View>
                 <View
                     style={{
                         paddingVertical: 0,
                         margin: 5,
                         marginRight: 5,
-                        paddingBottom: 20,
+                        paddingBottom: 5,
                     }}
                 >
                     <LineChart
                         areaChart
                         curved={true}
                         data={closeList}
+                        data2={predictActive ? initialCloseList : []}
+                        dataPointsColor2={Themes.COLORS.white}
+                        hideDataPoints2={!predictActive}
+                        startFillColor2={Themes.COLORS.white}
+                        endFillColor2={Themes.COLORS.blue}
+                        zIndex2={10}
+                        hideDataPoints={false}
                         width={Metrics.screenWidth - 60}
                         rulesLength={Metrics.screenWidth - 50}
                         spacing={monthActive ? 16 : 6}
                         adjustToWidth={!!monthActive}
                         thickness={1}
-                        dataPointsColor={Themes.COLORS.white}
-                        hideDataPoints={false}
-                        startFillColor={Themes.COLORS.white}
+                        dataPointsColor={predictActive ? Themes.COLORS.red : Themes.COLORS.white}
+                        startFillColor={predictActive ? Themes.COLORS.red : Themes.COLORS.white}
+                        color={predictActive ? Themes.COLORS.yellow : Themes.COLORS.black}
+                        color2={'blue'}
                         endFillColor={Themes.COLORS.blue}
                         // startOpacity={0.9}
                         roundToDigits={1}
@@ -446,7 +444,7 @@ const DetailStock = ({ route }: any) => {
                                     >
                                         <Text
                                             style={{
-                                                color: 'black',
+                                                color: 'white',
                                                 fontSize: 14,
                                                 marginBottom: 6,
                                                 textAlign: 'center',
@@ -484,6 +482,28 @@ const DetailStock = ({ route }: any) => {
                             />
                         </View>
                     </View>
+                    {predictActive && (
+                        <View style={{ alignSelf: 'center', margin: 5 }}>
+                            <StyledText i18nText={t('common.guide')} customStyle={{ fontSize: 14, color: 'white' }} />
+                            <View style={{ flexDirection: 'row' }}>
+                                <Svg height="20" width="100">
+                                    <Line x1="0" y1="12" x2="100" y2="12" stroke="blue" strokeWidth="2" />
+                                </Svg>
+                                <StyledText
+                                    i18nText={t('common.real')}
+                                    customStyle={{ fontSize: 14, color: 'white' }}
+                                />
+                                <View style={{ width: 20 }} />
+                                <Svg height="20" width="100">
+                                    <Line x1="0" y1="12" x2="100" y2="12" stroke="yellow" strokeWidth="2" />
+                                </Svg>
+                                <StyledText
+                                    i18nText={t('common.predict')}
+                                    customStyle={{ fontSize: 14, color: 'white' }}
+                                />
+                            </View>
+                        </View>
+                    )}
                 </View>
             </ScrollView>
         </SafeAreaView>
