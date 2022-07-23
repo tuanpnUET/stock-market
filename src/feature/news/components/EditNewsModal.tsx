@@ -122,7 +122,7 @@ const EditNewsModal = (props: any) => {
                 </View>
                 <View style={styles.inputView}>
                     <StyledInput
-                        value={content}
+                        value={title}
                         multiline={true}
                         numberOfLines={2}
                         maxLength={100}
@@ -138,7 +138,7 @@ const EditNewsModal = (props: any) => {
                 </View>
                 <View style={styles.inputView}>
                     <StyledInput
-                        value={title}
+                        value={content}
                         multiline={true}
                         numberOfLines={6}
                         maxLength={1000}

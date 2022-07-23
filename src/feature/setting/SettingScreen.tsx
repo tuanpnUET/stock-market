@@ -20,6 +20,9 @@ import ConfirmModal from 'components/base/modal/ConfirmModal';
 import useModal from 'components/base/modal/useModal';
 import { RootState } from 'app-redux/rootReducer';
 import { deleteAccount } from 'api/modules/api-app/authenticate';
+import Toast from 'react-native-toast-message';
+import { store } from 'app-redux/store';
+import { logOutUser } from 'app-redux/userInfo/actions';
 
 const SettingItem = ({ title, onPress, textStyle }: any) => {
     return (
@@ -41,9 +44,14 @@ const SettingView: FunctionComponent = () => {
     };
 
     const handleDeleteAcc = async () => {
-        await deleteAccount(userInfo?.user?._id);
+        const res = await deleteAccount(userInfo?.user?._id);
+        console.log('res', res);
         modal.dismiss();
-        AuthenticateService.logOut();
+        Toast.show({
+            type: 'success',
+            text1: t('toastMessage.deleteSuccess'),
+        });
+        store.dispatch(logOutUser());
     };
 
     const onDeleteAccount = () => {

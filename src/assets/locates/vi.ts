@@ -221,7 +221,7 @@ export default {
     toastMessage: {
         addSuccess: 'Thêm thành công vào danh sách theo dõi!',
         removeSuccess: 'Xoá thành công khỏi danh sách theo dõi!',
-        deleteSuccess: 'Xoá bài đăng thành công!',
+        deleteSuccess: 'Xoá thành công!',
         addPostSuccess: 'Đăng bài thành công!',
         updatePostSuccess: 'Cập nhật bài thành công!',
         nothingToComment: 'Bạn chưa viết bình luận trước khi gửi',
