@@ -12,7 +12,6 @@ import * as yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import sizes from 'assets/sizes';
 import metrics from 'assets/metrics';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import useLoading from 'components/base/modal/useLoading';
 import AlertMessage from 'components/base/AlertMessage';
 import Toast from 'react-native-toast-message';
@@ -80,7 +79,7 @@ const ChangePass: FunctionComponent = () => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <ImageBackground source={images.photo.first_screen.background} style={styles.body}>
                 <View style={styles.header}>
                     <StyledTouchable onPress={() => navigation.goBack()}>
@@ -139,7 +138,7 @@ const ChangePass: FunctionComponent = () => {
                     </StyledTouchable>
                 </View>
             </ImageBackground>
-        </SafeAreaView>
+        </View>
     );
 };
 
@@ -152,13 +151,14 @@ const styles = ScaledSheet.create({
         flex: 1,
     },
     header: {
-        height: '50@vs',
+        // height: '50@vs',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: ThemesDark.colors.dark,
         borderBottomWidth: 0.5,
         borderColor: Themes.COLORS.white,
+        paddingTop: metrics.safeTopPadding,
     },
     right: {
         width: '50@s',

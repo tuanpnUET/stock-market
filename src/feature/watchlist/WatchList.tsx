@@ -45,15 +45,11 @@ const WatchList = (props: any) => {
     }, [watchList]);
 
     return (
-        <SafeAreaView style={styles.watchList}>
-            <View>
-                <Header />
-                {stockWatchList.length === 0 && (
-                    <StyledText i18nText={'watchlist.noData'} customStyle={styles.noData} />
-                )}
-                {stockWatchList && <StockList data={stockWatchList} />}
-            </View>
-        </SafeAreaView>
+        <View style={styles.watchList}>
+            <Header />
+            {stockWatchList.length === 0 && <StyledText i18nText={'watchlist.noData'} customStyle={styles.noData} />}
+            {stockWatchList && <StockList data={stockWatchList} />}
+        </View>
     );
 };
 

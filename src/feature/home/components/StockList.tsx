@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import Images from 'assets/images';
 import StockItem from './StockItem';
 
-const ListHeader = () => {
+export const ListHeader = () => {
     return (
         <View style={styles.listHeader}>
             <View style={styles.headerItem}>
@@ -95,7 +95,7 @@ const StockList: React.FC<StockListProps> = (props: StockListProps) => {
                     <ActivityIndicator size="large" color="red" />
                 </View>
             ) : symbolList ? (
-                <View style={{ paddingBottom: 300 }}>
+                <View style={{ paddingBottom: 200 }}>
                     <StyledList
                         data={symbolList}
                         ListHeaderComponent={ListHeader}
@@ -103,7 +103,6 @@ const StockList: React.FC<StockListProps> = (props: StockListProps) => {
                         noDataText={t('common.noData')}
                         renderItem={({ item, index }: any) => <StockItem {...item} index={index} />}
                         keyExtractor={(item: any) => `${item?.Date}-${item?.Symbol}`}
-                        contentContainerStyle={styles.list}
                     />
                 </View>
             ) : (
@@ -130,10 +129,6 @@ const styles = StyleSheet.create({
         height: metrics.screenHeight / 2,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    list: {
-        flex: 1,
-        flexGrow: 1,
     },
 });
 

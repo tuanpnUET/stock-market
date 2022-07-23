@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { yupResolver } from '@hookform/resolvers/yup';
 // import { resetPassword } from 'api/modules/api-app/authenticate';
 import { Themes } from 'assets/themes';
@@ -53,7 +54,7 @@ const ChangePassword: FunctionComponent = ({ route }: any) => {
     };
 
     return (
-        <SafeAreaView style={styles.flex1}>
+        <View style={styles.flex1}>
             <View style={styles.container}>
                 <KeyboardAwareScrollView
                     style={styles.content}
@@ -99,7 +100,7 @@ const ChangePassword: FunctionComponent = ({ route }: any) => {
                     />
                 </KeyboardAwareScrollView>
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 

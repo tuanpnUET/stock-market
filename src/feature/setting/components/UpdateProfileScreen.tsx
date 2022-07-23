@@ -109,7 +109,7 @@ const UpdateProfileScreen: FunctionComponent = () => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <ImageBackground source={Images.photo.first_screen.background} style={styles.body}>
                 <View style={styles.header}>
                     <StyledTouchable onPress={() => navigation.goBack()}>
@@ -180,7 +180,7 @@ const UpdateProfileScreen: FunctionComponent = () => {
                     </StyledTouchable>
                 </View>
             </ImageBackground>
-        </SafeAreaView>
+        </View>
     );
 };
 
@@ -193,13 +193,14 @@ const styles = ScaledSheet.create({
         flex: 1,
     },
     header: {
-        height: '50@vs',
+        // height: '50@vs',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: ThemesDark.colors.dark,
         borderBottomWidth: 0.5,
         borderColor: Themes.COLORS.white,
+        paddingTop: metrics.safeTopPadding,
     },
     right: {
         width: '50@s',

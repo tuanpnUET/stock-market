@@ -261,8 +261,6 @@ const DetailStock = ({ route }: any) => {
             </StyledTouchable>
         );
     };
-    // console.log('closeDat', closeList);
-    // console.log('predictActive', predictActive);
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -279,10 +277,10 @@ const DetailStock = ({ route }: any) => {
             <ScrollView>
                 <View style={styles.companyContainer}>
                     <StyledText originValue={detailStock?.organName} customStyle={styles.companyName} />
-                    {/* <View style={{ flexDirection: 'row' }}>
-                        <StyledText i18nText={t('common.symbol1')} customStyle={styles.sb} />
+                    <View style={{ flexDirection: 'row' }}>
+                        <StyledText originValue={t('common.symbol1')} customStyle={styles.sb} />
                         <StyledText originValue={detailStock?.ticker} customStyle={styles.sb} />
-                    </View> */}
+                    </View>
                     <View style={{ flexDirection: 'row' }}>
                         <StyledText originValue={t('common.stock1')} customStyle={styles.sb} />
                         <StyledText originValue={detailStock?.comGroupCode} customStyle={styles.sb} />
@@ -290,7 +288,7 @@ const DetailStock = ({ route }: any) => {
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <StyledText
-                        originValue={`Cập nhật: ${selected}`}
+                        originValue={t('common.update', { value: selected })}
                         customStyle={{ fontSize: 16, color: 'white', margin: 5 }}
                     />
                     <StyledTouchable

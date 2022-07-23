@@ -31,7 +31,7 @@ export default {
         notFound: 'Không tìm thấy!',
         ok: 'Đồng ý',
         setting: 'Cài đặt',
-        update: 'Cập nhật',
+        update: 'Cập nhật {{value}}',
         newPass: 'Đặt lại mật khẩu mới',
         loading: 'Đang tải',
         graph: 'Biểu đồ cập nhật giá đóng phiên',

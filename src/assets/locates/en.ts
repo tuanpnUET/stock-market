@@ -30,7 +30,7 @@ export default {
         notFound: 'Not found',
         ok: 'OK',
         setting: 'Setting',
-        update: 'Update',
+        update: 'Update {{value}}',
         newPass: 'Set new password',
         loading: 'Loading',
         graph: 'Stock chart closing price',

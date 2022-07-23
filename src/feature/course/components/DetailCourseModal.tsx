@@ -16,7 +16,10 @@ const DetailCourseModal = (props: any) => {
             <View style={styles.headerNews}>
                 <StyledImage style={styles.avt} source={{ uri: item?.authorAvatar }} />
                 <Text style={styles.title}>{item?.title}</Text>
-                <StyledTouchable onPress={() => modal?.dismiss()} customStyle={{ position: 'absolute', right: 0 }}>
+                <StyledTouchable
+                    onPress={() => modal?.dismiss()}
+                    customStyle={{ position: 'absolute', right: 0, paddingTop: metrics.safeTopPadding }}
+                >
                     <StyledIcon size={40} source={Images.icons.close} />
                 </StyledTouchable>
             </View>
@@ -41,31 +44,37 @@ const DetailCourseModal = (props: any) => {
 
 const styles = ScaledSheet.create({
     container: {
-        flex: 1,
-        width: metrics.screenWidth - 20,
+        // flex: 1,
+        width: metrics.screenWidth,
         backgroundColor: 'white',
-        borderRadius: 10,
+        // borderRadius: 10,
         alignSelf: 'center',
+        height: metrics.screenHeight,
+        marginTop: -20,
+        marginBottom: -20,
     },
     headerNews: {
         width: '100%',
         height: '70@vs',
         justifyContent: 'center',
+        paddingTop: metrics.safeTopPadding,
+        marginBottom: 30,
     },
     title: {
         width: metrics.screenWidth - 70,
-        fontSize: sizes.FONTSIZE.large,
+        fontSize: sizes.FONTSIZE.larger,
         fontWeight: 'bold',
         position: 'absolute',
         margin: 5,
-        left: 50,
+        left: 70,
         paddingRight: 50,
+        paddingTop: metrics.safeTopPadding,
     },
     body: {
         top: 5,
     },
     img: {
-        width: metrics.screenWidth - 20,
+        width: metrics.screenWidth,
         height: '220@vs',
     },
     content: {
@@ -81,9 +90,9 @@ const styles = ScaledSheet.create({
         fontWeight: 'bold',
     },
     avt: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
         margin: 10,
     },
     footer: {
@@ -91,7 +100,7 @@ const styles = ScaledSheet.create({
         paddingTop: 10,
         margin: 5,
         justifyContent: 'space-between',
-        width: metrics.screenWidth - 40,
+        width: metrics.screenWidth - 20,
     },
 });
 export default DetailCourseModal;

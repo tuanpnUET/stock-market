@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-alert */
 import React, { Fragment, FunctionComponent, useEffect, useState } from 'react';
-import { Text, View, Button, StyleSheet, ViewBase } from 'react-native';
+import { Text, View, Button, StyleSheet, ViewBase, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import useModal from 'components/base/modal/useModal';
 import StyledHeader from 'components/common/StyledHeader';
@@ -14,7 +14,7 @@ import { RootState } from 'app-redux/rootReducer';
 import { getUserInfo } from 'app-redux/userInfo/actions';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyledIcon, StyledText, StyledTouchable } from 'components/base';
+import { StyledIcon, StyledList, StyledText, StyledTouchable } from 'components/base';
 import { navigate } from 'navigation/NavigationService';
 import Images from 'assets/images';
 import { ScaledSheet } from 'react-native-size-matters';
@@ -22,7 +22,8 @@ import axios from 'axios';
 import Header from 'components/base/Header';
 import { Themes, ThemesDark } from 'assets/themes';
 import TopVolumeItem from './components/TopVolumeItem';
-import StockList from './components/StockList';
+import StockList, { ListHeader } from './components/StockList';
+import StockItem from './components/StockItem';
 
 const StockToday = require('assets/data/stock_today.json');
 
@@ -36,7 +37,7 @@ interface StockProps {
     Date: string;
 }
 
-const pagingStockToday = StockToday.slice(0, 20) as StockProps[];
+const pagingStockToday = StockToday.slice(0, 100) as StockProps[];
 
 const HomeScreen: FunctionComponent = () => {
     const { t } = useTranslation();
@@ -71,23 +72,20 @@ const HomeScreen: FunctionComponent = () => {
     // useEffect(() => {
     //     getData();
     // }, []);
-
     return (
-        <SafeAreaView style={styles.contScreen}>
+        <View style={styles.contScreen}>
             <Header />
             <View>
                 <StyledText i18nText={'stock.highestVolume'} customStyle={styles.highestVolume} />
             </View>
-            <View style={{ paddingTop: 10, height: 70 }}>
+            <View style={{ paddingTop: 10, height: 80 }}>
                 <TopVolumeItem />
             </View>
-            <View>
+            <View style={{ marginTop: 5, marginBottom: 5 }}>
                 <StyledText i18nText={'stock.stockToday'} customStyle={styles.stockToday} />
             </View>
-            <View style={{ paddingTop: 10 }}>
-                <StockList data={pagingStockToday} />
-            </View>
-        </SafeAreaView>
+            <StockList data={pagingStockToday} />
+        </View>
     );
 };
 
@@ -108,6 +106,11 @@ const styles = ScaledSheet.create({
         // fontWeight: 'bold',
         color: Themes.COLORS.white,
         left: 10,
+    },
+    list: {
+        flex: 1,
+        flexGrow: 1,
+        backgroundColor: 'red',
     },
 });
 

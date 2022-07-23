@@ -45,7 +45,7 @@ const SettingView: FunctionComponent = () => {
 
     const handleDeleteAcc = async () => {
         const res = await deleteAccount(userInfo?.user?._id);
-        console.log('res', res);
+        // console.log('res', res);
         modal.dismiss();
         Toast.show({
             type: 'success',

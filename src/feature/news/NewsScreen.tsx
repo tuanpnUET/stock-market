@@ -150,7 +150,7 @@ const NewsScreen = (props: any) => {
     };
 
     return (
-        <SafeAreaView style={styles.contScreen}>
+        <View style={styles.contScreen}>
             <Header />
             <View style={styles.bar}>
                 <StyledTouchable
@@ -176,7 +176,7 @@ const NewsScreen = (props: any) => {
                 )}
                 keyExtractor={(item: any) => `key_${item?.idNews}`}
             />
-        </SafeAreaView>
+        </View>
     );
 };
 

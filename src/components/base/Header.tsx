@@ -1,4 +1,5 @@
 import Images from 'assets/images';
+import Metrics from 'assets/metrics';
 import { Themes, ThemesDark } from 'assets/themes';
 import { TAB_NAVIGATION_ROOT } from 'navigation/config/routes';
 import { navigate } from 'navigation/NavigationService';
@@ -27,6 +28,7 @@ const Header = () => {
 };
 const styles = ScaledSheet.create({
     header: {
+        paddingTop: Metrics.safeTopPadding,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

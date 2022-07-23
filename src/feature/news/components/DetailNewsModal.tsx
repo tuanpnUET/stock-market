@@ -110,7 +110,7 @@ const DetailNewsModal = (props: any) => {
                         />
                         <StyledTouchable
                             onPress={() => comment()}
-                            customStyle={{ position: 'absolute', right: 10, margin: 10 }}
+                            customStyle={{ position: 'absolute', right: 10, margin: 5 }}
                         >
                             <StyledIcon size={30} source={Images.icons.edit_post} />
                         </StyledTouchable>
@@ -123,7 +123,7 @@ const DetailNewsModal = (props: any) => {
                 </View>
             )}
             {!hideItem && (
-                <View style={[styles.news, { flex: 1 }]}>
+                <View style={[styles.news, commentList?.length === 0 ? { height: 50 } : { flex: 0.4 }]}>
                     <StyledList
                         noDataStyle={styles.noDataStyle}
                         noDataText={t('news.noComment')}
@@ -244,6 +244,7 @@ const styles = ScaledSheet.create({
     },
     noDataStyle: {
         opacity: 0.5,
+        height: 50,
     },
     inputContent: {
         textAlign: 'justify',

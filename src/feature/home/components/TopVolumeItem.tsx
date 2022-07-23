@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 import Images from 'assets/images';
 import useLoading from 'components/base/modal/useLoading';
+import { isIos } from 'utilities/helper';
 
 const topVolumeData = require('assets/data/top_volume.json');
 
@@ -26,7 +27,7 @@ const sliderWidth = Metrics.screenWidth;
 
 const slideWidth = Metrics.screenWidth / 2;
 const itemWidth = 200;
-const scaleItemWidth = Math.round(moderateScale(itemWidth)) - 15;
+const scaleItemWidth = !isIos ? Math.round(moderateScale(itemWidth)) - 15 : Math.round(moderateScale(itemWidth)) - 40;
 
 const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
     const { t } = useTranslation();
