@@ -5,11 +5,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Stock Market</string>
+	<string>StockMarket</string>
 	<key>CFBundleExecutable</key>
-	<string>Stock Market</string>
+	<string>StockMarket</string>
 	<key>CFBundleIdentifier</key>
-	<string>Stock Market</string>
+	<string>StockMarket</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
