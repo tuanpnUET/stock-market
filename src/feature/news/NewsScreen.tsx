@@ -19,38 +19,61 @@ import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
 import Header from 'components/base/Header';
 import usePaging from 'hooks/usePaging';
+import { getAllComment } from 'api/modules/api-app/comment';
+import { useIsFocused } from '@react-navigation/native';
 import AddNewsModal from './components/AddNewsModal';
 import DetailNewsModal from './components/DetailNewsModal';
 import EditNewsModal from './components/EditNewsModal';
-import { getAllPost } from '../../api/modules/api-app/post';
+import { deletePost, getAllPost } from '../../api/modules/api-app/post';
 
 export const News = (props: any) => {
-    const { item, index, newsList, setNewsList } = props;
+    const { item, index, newsList, setNewsList, commentList, setCommentList, onRefresh } = props;
     const { userInfo } = useSelector((state: RootState) => state);
     const [like, setLike] = useState<boolean>(false);
     const [hideItem, setHideItem] = useState<boolean>(false);
+    const [commentFiltered, setCommentFiltered] = useState<any[]>();
     const editModal = useModal();
     const detailModal = useModal();
     const confirmModal = useModal();
     const { t } = useTranslation();
+
+    useEffect(() => {
+        if (commentList) setCommentFiltered(commentList.filter((comment: any) => comment?.idPost === item?._id));
+    }, [commentList]);
 
     const handleLike = () => {
         //
     };
     const editNews = (item: any) => {
         editModal.show({
-            children: <EditNewsModal {...item} modal={editModal} newsList={newsList} setNewsList={setNewsList} />,
+            children: (
+                <EditNewsModal
+                    {...item}
+                    modal={editModal}
+                    newsList={newsList}
+                    setNewsList={setNewsList}
+                    onRefresh={onRefresh}
+                />
+            ),
             onBackdropPress: () => {
-                editModal.dismiss?.();
+                editModal?.dismiss?.();
             },
         });
         //
     };
     const detailNews = (item: any) => {
-        detailModal.show({
-            children: <DetailNewsModal item={item} modal={detailModal} />,
+        detailModal?.show({
+            children: (
+                <DetailNewsModal
+                    item={item}
+                    modal={detailModal}
+                    commentFiltered={commentFiltered}
+                    setCommentList={setCommentList}
+                    commentList={commentList}
+                />
+            ),
             onBackdropPress: () => {
-                detailModal.dismiss?.();
+                detailModal?.dismiss?.();
             },
         });
     };
@@ -61,12 +84,13 @@ export const News = (props: any) => {
                     modal={confirmModal}
                     text={t('confirmModal.delete')}
                     confirmText={'common.ok'}
-                    onConfirm={() => {
-                        setNewsList(newsList.filter((news: any) => news.idNews !== id));
+                    onConfirm={async () => {
+                        await deletePost(id);
                         Toast.show({
                             type: 'success',
                             text1: t('toastMessage.deleteSuccess'),
                         });
+                        onRefresh();
                     }}
                 />
             ),
@@ -92,7 +116,7 @@ export const News = (props: any) => {
                             </View>
                         </StyledTouchable>
                         <View style={{ width: 20 }} />
-                        <StyledTouchable onPress={() => deleteNews(item?.idNews)}>
+                        <StyledTouchable onPress={() => deleteNews(item?._id)}>
                             <View style={styles.right}>
                                 <StyledIcon size={35} source={Images.icons.delete} />
                             </View>
@@ -137,6 +161,15 @@ const NewsScreen = (props: any) => {
     const [newsListOrderByDate, setNewsListOrderByDate] = React.useState([]) as any[];
     const addModal = useModal();
     const { onLoadMore, onRefresh, pagingData } = usePaging(getAllPost);
+    const [commentList, setCommentList] = useState() as any[];
+    const isFocused = useIsFocused();
+    const getComment = async () => {
+        const res = await getAllComment();
+        setCommentList(res);
+    };
+    useEffect(() => {
+        getComment();
+    }, [isFocused]);
 
     useEffect(() => {
         if (pagingData?.list) setNewsList(pagingData?.list);
@@ -149,7 +182,9 @@ const NewsScreen = (props: any) => {
     }, [newsList]);
     const addNews = () => {
         addModal.show({
-            children: <AddNewsModal modal={addModal} newsList={newsList} setNewsList={setNewsList} />,
+            children: (
+                <AddNewsModal modal={addModal} newsList={newsList} setNewsList={setNewsList} onRefresh={onRefresh} />
+            ),
             onBackdropPress: () => {
                 addModal.dismiss?.();
             },
@@ -179,9 +214,22 @@ const NewsScreen = (props: any) => {
             <StyledList
                 data={newsListOrderByDate}
                 renderItem={({ item, index }: any) => (
-                    <News item={item} index={index} newsList={newsList} setNewsList={setNewsList} />
+                    <News
+                        item={item}
+                        index={index}
+                        newsList={newsList}
+                        setNewsList={setNewsList}
+                        commentList={commentList}
+                        setCommentList={setCommentList}
+                        onRefresh={onRefresh}
+                    />
                 )}
-                keyExtractor={(item: any) => `key_${item?.idNews}`}
+                keyExtractor={(item: any) => `key_${item?._id}`}
+                onEndReached={() => {
+                    onLoadMore();
+                }}
+                onRefresh={onRefresh}
+                refreshing={pagingData.refreshing}
             />
         </View>
     );

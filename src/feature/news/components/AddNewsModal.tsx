@@ -1,21 +1,26 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-underscore-dangle */
 import { uploadImage } from 'api/modules/api-app/general';
+import { createPost } from 'api/modules/api-app/post';
 import { RootState } from 'app-redux/rootReducer';
 import Images from 'assets/images';
 import metrics from 'assets/metrics';
 import sizes from 'assets/sizes';
 import { Themes } from 'assets/themes';
 import { StyledButton, StyledIcon, StyledImage, StyledInput, StyledText, StyledTouchable } from 'components/base';
+import AlertMessage from 'components/base/AlertMessage';
+import useLoading from 'components/base/modal/useLoading';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ScaledSheet } from 'react-native-size-matters';
 import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
 import { checkCamera, checkPhoto, showRequestPermission } from 'utilities/permissions';
 import ImageUploader from 'utilities/upload/ImageUploader';
 
+const noAvt = 'https://i.pinimg.com/originals/e0/7a/22/e07a22eafdb803f1f26bf60de2143f7b.png';
 const AddNewsModal = (props: any) => {
     const { userInfo } = useSelector((state: RootState) => state);
     const [isValid, setIsValid] = useState<boolean>(false);
@@ -24,6 +29,7 @@ const AddNewsModal = (props: any) => {
     const [urlImage, setUrlImage] = useState();
     const [date, setDate] = useState(new Date().toUTCString());
     const { t } = useTranslation();
+    const loading = useLoading();
 
     useEffect(() => {
         if (urlImage) {
@@ -34,23 +40,32 @@ const AddNewsModal = (props: any) => {
         if (content && title) setIsValid(true);
     }, [content, title]);
 
-    const submit = () => {
+    const submit = async () => {
         const newNews = {
             nameOwner: userInfo?.user?.name,
             idOwner: userInfo?.user?._id,
             avatarOwner: userInfo?.user?.avatar,
-            date,
-            idNews: `${userInfo?.user?.name}_${date}`,
+            updatedAt: date,
+            createdAt: date,
             title,
             content,
             image: urlImage,
         };
-        props.setNewsList([...props?.newsList, newNews]);
-        Toast.show({
-            type: 'success',
-            text1: t('toastMessage.addPostSuccess'),
-        });
-        props?.modal?.dismiss();
+        try {
+            loading.show();
+            const res = await createPost(newNews);
+            props.setNewsList([...props?.newsList, res]);
+            props?.onRefresh();
+            Toast.show({
+                type: 'success',
+                text1: t('toastMessage.addPostSuccess'),
+            });
+            props?.modal?.dismiss();
+        } catch (err: any) {
+            AlertMessage(err);
+        } finally {
+            loading.dismiss();
+        }
     };
 
     const onPickImage = async () => {
@@ -99,14 +114,10 @@ const AddNewsModal = (props: any) => {
             showRequestPermission('camera');
         }
     };
-
     return (
-        <View style={styles.news}>
+        <KeyboardAwareScrollView style={styles.news}>
             <View style={styles.headerNews}>
-                <StyledImage
-                    source={userInfo?.user?.avatar ? userInfo?.user?.avatar : Images.icons.noAvatar}
-                    customStyle={styles.avatar}
-                />
+                <StyledImage source={{ uri: userInfo?.user?.avatar || noAvt }} customStyle={styles.avatar} />
                 <Text style={styles.nameOwner}>{userInfo?.user?.name}</Text>
                 <StyledTouchable
                     onPress={() => props?.modal?.dismiss()}
@@ -199,7 +210,7 @@ const AddNewsModal = (props: any) => {
                     customTextColor={styles.textBtn}
                 />
             </View>
-        </View>
+        </KeyboardAwareScrollView>
     );
 };
 const styles = ScaledSheet.create({

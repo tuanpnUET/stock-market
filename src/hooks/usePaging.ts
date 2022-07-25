@@ -1,30 +1,29 @@
 import { AxiosRequestConfig } from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const SIZE_LIMIT = 10;
 const usePaging = (requestPaging: (config: AxiosRequestConfig) => Promise<any>, initialParams?: any) => {
-    const [pagingData, setPagingData] = useState({
+    const [pagingData, _setPagingData] = useState({
         refreshing: false,
         loadingMore: false,
         pageIndex: 1,
         list: [],
         noMore: false,
     });
+    const setPagingData = (data: any) => {
+        _setPagingData(data);
+    };
     const [params, setParams] = useState<any>(initialParams);
-    const isFirstRun = useRef<any>(true);
     useEffect(() => {
-        runRequest(pagingData.pageIndex, SIZE_LIMIT, params);
+        runRequest(pagingData.pageIndex, params);
     }, [pagingData.pageIndex]);
+
     useEffect(() => {
-        if (isFirstRun?.current) {
-            isFirstRun.current = false;
-            return;
-        }
         onRefresh();
     }, [params]);
     const handleOnSuccess = (data: any) => {
         const responseData = data || {};
         const newList: [] = responseData || [];
+
         if (pagingData.pageIndex === 1) {
             setPagingData({
                 ...pagingData,
@@ -43,17 +42,11 @@ const usePaging = (requestPaging: (config: AxiosRequestConfig) => Promise<any>, 
             });
         }
     };
-
     // config request paging
-    const runRequest = async (requestPageIndex: number, pageSize?: number, otherParams?: any) => {
-        setPagingData({
-            ...pagingData,
-            noMore: true,
-        });
+    const runRequest = async (requestPageIndex: number, otherParams?: any) => {
         const res = await requestPaging({
             params: {
                 pageIndex: requestPageIndex,
-                pageSize: pageSize || SIZE_LIMIT,
                 ...otherParams,
             },
         });
@@ -61,12 +54,19 @@ const usePaging = (requestPaging: (config: AxiosRequestConfig) => Promise<any>, 
     };
     const onRefresh = () => {
         if (pagingData.pageIndex > 1) {
-            setPagingData({ ...pagingData, refreshing: true, pageIndex: 1 });
+            setPagingData({
+                ...pagingData,
+                refreshing: true,
+                pageIndex: 1,
+            });
         } else {
-            runRequest(1, SIZE_LIMIT, params);
+            runRequest(1, params);
         }
     };
+
     const onLoadMore = () => {
+        // const { list, ...data } = pagingData;
+        // alert(JSON.stringify(data));
         if (!pagingData.noMore) {
             setPagingData({
                 ...pagingData,
@@ -81,8 +81,7 @@ const usePaging = (requestPaging: (config: AxiosRequestConfig) => Promise<any>, 
         onLoadMore,
         params,
         setParams,
-        setPagingData,
-        loadingMore: pagingData.loadingMore,
+        _setPagingData,
     };
 };
 

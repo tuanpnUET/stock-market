@@ -1,19 +1,21 @@
 /* eslint-disable no-shadow */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { createComment } from 'api/modules/api-app/comment';
 import { RootState } from 'app-redux/rootReducer';
 import Images from 'assets/images';
 import metrics from 'assets/metrics';
 import sizes from 'assets/sizes';
 import { StyledIcon, StyledText, StyledTouchable, StyledList, StyledImage, StyledInput } from 'components/base';
+import AlertMessage from 'components/base/AlertMessage';
 import ConfirmModal from 'components/base/modal/ConfirmModal';
+import useLoading from 'components/base/modal/useLoading';
 import useModal from 'components/base/modal/useModal';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View, Text, Image, ScrollView, Alert } from 'react-native';
+import { View, Text, Image, ScrollView, Alert, KeyboardAvoidingView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ScaledSheet } from 'react-native-size-matters';
-import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
 import EditNewsModal from './EditNewsModal';
 
@@ -29,8 +31,8 @@ export const Comment = (props: any) => {
                 )}
                 {!item?.avatarOwner && <Image source={Images.icons.noAvatar} style={styles.avatarCommenter} />}
                 <Text style={styles.nameCommenter}>{item?.nameOwner}</Text>
-                <Text style={styles.dateComment}>{item?.date}</Text>
-                <Text style={styles.contentComment}>{item?.comment}</Text>
+                <Text style={styles.dateComment}>{item?.updatedAt?.substring(0, 10)}</Text>
+                <Text style={styles.contentComment}>{item?.content}</Text>
             </View>
         </View>
     );
@@ -38,33 +40,38 @@ export const Comment = (props: any) => {
 
 const DetailNewsModal = (props: any) => {
     const { userInfo } = useSelector((state: RootState) => state);
-    const { item, modal } = props;
+    const { item, modal, commentFiltered, commentList, setCommentList } = props;
     const [like, setLike] = useState<boolean>(false);
     const [hideItem, setHideItem] = useState<boolean>(false);
-    const [commentList, setCommentList] = useState() as any[];
     const [addComment, setAddComment] = useState<string>('');
     const { t } = useTranslation();
-
-    useEffect(() => {
-        setCommentList(comments.filter((comment: any) => comment?.idNews === item?.idNews));
-    }, []);
-    const comment = () => {
+    const [comment, setComment] = useState(commentFiltered);
+    const loading = useLoading();
+    const handleCreateComment = async () => {
         if (addComment) {
             const commentObj = {
-                idComment: new Date().toUTCString(),
-                idNews: item?.idNews,
+                idPost: item?._id,
                 avatarOwner: userInfo?.user?.avatar,
-                date: new Date().toUTCString(),
+                createdAt: new Date().toUTCString(),
                 nameOwner: userInfo?.user?.name,
-                comment: addComment,
+                content: addComment,
+                idOwner: userInfo?.user?._id,
             };
-            setCommentList([...commentList, commentObj]);
-            setAddComment('');
-            Alert.alert(t('toastMessage.commentSuccess'));
+            try {
+                loading.show();
+                const res = await createComment(commentObj);
+                setComment([...comment, commentObj]);
+                setCommentList([...commentList, commentObj]);
+                setAddComment('');
+                Alert.alert(t('toastMessage.commentSuccess'));
+            } catch (err: any) {
+                AlertMessage(err);
+            } finally {
+                loading.dismiss();
+            }
         } else {
             Alert.alert(t('toastMessage.nothingToComment'));
         }
-        //
     };
     const handleLike = () => {
         //
@@ -88,7 +95,7 @@ const DetailNewsModal = (props: any) => {
                     <Text style={styles.content}>{item?.content}</Text>
                     {item?.image && <StyledImage source={{ uri: item?.image }} customStyle={styles.image} />}
                 </ScrollView>
-                <KeyboardAwareScrollView enableOnAndroid={true} showsVerticalScrollIndicator={false}>
+                <KeyboardAvoidingView>
                     <View style={styles.footer}>
                         <StyledTouchable onPress={() => setLike(!like)}>
                             <StyledIcon size={30} source={like ? Images.icons.liked : Images.icons.unlike} />
@@ -109,13 +116,13 @@ const DetailNewsModal = (props: any) => {
                             }}
                         />
                         <StyledTouchable
-                            onPress={() => comment()}
+                            onPress={() => handleCreateComment()}
                             customStyle={{ position: 'absolute', right: 10, margin: 5 }}
                         >
                             <StyledIcon size={30} source={Images.icons.edit_post} />
                         </StyledTouchable>
                     </View>
-                </KeyboardAwareScrollView>
+                </KeyboardAvoidingView>
             </View>
             {hideItem && (
                 <View style={[styles.news, { paddingTop: 10, paddingBottom: 10 }]}>
@@ -123,13 +130,14 @@ const DetailNewsModal = (props: any) => {
                 </View>
             )}
             {!hideItem && (
-                <View style={[styles.news, commentList?.length === 0 ? { height: 50 } : { flex: 0.4 }]}>
+                <View style={[styles.news, comment?.length === 0 ? { height: 50 } : { flex: 0.4 }]}>
                     <StyledList
                         noDataStyle={styles.noDataStyle}
                         noDataText={t('news.noComment')}
-                        data={commentList}
+                        data={comment}
                         renderItem={({ item, index }: any) => <Comment item={item} />}
-                        keyExtractor={(item: any) => `key_${item?.idComment}`}
+                        keyExtractor={(item: any) => `key_${item?._id}`}
+                        // initialScrollIndex={comment.length - 1}
                     />
                 </View>
             )}

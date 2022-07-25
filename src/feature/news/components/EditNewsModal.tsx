@@ -1,15 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-underscore-dangle */
 import { uploadImage } from 'api/modules/api-app/general';
+import { updatePost } from 'api/modules/api-app/post';
 import { RootState } from 'app-redux/rootReducer';
 import Images from 'assets/images';
 import metrics from 'assets/metrics';
 import sizes from 'assets/sizes';
 import { Themes } from 'assets/themes';
 import { StyledButton, StyledIcon, StyledImage, StyledInput, StyledText, StyledTouchable } from 'components/base';
+import AlertMessage from 'components/base/AlertMessage';
+import useLoading from 'components/base/modal/useLoading';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text } from 'react-native';
+import { View, Text, KeyboardAvoidingView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ScaledSheet } from 'react-native-size-matters';
 import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
@@ -24,6 +28,8 @@ const EditNewsModal = (props: any) => {
     const [urlImage, setUrlImage] = useState(props?.image);
     const [date, setDate] = useState(props?.date);
     const { t } = useTranslation();
+    const loading = useLoading();
+    // console.log('props', props);
 
     useEffect(() => {
         if (urlImage) {
@@ -34,23 +40,29 @@ const EditNewsModal = (props: any) => {
         if (content && title) setIsValid(true);
     }, [content, title]);
 
-    const submit = () => {
+    const submit = async () => {
         const newNews = {
             nameOwner: props?.nameOwner,
             idOwner: props?.idOwner,
             avatarOwner: userInfo?.user?.avatar,
-            idNews: props?.idNews,
-            date: new Date().toUTCString(),
             title,
             content,
             image: urlImage,
         };
-        props.setNewsList(props?.newsList.map((news: any) => (news.idNews !== newNews.idNews ? news : newNews)));
-        Toast.show({
-            type: 'success',
-            text1: t('toastMessage.updatePostSuccess'),
-        });
-        props?.modal?.dismiss();
+        try {
+            loading.show();
+            const res = await updatePost(props?._id, newNews);
+            props?.modal?.dismiss();
+            props?.onRefresh();
+            Toast.show({
+                type: 'success',
+                text1: t('toastMessage.updatePostSuccess'),
+            });
+        } catch (err: any) {
+            AlertMessage(err);
+        } finally {
+            loading.dismiss();
+        }
     };
     const onPickImage = async () => {
         const permission = await checkPhoto();
@@ -100,7 +112,7 @@ const EditNewsModal = (props: any) => {
     };
 
     return (
-        <View style={styles.news}>
+        <KeyboardAwareScrollView style={styles.news}>
             <View style={styles.headerNews}>
                 <StyledImage
                     source={userInfo?.user?.avatar ? userInfo?.user?.avatar : Images.icons.noAvatar}
@@ -189,7 +201,7 @@ const EditNewsModal = (props: any) => {
                     customTextColor={styles.textBtn}
                 />
             </View>
-        </View>
+        </KeyboardAwareScrollView>
     );
 };
 const styles = ScaledSheet.create({
