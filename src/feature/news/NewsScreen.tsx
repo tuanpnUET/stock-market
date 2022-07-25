@@ -18,9 +18,11 @@ import { ScaledSheet } from 'react-native-size-matters';
 import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
 import Header from 'components/base/Header';
+import usePaging from 'hooks/usePaging';
 import AddNewsModal from './components/AddNewsModal';
 import DetailNewsModal from './components/DetailNewsModal';
 import EditNewsModal from './components/EditNewsModal';
+import { getAllPost } from '../../api/modules/api-app/post';
 
 export const News = (props: any) => {
     const { item, index, newsList, setNewsList } = props;
@@ -127,16 +129,21 @@ export const News = (props: any) => {
         </View>
     );
 };
-const news = require('assets/data/news_list.json');
+// const news = require('assets/data/news_list.json');
 
 const NewsScreen = (props: any) => {
     const { userInfo } = useSelector((state: RootState) => state);
-    const [newsList, setNewsList] = React.useState(news);
-    const [newsListOrderByDate, setNewsListOrderByDate] = React.useState(newsList);
+    const [newsList, setNewsList] = React.useState([]) as any[];
+    const [newsListOrderByDate, setNewsListOrderByDate] = React.useState([]) as any[];
     const addModal = useModal();
+    const { onLoadMore, onRefresh, pagingData } = usePaging(getAllPost);
+
+    useEffect(() => {
+        if (pagingData?.list) setNewsList(pagingData?.list);
+    }, [pagingData?.list]);
     useEffect(() => {
         const sortByDate = (news: any) =>
-            [...news].sort((a: any, b: any) => new Date(b?.date).getTime() - new Date(a?.date).getTime());
+            [...news].sort((a: any, b: any) => new Date(b?.updatedAt).getTime() - new Date(a?.updatedAt).getTime());
         const output = sortByDate(newsList);
         return setNewsListOrderByDate(output);
     }, [newsList]);

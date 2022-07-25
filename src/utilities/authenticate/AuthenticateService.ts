@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { AxiosRequestConfig } from 'axios';
 import { store } from 'app-redux/store';
 import { logOutUser, setUserInfo } from 'app-redux/userInfo/actions';
@@ -6,7 +5,6 @@ import { logger } from 'utilities/helper';
 import { login } from 'api/modules/api-app/authenticate';
 import { useState } from 'react';
 import AlertMessage from 'components/base/AlertMessage';
-import { deleteTagOneSignal, pushTagMember } from 'utilities/notification';
 import TokenProvider from './TokenProvider';
 
 export interface LoginRequestParams extends AxiosRequestConfig {
@@ -27,12 +25,10 @@ export const isLogin = () => {
 const AuthenticateService = {
     logOut: () => {
         store.dispatch(logOutUser());
-        deleteTagOneSignal();
     },
     handlerLogin: (user: any) => {
         const saveUserInfo = setUserInfo(user);
         store.dispatch(saveUserInfo);
-        pushTagMember(user?.user?.id);
     },
 };
 

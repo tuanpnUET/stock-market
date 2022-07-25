@@ -18,11 +18,15 @@ import Toast from 'react-native-toast-message';
 import images from 'assets/images';
 import { store } from 'app-redux/store';
 import { logOutUser } from 'app-redux/userInfo/actions';
+import { useSelector } from 'react-redux';
+import { RootState } from 'app-redux/rootReducer';
+import { updatePassword } from 'api/modules/api-app/authenticate';
 
 const ChangePass: FunctionComponent = () => {
     const { t } = useTranslation();
     const navigation = useNavigation();
     const loading = useLoading();
+    const { userInfo } = useSelector((state: RootState) => state);
     const schema = yup.object().shape({
         oldPass: yup
             .string()
@@ -58,14 +62,13 @@ const ChangePass: FunctionComponent = () => {
     } = form;
     const submit = async (formData: any) => {
         const formRegister = {
-            oldPass: formData.oldPass,
-            newPass: formData.newPass,
-            confirmPass: formData.confirmPass,
+            oldPassword: formData.oldPass,
+            newPassword: formData.newPass,
         };
         try {
             loading.show();
             // change pass api
-            console.log('formRegister', formRegister);
+            await updatePassword(userInfo?.token, formRegister);
             Toast.show({
                 type: 'success',
                 text1: t('toastMessage.changeSuccess'),

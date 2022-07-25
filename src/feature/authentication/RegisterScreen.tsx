@@ -74,6 +74,7 @@ const RegisterScreen: FunctionComponent = () => {
             phone: user.phone,
             email: user.email,
             password: user.password,
+            avatar,
         };
         try {
             loading.show();

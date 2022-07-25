@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { ImageBackground, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -33,7 +33,7 @@ const UpdateProfileScreen: FunctionComponent = () => {
     const { userInfo } = useSelector((state: RootState) => state);
     const loading = useLoading();
     const dispatch = useDispatch();
-    const [newAvatar, setNewAvatar] = useState<string>(userInfo?.user?.avatar || noAvt);
+    const [newAvatar, setNewAvatar] = useState<string>(userInfo?.user?.avatar || '');
     const DEFAULT_FORM = {
         name: userInfo?.user?.name,
         phone: userInfo?.user?.phone ? `0${userInfo?.user?.phone.toString()}` : '',
@@ -70,16 +70,21 @@ const UpdateProfileScreen: FunctionComponent = () => {
         reset,
         handleSubmit,
     } = form;
+    useEffect(() => {
+        setNewAvatar(newAvatar);
+    }, [newAvatar]);
+    console.log('newAvatar', newAvatar);
     const submit = async (user: any) => {
         const formRegister = {
             name: user.name,
             phone: user.phone,
             email: user.email,
-            avatar: newAvatar,
+            avatar: newAvatar !== '' ? newAvatar : userInfo?.user?.avatar,
         };
         try {
             loading.show();
-            // await updateProfile(formRegister);
+            const res = await updateProfile(userInfo?.token, formRegister);
+            // console.log('res', res);
             Toast.show({
                 type: 'success',
                 text1: t('toastMessage.updateProfileSuccess'),
@@ -131,7 +136,7 @@ const UpdateProfileScreen: FunctionComponent = () => {
                         >
                             <StyledImage
                                 source={{
-                                    uri: newAvatar || userInfo?.user?.avatar,
+                                    uri: newAvatar,
                                 }}
                                 customStyle={[styles.avatar, styles.borderNonAvatar]}
                             />

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-shadow */
 import { uploadImage } from 'api/modules/api-app/general';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -29,6 +30,7 @@ const ImageUploaded = {
             if (localPath) {
                 setLoading(true);
                 uri = await ImageUploaded.uploader(localPath);
+                // console.log('uri', uri);
             }
             return uri;
         } catch (error: any) {
@@ -86,8 +88,8 @@ const ImageUploaded = {
             name: `${timeStamp}.${'image/jpeg'}`,
             type: 'image/jpeg',
         };
-        const formData = new FormData();
-        formData.append('files', formatImage);
+        const formData: any = new FormData();
+        await formData.append('files', formatImage);
         const uri = await uploadImage(formData);
         if (uri?.data?.length > 0) {
             return uri?.data[0];

@@ -5,7 +5,10 @@ export const getProfile = (token?: string, id?: string) =>
 export const login = (params: any) => request.post(`users/login`, params);
 export const register = (params: any) => request.post(`users/register`, params);
 export const deleteAccount = (id?: string) => request.delete(`users/${id}`);
-export const updateProfile = (id?: string, params?: any) => request.put(`users/${id}`, params);
+export const updateProfile = (token?: string, params?: any) =>
+    request.put(`/users/profile`, params, { headers: { token: `Bearer ${token}` } });
+export const updatePassword = (token?: string, params?: any) =>
+    request.put(`/users/updatePassword`, params, { headers: { token: `Bearer ${token}` } });
 
 export const forgotPassword = (email: string) => request.post(`auth/forgot-password`, { email });
 export const checkIsExistEmail = (email: string) => request.post(`auth/check-account-existed`, { email });

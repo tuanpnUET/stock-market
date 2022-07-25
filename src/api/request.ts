@@ -13,7 +13,7 @@ request.interceptors.request.use(
     async (config: any) => {
         const token = TokenProvider.getToken();
         if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+            config.headers.token = `Bearer ${token}`;
         }
         return config;
     },

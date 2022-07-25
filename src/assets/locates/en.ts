@@ -88,7 +88,7 @@ export default {
         content: 'Content',
         takePictureHeader: 'Take a photo',
         takePicture: 'Camera',
-        chooseFromAlbum: 'Library',
+        chooseFromAlbum: 'Use camera or library',
         upload: 'Post',
         noComment: 'No comments yet',
     },

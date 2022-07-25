@@ -24,7 +24,7 @@ const usePaging = (requestPaging: (config: AxiosRequestConfig) => Promise<any>, 
     }, [params]);
     const handleOnSuccess = (data: any) => {
         const responseData = data || {};
-        const newList: [] = responseData.data || [];
+        const newList: [] = responseData || [];
         if (pagingData.pageIndex === 1) {
             setPagingData({
                 ...pagingData,

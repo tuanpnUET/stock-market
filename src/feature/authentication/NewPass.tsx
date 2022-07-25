@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FunctionComponent } from 'react';
 import { ImageBackground, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
@@ -55,8 +56,7 @@ const NewPass: FunctionComponent = ({ route }: any) => {
         };
         try {
             loading.show();
-            // change pass api
-            console.log('formRegister', formRegister);
+            // change pass ap
             Toast.show({
                 type: 'success',
                 text1: t('toastMessage.changeSuccess'),
