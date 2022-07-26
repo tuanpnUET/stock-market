@@ -15,11 +15,12 @@ import useLoading from 'components/base/modal/useLoading';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from 'react-native-paper';
 import Svg, { Line } from 'react-native-svg';
+import { getDetailStockBySymbol, getStockBySymbol } from 'api/modules/api-app/general';
 import testIDs from './testIDs';
 
 const INITIAL_DATE = '2022-03-28';
-const bigData = require('assets/data/stock_data_21_22.json');
-const companyData = require('assets/data/company.json');
+// const bigData = require('assets/data/stock_data_21_22.json');
+// const companyData = require('assets/data/company.json');
 const predict = require('assets/data/predict.json');
 
 const sliderWidth = Metrics.screenWidth;
@@ -71,18 +72,26 @@ const DetailStock = ({ route }: any) => {
             },
         };
     }, [selected]);
-
     const loadData = async () => {
-        const result = await bigData.filter((stock: any) => stock?.Symbol === route?.params);
-        const closeDat = closeListFunc(result);
-        const predictDat = closeListFunc(predict);
-        setPredictData(predictDat);
-        setCloseList(closeDat);
-        setInitialCloseList(closeDat);
-        setMaxClose(findMax(closeDat));
-        setStockData(result.reverse());
-        const detail = await companyData.filter((company: any) => company?.ticker === route?.params);
-        setDetailStock(detail[0]);
+        // const result = await bigData.filter((stock: any) => stock?.Symbol === route?.params);
+        // const detail = await companyData.filter((company: any) => company?.ticker === route?.params);
+        try {
+            loading.show();
+            const result: any = await getStockBySymbol(route?.params);
+            const detail: any = await getDetailStockBySymbol(route?.params);
+            setDetailStock(detail[0]);
+            const closeDat = closeListFunc(result);
+            const predictDat = closeListFunc(predict);
+            setPredictData(predictDat);
+            setCloseList(closeDat);
+            setInitialCloseList(closeDat);
+            setMaxClose(findMax(closeDat));
+            setStockData(result?.reverse());
+        } catch (err) {
+            console.log('err', err);
+        } finally {
+            loading.dismiss();
+        }
     };
     useEffect(() => {
         loadData();
@@ -101,10 +110,10 @@ const DetailStock = ({ route }: any) => {
     }, [closeList]);
 
     function checkIndexItem(date: string) {
-        return stockData.findIndex((stock: any) => stock?.Date?.substring(0, 10).includes(date));
+        return stockData.findIndex((stock: any) => stock?.date?.substring(0, 10).includes(date));
     }
     function checkDate(index: number) {
-        return stockData[index].Date?.substring(0, 10);
+        return stockData[index].date?.substring(0, 10);
     }
 
     function findMax(obj: any[]) {
@@ -126,8 +135,8 @@ const DetailStock = ({ route }: any) => {
         const result = [] as any[];
         obj.forEach((stock: any) => {
             const value = {
-                value: stock?.Close?.substring(0, 7),
-                date: stock?.Date?.substring(0, 10),
+                value: stock?.close,
+                date: stock?.date?.substring(0, 10),
             };
             result.push(value);
         });
@@ -171,7 +180,7 @@ const DetailStock = ({ route }: any) => {
     const renderItem = ({ item, index }: any) => {
         const beforeDate = stockData[index === 0 ? index : index - 1];
         const change = (
-            ((parseFloat(item?.Close) - parseFloat(beforeDate?.Close)) / parseFloat(beforeDate?.Close)) *
+            ((parseFloat(item?.close) - parseFloat(beforeDate?.close)) / parseFloat(beforeDate?.close)) *
             100
         ).toFixed(2);
         return (
@@ -189,24 +198,24 @@ const DetailStock = ({ route }: any) => {
                         />
                         <StyledText
                             customStyle={[styles.symbol, { fontWeight: 'bold' }]}
-                            originValue={`${item?.Symbol}`}
+                            originValue={`${item?.symbol}`}
                         />
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <StyledText customStyle={styles.prize} i18nText={'common.open1'} />
-                            <StyledText customStyle={styles.prize} originValue={`${item?.Open?.substring(0, 7)}`} />
+                            <StyledText customStyle={styles.prize} originValue={`${item?.open}`} />
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <StyledText customStyle={styles.prize} i18nText={'common.closeStock1'} />
                             <StyledText
                                 customStyle={
                                     (styles.prize,
-                                    parseInt(item.Close, 10) >= parseInt(item.Open, 10)
+                                    parseInt(item.close, 10) >= parseInt(item.open, 10)
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={`${item?.Close?.substring(0, 7)}`}
+                                originValue={`${item?.close}`}
                             />
                         </View>
                     </View>
@@ -216,11 +225,11 @@ const DetailStock = ({ route }: any) => {
                             <StyledText
                                 customStyle={
                                     (styles.prize,
-                                    parseInt(item.High, 10) >= parseInt(item.Open, 10)
+                                    parseInt(item.high, 10) >= parseInt(item.open, 10)
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={`${item?.High?.substring(0, 7)}`}
+                                originValue={`${item?.high}`}
                             />
                         </View>
                         <View style={{ flexDirection: 'row' }}>
@@ -228,11 +237,11 @@ const DetailStock = ({ route }: any) => {
                             <StyledText
                                 customStyle={
                                     (styles.prize,
-                                    parseInt(item.Low, 10) >= parseInt(item.Open, 10)
+                                    parseInt(item.low, 10) >= parseInt(item.open, 10)
                                         ? { color: 'green', fontSize: Size.FONTSIZE.large }
                                         : { color: 'red', fontSize: Size.FONTSIZE.large })
                                 }
-                                originValue={`${item?.Low?.substring(0, 7)}`}
+                                originValue={`${item?.low}`}
                             />
                         </View>
                     </View>
@@ -241,7 +250,7 @@ const DetailStock = ({ route }: any) => {
                             <StyledText customStyle={styles.volume} i18nText={'common.volume1'} />
                             <StyledText
                                 customStyle={[styles.volume, { fontWeight: 'bold' }]}
-                                originValue={`${item?.Volume}`}
+                                originValue={`${item?.volume}`}
                             />
                         </View>
                         <View style={{ flexDirection: 'row' }}>

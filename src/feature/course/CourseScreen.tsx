@@ -16,6 +16,7 @@ import sizes from 'assets/sizes';
 import { removeVietnameseTones } from 'utilities/validate';
 import useModal from 'components/base/modal/useModal';
 import Header from 'components/base/Header';
+import { getAllCategory, getAllCourse } from 'api/modules/api-app/general';
 import CategoryFilter from './components/CategoryFilter';
 import DetailCourseModal from './components/DetailCourseModal';
 
@@ -40,7 +41,7 @@ export const Course = (props: any) => {
             {item?.urlBanner && <StyledImage source={{ uri: item?.urlBanner }} customStyle={styles.img} />}
             <View style={styles.footer}>
                 <Text style={styles.title}>{item?.title}</Text>
-                <Text style={styles.date}>{item?.createdAt}</Text>
+                <Text style={styles.date}>{item?.createdAt.substring(0, 10)}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -48,12 +49,23 @@ export const Course = (props: any) => {
 
 const CourseScreen: FunctionComponent = () => {
     const { t } = useTranslation();
-    const [courses, setCourses] = useState(coursesList);
-    const [initialState, setInitialState] = useState(coursesList);
-    const [categories, setCategories] = useState(categoriesList);
+    const [courses, setCourses] = useState([]);
+    const [initialState, setInitialState] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [active, setActive] = useState<number>(-1);
     const [txtSearch, setTxtSearch] = useState('');
 
+    const getData = async () => {
+        const resCourse = await getAllCourse();
+        setInitialState(resCourse);
+        setCourses(resCourse);
+        const resCategory = await getAllCategory();
+        setCategories(resCategory);
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
     useEffect(() => {
         searchCourse(txtSearch);
         if (txtSearch === '') setCourses(initialState);

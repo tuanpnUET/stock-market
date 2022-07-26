@@ -19,7 +19,7 @@ import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
 import Header from 'components/base/Header';
 import usePaging from 'hooks/usePaging';
-import { getAllComment } from 'api/modules/api-app/comment';
+import { getAllComment, getAllCommentByIdPost } from 'api/modules/api-app/comment';
 import { useIsFocused } from '@react-navigation/native';
 import AddNewsModal from './components/AddNewsModal';
 import DetailNewsModal from './components/DetailNewsModal';
@@ -31,7 +31,7 @@ export const News = (props: any) => {
     const { userInfo } = useSelector((state: RootState) => state);
     const [like, setLike] = useState<boolean>(false);
     const [hideItem, setHideItem] = useState<boolean>(false);
-    const [commentFiltered, setCommentFiltered] = useState<any[]>();
+    const [commentFiltered, setCommentFiltered] = useState<any[]>([]) as any;
     const editModal = useModal();
     const detailModal = useModal();
     const confirmModal = useModal();
@@ -40,6 +40,15 @@ export const News = (props: any) => {
     useEffect(() => {
         if (commentList) setCommentFiltered(commentList.filter((comment: any) => comment?.idPost === item?._id));
     }, [commentList]);
+    // const loadComment = async () => {
+    //     // console.log('run here');
+    //     const res = await getAllCommentByIdPost({ idPost: item?._id });
+    //     console.log('res', res);
+    //     setCommentFiltered(res);
+    // };
+    // useEffect(() => {
+    //     loadComment();
+    // }, []);
 
     const handleLike = () => {
         //

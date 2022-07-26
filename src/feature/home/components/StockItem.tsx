@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import sizes from 'assets/sizes';
 import { Themes } from 'assets/themes';
@@ -14,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { RootState } from 'app-redux/rootReducer';
 import Toast from 'react-native-toast-message';
 import useLoading from 'components/base/modal/useLoading';
+import { addToWatchList, removeFromWatchList } from 'api/modules/api-app/watchlist';
 
 const { width } = Dimensions.get('window');
 
@@ -27,10 +29,42 @@ const StockItem = (props: any) => {
     const loading = useLoading();
 
     const checkWatchListHas = (symbol: string) => {
-        if (watchList.includes(symbol)) {
+        const newL: any = [];
+        watchList.forEach((obj: any) => newL.push(obj?.symbol));
+        if (newL.includes(symbol)) {
             return true;
         }
         return false;
+    };
+
+    const removeSymbol = async (symbol: any) => {
+        try {
+            watchList.forEach(async (obj: any) => {
+                if (obj?.symbol === symbol) {
+                    await removeFromWatchList(obj?._id);
+                }
+            });
+        } catch (err: any) {
+            console.log('error', err);
+        } finally {
+            dispatch(removeFromWatchlist(props?.symbol));
+            Toast.show({
+                type: 'success',
+                text1: t('toastMessage.removeSuccess'),
+            });
+        }
+    };
+    const addSymbol = async (symbol: any) => {
+        try {
+            await addToWatchList({ symbol });
+            Toast.show({
+                type: 'success',
+                text1: t('toastMessage.addSuccess'),
+            });
+            dispatch(addToWatchlist({ symbol: props?.symbol }));
+        } catch (err: any) {
+            console.log('error', err);
+        }
     };
 
     return (
@@ -38,25 +72,19 @@ const StockItem = (props: any) => {
             <TouchableOpacity
                 onPress={() => {
                     loading.show();
-                    navigation.navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK, props?.Symbol);
+                    navigation.navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK, props?.symbol);
                     setTimeout(() => loading.dismiss(), 3000);
                 }}
                 onLongPress={() => {
                     // check watchlist to add or remove
-                    if (checkWatchListHas(props?.Symbol)) {
+                    if (checkWatchListHas(props?.symbol)) {
                         modal.show({
                             children: (
                                 <ConfirmModal
                                     text={t('confirmModal.remove')}
                                     confirmText={'common.ok'}
                                     modal={modal}
-                                    onConfirm={() => {
-                                        Toast.show({
-                                            type: 'success',
-                                            text1: t('toastMessage.removeSuccess'),
-                                        });
-                                        dispatch(removeFromWatchlist(props?.Symbol));
-                                    }}
+                                    onConfirm={() => removeSymbol(props?.symbol)}
                                 />
                             ),
                             onBackdropPress: () => {
@@ -70,13 +98,7 @@ const StockItem = (props: any) => {
                                     text={t('confirmModal.addToWatchlist')}
                                     confirmText={'common.ok'}
                                     modal={modal}
-                                    onConfirm={() => {
-                                        dispatch(addToWatchlist(props?.Symbol));
-                                        Toast.show({
-                                            type: 'success',
-                                            text1: t('toastMessage.addSuccess'),
-                                        });
-                                    }}
+                                    onConfirm={() => addSymbol(props?.symbol)}
                                 />
                             ),
                             onBackdropPress: () => {
@@ -93,43 +115,43 @@ const StockItem = (props: any) => {
                     ]}
                 >
                     <Text style={[styles.item, { color: Themes.COLORS.strongBlue, fontWeight: 'bold' }]}>
-                        {props?.Symbol}
+                        {props?.symbol}
                     </Text>
                     <Text style={styles.item} numberOfLines={1} ellipsizeMode="tail">
-                        {props?.Open?.substring(0, 7)}
+                        {props?.open}
                     </Text>
                     <Text
                         style={[
                             styles.item,
-                            parseInt(props.High, 10) >= parseInt(props.Open, 10)
+                            parseInt(props.high, 10) >= parseInt(props.open, 10)
                                 ? { color: 'green' }
                                 : { color: 'red' },
                         ]}
                         numberOfLines={1}
                         ellipsizeMode="tail"
                     >
-                        {props?.High?.substring(0, 7)}
+                        {props?.high}
                     </Text>
                     <Text
                         style={[
                             styles.item,
-                            parseInt(props.Low, 10) >= parseInt(props.Open, 10) ? { color: 'green' } : { color: 'red' },
+                            parseInt(props.low, 10) >= parseInt(props.open, 10) ? { color: 'green' } : { color: 'red' },
                         ]}
                     >
-                        {props.Low?.substring(0, 7)}
+                        {props.low}
                     </Text>
                     <Text
                         style={[
                             styles.item,
-                            parseInt(props.Close, 10) >= parseInt(props.Open, 10)
+                            parseInt(props.close, 10) >= parseInt(props.open, 10)
                                 ? { color: 'green' }
                                 : { color: 'red' },
                         ]}
                     >
-                        {props.Close?.substring(0, 7)}
+                        {props.close}
                     </Text>
                     <Text style={[styles.item, { fontWeight: 'bold' }]} numberOfLines={1} ellipsizeMode="tail">
-                        {props.Volume}
+                        {props.volume}
                     </Text>
                 </View>
             </TouchableOpacity>

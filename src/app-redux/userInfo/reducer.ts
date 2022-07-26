@@ -7,7 +7,6 @@ const initialState: UserInfoData = {
 
 const authentication = (state = initialState, action: UserInfoTypes): UserInfoData => {
     switch (action.type) {
-        // saga
         case SET_USER_INFO:
             return {
                 ...state,

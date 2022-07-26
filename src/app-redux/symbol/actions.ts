@@ -1,4 +1,4 @@
-import { ADD_TO_WATCHLIST, GET_ALL_WATCHLIST, REMOVE_FROM_WATCHLIST } from './types';
+import { ADD_TO_WATCHLIST, GET_ALL_WATCHLIST, REMOVE_FROM_WATCHLIST, SET_WATCHLIST } from './types';
 
 export const addToWatchlist = (payload: any) => {
     return {
@@ -17,5 +17,12 @@ export const removeFromWatchlist = (payload: any) => {
 export const getAllWatchlist = () => {
     return {
         type: GET_ALL_WATCHLIST,
+    };
+};
+
+export const setWatchlist = (payload: any) => {
+    return {
+        type: SET_WATCHLIST,
+        payload,
     };
 };

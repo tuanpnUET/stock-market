@@ -49,7 +49,7 @@ interface StockListProps {
 }
 
 const StockList: React.FC<StockListProps> = (props: StockListProps) => {
-    const [symbolList, setSymbolList] = React.useState(props?.data) as any;
+    const [symbolList, setSymbolList] = React.useState([...props?.data]) as any;
     const [loading, setLoading] = React.useState(true);
     const [txtSearch, setTxtSearch] = React.useState('');
     const { t } = useTranslation();
@@ -102,7 +102,7 @@ const StockList: React.FC<StockListProps> = (props: StockListProps) => {
                         stickyHeaderIndices={[0]}
                         noDataText={t('common.noData')}
                         renderItem={({ item, index }: any) => <StockItem {...item} index={index} />}
-                        keyExtractor={(item: any) => `${item?.Date}-${item?.Symbol}`}
+                        keyExtractor={(item: any) => `${item?.date}-${item?.symbol}`}
                     />
                 </View>
             ) : (

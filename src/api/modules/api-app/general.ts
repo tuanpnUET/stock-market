@@ -1,8 +1,13 @@
 import request from 'api/request';
 import requestv2 from 'api/requestv2';
 
-export const getInit = (): Promise<any> => request.get(`/init`);
-export const getResources = (): Promise<any> => request.get(`/resources`);
 export const uploadImage = (formData: any): Promise<any> => requestv2.post(`/v1/app/upload/image`, formData);
 export const getAllCourse = (): Promise<any> => request.get(`/courses`);
 export const getAllCategory = (): Promise<any> => request.get(`/categories`);
+
+export const getStock = (): Promise<any> => request.get(`/stocks`);
+export const getStockToday = (): Promise<any> => request.get(`/stocks/today`);
+export const getAllDetailStock = (): Promise<any> => request.get(`/detail-stocks`);
+
+export const getStockBySymbol = (symbol: string) => request.get(`/stocks/one-year?symbol=${symbol}`);
+export const getDetailStockBySymbol = (symbol: string) => request.get(`/detail-stocks?symbol=${symbol}`);

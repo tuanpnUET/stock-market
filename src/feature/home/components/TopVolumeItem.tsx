@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Metrics from 'assets/metrics';
 import { StyledIcon, StyledText, StyledTouchable } from 'components/base';
@@ -19,8 +20,9 @@ import Toast from 'react-native-toast-message';
 import Images from 'assets/images';
 import useLoading from 'components/base/modal/useLoading';
 import { isIos } from 'utilities/helper';
+import { addToWatchList, removeFromWatchList } from 'api/modules/api-app/watchlist';
 
-const topVolumeData = require('assets/data/top_volume.json');
+// const topVolumeData = require('assets/data/top_volume.json');
 
 const horizontalMargin = 15;
 const sliderWidth = Metrics.screenWidth;
@@ -29,7 +31,8 @@ const slideWidth = Metrics.screenWidth / 2;
 const itemWidth = 200;
 const scaleItemWidth = !isIos ? Math.round(moderateScale(itemWidth)) - 15 : Math.round(moderateScale(itemWidth)) - 40;
 
-const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
+const TopVolumeItem = (props: any) => {
+    const { topVolume } = props;
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -40,10 +43,41 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
     const loading = useLoading();
 
     const checkWatchListHas = (symbol: string) => {
-        if (watchList.includes(symbol)) {
+        const newL: any = [];
+        watchList.forEach((obj: any) => newL.push(obj?.symbol));
+        if (newL.includes(symbol)) {
             return true;
         }
         return false;
+    };
+    const removeSymbol = async (symbol: any) => {
+        try {
+            watchList.forEach(async (obj: any) => {
+                if (obj?.symbol === symbol) {
+                    await removeFromWatchList(obj?._id);
+                }
+            });
+        } catch (err: any) {
+            console.log('error', err);
+        } finally {
+            dispatch(removeFromWatchlist(props?.symbol));
+            Toast.show({
+                type: 'success',
+                text1: t('toastMessage.removeSuccess'),
+            });
+        }
+    };
+    const addSymbol = async (symbol: any) => {
+        try {
+            await addToWatchList(symbol);
+            Toast.show({
+                type: 'success',
+                text1: t('toastMessage.addSuccess'),
+            });
+            dispatch(addToWatchlist({ symbol: props?.symbol }));
+        } catch (err: any) {
+            console.log('error', err);
+        }
     };
 
     const renderItem = ({ item, index }: any) => (
@@ -51,26 +85,19 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
             onPress={() => {
                 // go to detail
                 loading.show();
-                navigation.navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK, item?.Symbol);
+                navigation.navigate(TAB_NAVIGATION_ROOT.HOME_ROUTE.DETAIL_STOCK, item?.symbol);
                 setTimeout(() => loading.dismiss(), 3000);
             }}
             onLongPress={() => {
                 // check watchlist to add or remove
-                if (checkWatchListHas(item?.Symbol)) {
+                if (checkWatchListHas(item?.symbol)) {
                     modal.show({
                         children: (
                             <ConfirmModal
                                 text={t('confirmModal.remove')}
                                 confirmText={'common.ok'}
                                 modal={modal}
-                                onConfirm={() => {
-                                    dispatch(removeFromWatchlist(item?.Symbol));
-                                    Toast.show({
-                                        type: 'success',
-                                        text1: t('toastMessage.removeSuccess'),
-                                        text2: '',
-                                    });
-                                }}
+                                onConfirm={() => removeSymbol(item?.symbol)}
                             />
                         ),
                         onBackdropPress: () => {
@@ -84,14 +111,7 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
                                 text={t('confirmModal.addToWatchlist')}
                                 confirmText={'common.ok'}
                                 modal={modal}
-                                onConfirm={() => {
-                                    dispatch(addToWatchlist(item?.Symbol));
-                                    Toast.show({
-                                        type: 'success',
-                                        text1: t('toastMessage.addSuccess'),
-                                        text2: '',
-                                    });
-                                }}
+                                onConfirm={() => addSymbol(props?.symbol)}
                             />
                         ),
                         onBackdropPress: () => {
@@ -108,11 +128,11 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
                         customStyle={[styles.symbol, { color: Themes.COLORS.white }]}
                         i18nText={'common.symbol1'}
                     />
-                    <StyledText customStyle={styles.symbol} originValue={` ${item?.Symbol}`} />
+                    <StyledText customStyle={styles.symbol} originValue={` ${item?.symbol}`} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <StyledText customStyle={styles.volume} i18nText={'common.volume1'} />
-                    <StyledText customStyle={styles.volume} originValue={`${item?.Volume}`} />
+                    <StyledText customStyle={styles.volume} originValue={`${item?.volume}`} />
                 </View>
             </View>
         </StyledTouchable>
@@ -135,7 +155,7 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
                 enableMomentum={false}
                 lockScrollWhileSnapping={true}
                 loop={true}
-                data={topVolumeData}
+                data={topVolume}
                 renderItem={renderItem}
                 sliderWidth={sliderWidth}
                 itemWidth={slideWidth}
@@ -143,10 +163,10 @@ const TopVolumeItem: FunctionComponent = ({ ...carouselProps }: any) => {
                 inactiveSlideOpacity={1}
                 inactiveSlideScale={1}
                 horizontal
-                useNativeDriver
+                // useNativeDriver
                 autoplayDelay={5000}
                 autoplayInterval={5000}
-                {...carouselProps}
+                // {...carouselProps}
             />
         </>
     );

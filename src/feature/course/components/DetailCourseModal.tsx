@@ -31,7 +31,7 @@ const DetailCourseModal = (props: any) => {
             <View style={styles.footer}>
                 <StyledText
                     customStyle={styles.date}
-                    i18nText={t('courseScreen.createdAt', { value: item?.createdAt })}
+                    i18nText={t('courseScreen.createdAt', { value: item?.createdAt.substring(0, 10) })}
                 />
                 <StyledText
                     i18nText={t('courseScreen.author', { value: item?.authorName })}
