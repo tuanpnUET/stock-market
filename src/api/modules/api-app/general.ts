@@ -11,3 +11,4 @@ export const getAllDetailStock = (): Promise<any> => request.get(`/detail-stocks
 
 export const getStockBySymbol = (symbol: string) => request.get(`/stocks/one-year?symbol=${symbol}`);
 export const getDetailStockBySymbol = (symbol: string) => request.get(`/detail-stocks?symbol=${symbol}`);
+export const getPredictStockBySymbol = (symbol: string) => request.get(`/predict-stocks?symbol=${symbol}`);

@@ -96,11 +96,11 @@ const LoginScreen: FunctionComponent = () => {
                             />
                         </FormProvider>
                     </View>
-                    <StyledText
+                    {/* <StyledText
                         onPress={goToForgotPassword}
                         customStyle={styles.forgotPassword}
                         i18nText="loginScreen.forgotPassword"
-                    />
+                    /> */}
                 </View>
                 <View style={styles.bottomContent}>
                     <StyledButton

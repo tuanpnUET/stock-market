@@ -15,7 +15,7 @@ import useLoading from 'components/base/modal/useLoading';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from 'react-native-paper';
 import Svg, { Line } from 'react-native-svg';
-import { getDetailStockBySymbol, getStockBySymbol } from 'api/modules/api-app/general';
+import { getDetailStockBySymbol, getPredictStockBySymbol, getStockBySymbol } from 'api/modules/api-app/general';
 import testIDs from './testIDs';
 
 const INITIAL_DATE = '2022-03-28';
@@ -79,10 +79,16 @@ const DetailStock = ({ route }: any) => {
             loading.show();
             const result: any = await getStockBySymbol(route?.params);
             const detail: any = await getDetailStockBySymbol(route?.params);
+            const loadPredict: any = await getPredictStockBySymbol(route?.params);
             setDetailStock(detail[0]);
             const closeDat = closeListFunc(result);
-            const predictDat = closeListFunc(predict);
-            setPredictData(predictDat);
+            if (loadPredict.length > 0) {
+                const loadPredictDat = closeListFunc(loadPredict);
+                setPredictData(loadPredictDat);
+            } else {
+                const predictDat = closeListFunc(predict);
+                setPredictData(predictDat);
+            }
             setCloseList(closeDat);
             setInitialCloseList(closeDat);
             setMaxClose(findMax(closeDat));
@@ -176,7 +182,6 @@ const DetailStock = ({ route }: any) => {
             loading.dismiss();
         }, 500);
     };
-
     const renderItem = ({ item, index }: any) => {
         const beforeDate = stockData[index === 0 ? index : index - 1];
         const change = (

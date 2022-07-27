@@ -74,6 +74,9 @@ const HomeScreen: FunctionComponent = () => {
         try {
             loading.show();
             const res = await getStockToday();
+            const sortByVolume = (stocks: any) => [...stocks].sort((a: any, b: any) => b?.volume - a?.volume);
+            const topVolumeToday = sortByVolume(res);
+            setTopVolume(topVolumeToday);
             setStockToday(res);
         } catch (err) {
             console.log('err', err);
@@ -100,13 +103,6 @@ const HomeScreen: FunctionComponent = () => {
     useEffect(() => {
         if (isFocused) getData();
     }, []);
-    useEffect(() => {
-        if (stockToday?.length > 0) {
-            const sortByVolume = (stocks: any) => [...stocks].sort((a: any, b: any) => b?.volume - a?.volume);
-            const topVolumeToday = sortByVolume(stockToday);
-            setTopVolume(topVolumeToday);
-        }
-    }, [stockToday]);
     return (
         <>
             {topVolume ? (
